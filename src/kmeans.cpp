@@ -5,6 +5,7 @@
 #include <limits>
 #include <stdexcept>
 
+
 KMeans::KMeans(int n_clusters, int n_iter, int n_local_trials, uint64_t random_state)
     : n_clusters(n_clusters), n_iter(n_iter),
       n_local_trials(n_local_trials), random_state(random_state) {}
@@ -128,5 +129,5 @@ KMeansResult KMeans::fit(const Matrix& X, int n, int d) {
         centroids = std::move(newCentroids);
     }
 
-    return {centroids, labels};
+    return {centroids, labels, n_clusters, d};
 }

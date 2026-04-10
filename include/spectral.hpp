@@ -8,6 +8,23 @@ struct SpectralResult {
     float ngap;                 // normalized eigengap
 };
 
+class SpectralClustering {
+public:
+    int n_clusters;
+    int n_iter;
+    uint64_t random_state;
+
+    SpectralClustering(int n_clusters,
+                       int n_iter = 20,
+                       uint64_t random_state = 42);
+
+    SpectralResult fit(
+        const Matrix& affinity,  // [m × m]
+        int m                    // number of regions/nodes
+    ) const;
+};
+
+// Backward-compatible free function.
 SpectralResult spectralClustering(
     const Matrix& affinity,  // [m × m]
     int m,                   // number of voronoi regions

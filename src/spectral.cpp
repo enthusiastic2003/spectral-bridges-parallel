@@ -5,6 +5,17 @@
 #include <numeric>
 #include <stdexcept>
 
+SpectralClustering::SpectralClustering(int n_clusters, int n_iter, uint64_t random_state)
+    : n_clusters(n_clusters), n_iter(n_iter), random_state(random_state) {}
+
+SpectralResult SpectralClustering::fit(
+    const Matrix& affinity,
+    int m) const
+{
+    // Delegate to the free function; core spectral logic lives there.
+    return spectralClustering(affinity, m, n_clusters, random_state);
+}
+
 SpectralResult spectralClustering(
     const Matrix& affinity,
     int m, int k,

@@ -9,6 +9,8 @@ using Matrix = std::vector<float>;
 struct KMeansResult {
     Matrix centroids;    // shape: [n_clusters × dim]
     std::vector<int> labels; // shape: [n_points]
+    int centroid_rows = 0;
+    int centroid_cols = 0;
 };
 
 class KMeans {
@@ -23,6 +25,7 @@ public:
            uint64_t random_state = 42);
 
     KMeansResult fit(const Matrix& X, int n, int d);
+
 
 private:
     Matrix initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng);
