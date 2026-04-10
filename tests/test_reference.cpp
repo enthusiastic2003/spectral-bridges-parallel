@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cassert>
 #include "spectral.hpp"
+#include <algorithm>
 
 // Load a CSV into a flat float matrix, returns nrows
 int loadCSV(const std::string& path, Matrix& data, int& cols) {

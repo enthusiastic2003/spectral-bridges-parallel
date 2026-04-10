@@ -3,6 +3,7 @@ project(spectral_bridges CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Release build by default for accurate benchmarking
 if(NOT CMAKE_BUILD_TYPE)
@@ -14,8 +15,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native")
 # Eigen (installed via brew on Apple Silicon)
 find_package(Eigen3 REQUIRED)
 
-# Apple Accelerate framework (gives us BLAS for free on macOS)
-find_library(ACCELERATE_FRAMEWORK Accelerate REQUIRED)
+# Apple Accelerate framework (gives us BLAS for free on macOS) or blas on Linux
+# BLAS / LAPACK selection
+if(APPLE)
+    find_library(ACCELERATE_FRAMEWORK Accelerate REQUIRED)
+    set(BLAS_LIBS ${ACCELERATE_FRAMEWORK})
+elseif(UNIX)
+    find_package(BLAS REQUIRED)
+    set(BLAS_LIBS ${BLAS_LIBRARIES})
+endif()
+
 
 # Shared include directory
 include_directories(include)
@@ -29,7 +38,7 @@ add_library(sb_core
 
 target_link_libraries(sb_core
     Eigen3::Eigen
-    ${ACCELERATE_FRAMEWORK}
+    ${BLAS_LIBS}
 )
 
 # Main benchmark executable
