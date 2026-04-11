@@ -4,11 +4,24 @@
 #include <algorithm>
 #include "kmeans.hpp"     // Assuming your C++ code is in this header
 #include "spectral.hpp"
+#include <omp.h>
 
 namespace py = pybind11;
 
 PYBIND11_MODULE(specbridge, m) {
     m.doc() = "KMeans and SpectralClustering module";
+
+    m.def("get_max_threads", []() {
+        return omp_get_max_threads();
+    }, "Get the maximum number of OpenMP threads available");
+
+    m.def("get_num_procs", []() {
+        return omp_get_num_procs();
+    }, "Get the number of processors available");
+
+    m.def("set_num_threads", [](int num_threads) {
+        omp_set_num_threads(num_threads);
+    }, "Set the number of OpenMP threads to use");
 
     // 1. Bind the Result Struct
     py::class_<KMeansResult>(m, "KMeansResult")
@@ -81,7 +94,6 @@ PYBIND11_MODULE(specbridge, m) {
              py::arg("n_iter") = 20,
              py::arg("n_local_trials") = -1,
              py::arg("random_state") = 42)
-        
         // Bind public member variables (allows Python to read AND write them like properties)
         .def_readwrite("n_clusters", &KMeans::n_clusters)
         .def_readwrite("n_iter", &KMeans::n_iter)
@@ -89,8 +101,11 @@ PYBIND11_MODULE(specbridge, m) {
         .def_readwrite("random_state", &KMeans::random_state)
 
         // NumPy-friendly fit: infer n and d from a 2D float array.
+        // NumPy-friendly fit: infer n and d from a 2D float array.
         .def("fit", [](KMeans& self,
                         py::array_t<float, py::array::c_style | py::array::forcecast> X_in) {
+            
+            // --- PHASE 1: Python Interaction (GIL is held) ---
             py::buffer_info buf = X_in.request();
             if (buf.ndim != 2) {
                 throw std::runtime_error("Input must be a 2D NumPy array");
@@ -99,7 +114,18 @@ PYBIND11_MODULE(specbridge, m) {
             const int n_points = static_cast<int>(buf.shape[0]);
             const int dimensions = static_cast<int>(buf.shape[1]);
             const auto* ptr = static_cast<const float*>(buf.ptr);
-            return self.fit(Matrix(ptr, ptr + n_points * dimensions), n_points, dimensions);
+
+            // --- PHASE 2: C++ Execution (Release the GIL!) ---
+            // From this line down, NO Python objects can be touched.
+            // Other Python threads can now run freely.
+            py::gil_scoped_release release;
+
+            // 1. Perform the mandatory memory copy across the C++/Python boundary
+            Matrix X(ptr, ptr + (n_points * dimensions));
+            
+            // 2. Call your OpenMP-accelerated C++ fit function
+            return self.fit(X, n_points, dimensions);
+
         }, py::arg("X"))
 
         // Backward-compatible signature used in older notebooks: fit(X, n, d).
