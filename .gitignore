@@ -1,2 +1,8 @@
 build/
 .vscode/
+.venv/
+vcpkg_installed/
+bin/
+pics/
+.vs/
+*.png
