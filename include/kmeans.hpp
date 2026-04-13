@@ -25,10 +25,11 @@ public:
            uint64_t random_state = 42);
 
     KMeansResult fit(const Matrix& X, int n, int d);
+    KMeansResult initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng);
+
 
 
 private:
-    Matrix initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng);
     std::vector<float> pairwiseDists(const Matrix& X, const Matrix& C,
                                       int n, int m, int d);
 };

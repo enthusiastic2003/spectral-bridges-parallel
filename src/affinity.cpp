@@ -3,18 +3,21 @@
 #include <algorithm>
 #include <numeric>
 #include <cassert>
+#include <omp.h>
 
 Matrix computeAffinity(
     const Matrix& X,
     const KMeansResult& km,
     int n, int m, int d,
-    float p, float M)
+    float M)
 {
+	float p = DEFAULT_P;
     // Step 1 — center each Voronoi region around its centroid
     // X_centered[i] is a flat [nᵢ × d] matrix of (x - µᵢ) for points in region i
     std::vector<Matrix> X_centered(m);
     std::vector<int> counts(m, 0);
 
+    #pragma omp parallel for reduction(+:counts[:m])
     for (int i = 0; i < n; i++)
         counts[km.labels[i]]++;
 
@@ -34,6 +37,7 @@ Matrix computeAffinity(
     // Step 2 — compute raw affinity matrix [m × m]
     Matrix affinity(m * m, 0.0f);
 
+    #pragma omp parallel for
     for (int i = 0; i < m; i++) {
         int ni = counts[i];
 
@@ -78,6 +82,7 @@ Matrix computeAffinity(
     // Step 3 — symmetrize and normalize by counts
     // affinity = ((A + Aᵀ) / counts) ^ (1/p)
     // where counts[i,j] = nᵢ + nⱼ
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < m; i++) {
         for (int j = i; j < m; j++) {
             float sym = (affinity[i * m + j] + affinity[j * m + i])
@@ -102,8 +107,9 @@ Matrix computeAffinity(
     float q90 = sorted_aff[static_cast<int>(0.9f * total)];
 
     float gamma = std::log(M) / (q90 - q10);
-    for (float& v : affinity)
-        v = std::exp(gamma * v);
+    #pragma omp parallel for
+    for (int i = 0; i < (int)affinity.size(); i++)
+        affinity[i] = std::exp(gamma * affinity[i]);
 
     return affinity;
 }

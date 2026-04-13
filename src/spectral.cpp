@@ -4,16 +4,20 @@
 #include <algorithm>
 #include <numeric>
 #include <stdexcept>
+#include <iostream>
 
-SpectralClustering::SpectralClustering(int n_clusters, int n_iter, uint64_t random_state)
-    : n_clusters(n_clusters), n_iter(n_iter), random_state(random_state) {}
+SpectralClustering::SpectralClustering(
+    int n_clusters, int num_vornoi, int n_iter, float M, uint64_t random_state)
+    : n_clusters(n_clusters), n_iter(n_iter), random_state(random_state), num_vornoi(num_vornoi), M(M){}
 
-SpectralResult SpectralClustering::fit(
-    const Matrix& affinity,
-    int m) const
+
+SBResult SpectralClustering::fit(
+    const Matrix& X,
+    int n,
+    int d)
 {
     // Delegate to the free function; core spectral logic lives there.
-    return spectralClustering(affinity, m, n_clusters, random_state);
+ return spectralBridges(X, n, d, n_clusters, num_vornoi, M, n_iter, random_state);
 }
 
 SpectralResult spectralClustering(
@@ -90,19 +94,25 @@ SBResult spectralBridges(
     const Matrix& X,
     int n, int d,
     int k, int m,
-    float p, float M,
+    float M,
     int n_iter,
     uint64_t random_state)
 {
     // Step 1 — vector quantization
     KMeans km(m, n_iter, -1, random_state);
-    auto kmResult = km.fit(X, n, d);
+    auto kmResult = km.initCentroids(X, n, d, std::mt19937_64(random_state));
+
+    std::cout << "K-means completed. Voronoi centers computed: " << m << std::endl;
 
     // Step 2 — affinity matrix
-    Matrix aff = computeAffinity(X, kmResult, n, m, d, p, M);
+    Matrix aff = computeAffinity(X, kmResult, n, m, d, M);
+
+    std::cout << "Affinity matrix computed." << std::endl;
 
     // Step 3 — spectral clustering on affinity
     SpectralResult sc = spectralClustering(aff, m, k, random_state);
+
+    std::cout << "Spectral clustering completed. Eigenvalues and labels computed." << std::endl;
 
     // Step 4 — propagate region labels back to points
     std::vector<int> pointLabels(n);
@@ -114,5 +124,7 @@ SBResult spectralBridges(
     for (int i = 0; i < n; i++)
         clusters[pointLabels[i]].push_back(i);
 
+    std::cout << "Point labels propagated back to clusters." << std::endl;
+    
     return {clusters, pointLabels, sc.eigvals, sc.ngap};
 }

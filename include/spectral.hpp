@@ -8,20 +8,35 @@ struct SpectralResult {
     float ngap;                 // normalized eigengap
 };
 
+// Top level
+struct SBResult {
+    std::vector<std::vector<int>> clusterPointIndices; // which points in each cluster
+    std::vector<int> labels;                           // per-point label [n]
+    std::vector<float> eigvals;
+    float ngap;
+};
+
 class SpectralClustering {
 public:
     int n_clusters;
     int n_iter;
+	int num_vornoi;
     uint64_t random_state;
+    float M;
+
 
     SpectralClustering(int n_clusters,
+                        int num_vornoi,
                        int n_iter = 20,
+		                float M = 10000.0f,
                        uint64_t random_state = 42);
 
-    SpectralResult fit(
-        const Matrix& affinity,  // [m × m]
-        int m                    // number of regions/nodes
-    ) const;
+
+    SBResult fit(
+        const Matrix& X,  // [m × m]
+        int n,                    // number of datapoints
+		int d					// dimensionality of datapoints
+    );
 };
 
 // Backward-compatible free function.
@@ -32,20 +47,11 @@ SpectralResult spectralClustering(
     uint64_t random_state
 );
 
-// Top level
-struct SBResult {
-    std::vector<std::vector<int>> clusterPointIndices; // which points in each cluster
-    std::vector<int> labels;                           // per-point label [n]
-    std::vector<float> eigvals;
-    float ngap;
-};
-
 SBResult spectralBridges(
     const Matrix& X,
     int n, int d,
     int k,           // number of clusters
     int m,           // number of voronoi regions
-    float p,
     float M,
     int n_iter,
     uint64_t random_state

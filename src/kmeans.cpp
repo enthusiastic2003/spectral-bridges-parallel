@@ -29,7 +29,7 @@ std::vector<float> KMeans::pairwiseDists(const Matrix& X, const Matrix& C,
     return D;
 }
 
-Matrix KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng) {
+KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng) {
     int trials = (n_local_trials < 0)
         ? (2 + static_cast<int>(std::log(n_clusters)))
         : n_local_trials;
@@ -42,9 +42,11 @@ Matrix KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng
 
     std::vector<float> minDists(n, std::numeric_limits<float>::max());
 
-    for (int c = 1; c < n_clusters; c++) {
-        const float* last = centroids.data() + (c - 1) * d;
+    std::vector<int> labels(n, -1);
 
+    for (int c = 1; c < n_clusters + 1; c++) {
+
+        const float* last = centroids.data() + (c - 1) * d;
         // Embarrassingly parallel — each i writes only to minDists[i]
         #pragma omp parallel for schedule(static)
         for (int i = 0; i < n; i++) {
@@ -53,8 +55,15 @@ Matrix KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng
                 float diff = X[i*d + k] - last[k];
                 dist += diff * diff;
             }
-            minDists[i] = std::min(minDists[i], dist);
+            // minDists[i] = std::min(minDists[i], dist);
+            if (dist < minDists[i]) {
+                minDists[i] = dist;
+                labels[i] = c - 1;
+            }
+
         }
+
+        if (c == n_clusters) break;
 
         std::discrete_distribution<int> weighted(minDists.begin(), minDists.end());
         int bestCandidate = -1;
@@ -86,13 +95,15 @@ Matrix KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng
                     centroids.begin() + c * d);
     }
 
-    return centroids;
+    return {centroids, labels, n_clusters, d};
 }
 
 KMeansResult KMeans::fit(const Matrix& X, int n, int d) {
     std::cout << "Total processors: " << omp_get_num_procs() << ", threads: " << omp_get_max_threads() << std::endl;
     std::mt19937_64 rng(random_state);
-    Matrix centroids = initCentroids(X, n, d, rng);
+    KMeansResult result = initCentroids(X, n, d, rng);
+    Matrix centroids = result.centroids;
+    std::cout << "Centroids initialized using k-means++." << std::endl;
     std::vector<int> labels(n);
 
     for (int iter = 0; iter < n_iter; iter++) {

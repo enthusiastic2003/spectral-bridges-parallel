@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 #include <algorithm>
 #include "kmeans.hpp"
+#include "spectral.hpp"
 #include <omp.h>
 
 namespace py = pybind11;
@@ -48,7 +49,35 @@ PYBIND11_MODULE(specbridge, m) {
         .def_readonly("centroid_rows", &KMeansResult::centroid_rows)
         .def_readonly("centroid_cols", &KMeansResult::centroid_cols);
 
-    py::class_<KMeans>(m, "KMeans")
+    py::class_<SBResult>(m, "SBResult")
+        .def_property_readonly("cluster_point_indices", [](const SBResult& r) {
+            py::list result;
+            for (const auto& cluster : r.clusterPointIndices) {
+                py::array_t<int> arr(cluster.size());
+                auto buf = arr.request();
+                std::copy(cluster.begin(), cluster.end(),
+                    static_cast<int*>(buf.ptr));
+                result.append(arr);
+            }
+            return result;
+        })
+        .def_property_readonly("labels", [](const SBResult& r) {
+            py::array_t<int> arr(r.labels.size());
+            auto buf = arr.request();
+            std::copy(r.labels.begin(), r.labels.end(),
+                static_cast<int*>(buf.ptr));
+            return arr;
+        })
+        .def_property_readonly("eigvals", [](const SBResult& r) {
+            py::array_t<float> arr(r.eigvals.size());
+            auto buf = arr.request();
+            std::copy(r.eigvals.begin(), r.eigvals.end(),
+                static_cast<float*>(buf.ptr));
+            return arr;
+        })
+        .def_readonly("ngap", &SBResult::ngap);
+
+        py::class_<KMeans>(m, "KMeans")
         .def(py::init<int, int, int, uint64_t>(),
             py::arg("n_clusters"),
             py::arg("n_iter") = 20,
@@ -74,4 +103,32 @@ PYBIND11_MODULE(specbridge, m) {
             }, py::arg("X"))
         .def("fit_raw", &KMeans::fit,
             py::arg("X"), py::arg("n"), py::arg("d"));
+
+    py::class_<SpectralClustering>(m, "SpectralClustering")
+        .def(py::init<int, int, int, float, uint64_t>(),
+            py::arg("n_clusters"),
+            py::arg("num_voronoi"),
+            py::arg("n_iter") = 20,
+            py::arg("M") = 10000.0f,
+            py::arg("random_state") = 42)
+        .def_readwrite("n_clusters", &SpectralClustering::n_clusters)
+        .def_readwrite("n_iter", &SpectralClustering::n_iter)
+        .def_readwrite("num_vornoi", &SpectralClustering::num_vornoi)
+        .def_readwrite("random_state", &SpectralClustering::random_state)
+        .def_readwrite("M", &SpectralClustering::M)
+        .def("fit", [](SpectralClustering& self,
+            py::array_t<float, py::array::c_style | py::array::forcecast> X_in) {
+                py::buffer_info buf = X_in.request();
+                if (buf.ndim != 2)
+                    throw std::runtime_error("Input must be a 2D NumPy array");
+
+                const int n = static_cast<int>(buf.shape[0]);
+                const int d = static_cast<int>(buf.shape[1]);
+                const auto* ptr = static_cast<const float*>(buf.ptr);
+                Matrix X(ptr, ptr + n * d);
+
+                py::gil_scoped_release release;
+                return self.fit(X, n, d);
+            }, py::arg("X"));
+
 }
