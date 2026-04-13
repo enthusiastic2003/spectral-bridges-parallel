@@ -1,26 +1,28 @@
 #include "affinity.hpp"
+#include <Eigen/Dense>
 #include <cmath>
 #include <algorithm>
 #include <numeric>
 #include <cassert>
+#include <limits>
 #include <omp.h>
+#include <iostream>
 
-Matrix computeAffinity(
+MatrixD computeAffinity(
     const Matrix& X,
     const KMeansResult& km,
     int n, int m, int d,
-    float M)
+    float target_perplexity)
 {
-	float p = DEFAULT_P;
+	double p = static_cast<double>(DEFAULT_P);
     // Step 1 — center each Voronoi region around its centroid
     // X_centered[i] is a flat [nᵢ × d] matrix of (x - µᵢ) for points in region i
     std::vector<Matrix> X_centered(m);
     std::vector<int> counts(m, 0);
 
-    #pragma omp parallel for reduction(+:counts[:m])
     for (int i = 0; i < n; i++)
         counts[km.labels[i]]++;
-
+    
     for (int i = 0; i < m; i++)
         X_centered[i].resize(counts[i] * d);
 
@@ -34,82 +36,130 @@ Matrix computeAffinity(
         insertPos[c]++;
     }
 
-    // Step 2 — compute raw affinity matrix [m × m]
-    Matrix affinity(m * m, 0.0f);
+    auto logaddexp = [](double a, double b) {
+        if (a == -std::numeric_limits<double>::infinity()) return b;
+        if (b == -std::numeric_limits<double>::infinity()) return a;
+        double mx = std::max(a, b);
+        double mn = std::min(a, b);
+        return mx + std::log1p(std::exp(mn - mx));
+    };
 
-    #pragma omp parallel for
+    // Step 2 — compute row-wise log affinity matrix [m × m]
+    MatrixD log_affinity(m * m, -std::numeric_limits<double>::infinity());
+    const double tiny = std::numeric_limits<double>::min();
+
     for (int i = 0; i < m; i++) {
         int ni = counts[i];
+        if (ni == 0) {
+            continue;
+        }
 
-        // segments[j] = µⱼ - µᵢ, shape [m × d]
-        // dists[j]    = ‖µⱼ - µᵢ‖², shape [m]
-        std::vector<float> dists(m, 0.0f);
-        Matrix segments(m * d);
+        Eigen::MatrixXd segments(m, d);
+        for (int j = 0; j < m; j++) {
+            for (int kk = 0; kk < d; kk++) {
+                segments(j, kk) = static_cast<double>(km.centroids[j * d + kk])
+                                  - static_cast<double>(km.centroids[i * d + kk]);
+            }
+        }
+
+        Eigen::VectorXd dists = segments.rowwise().squaredNorm();
+        dists(i) = 1.0;
+
+        Eigen::Map<const Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>>
+            Xc_float(X_centered[i].data(), ni, d);
+        Eigen::MatrixXd Xc = Xc_float.cast<double>();
+
+        Eigen::MatrixXd projs = Xc * segments.transpose();
+        projs.array().rowwise() /= dists.transpose().array();
+
+        Eigen::ArrayXXd log_proj = projs.array().max(tiny).log();
+        Eigen::ArrayXd col_max = log_proj.colwise().maxCoeff();
+        Eigen::ArrayXXd shifted = p * (log_proj.rowwise() - col_max.transpose());
 
         for (int j = 0; j < m; j++) {
-            for (int k = 0; k < d; k++) {
-                float s = km.centroids[j * d + k] - km.centroids[i * d + k];
-                segments[j * d + k] = s;
-                dists[j] += s * s;
-            }
+            double mx = shifted.col(j).maxCoeff();
+            double lse = mx + std::log((shifted.col(j) - mx).exp().sum());
+            log_affinity[i * m + j] = p * col_max(j) + lse;
         }
-        dists[i] = 1.0f; // avoid division by zero on diagonal
-
-        // For each point in region i, compute projection onto every segment
-        // projs[pt, j] = dot(X_centered[i][pt], segments[j]) / dists[j]
-        // clipped to [0, ∞), then raised to power p, then summed over pt
-        std::vector<float> aff_row(m, 0.0f);
-
-        for (int pt = 0; pt < ni; pt++) {
-            for (int j = 0; j < m; j++) {
-                // dot product of point pt with segment j
-                float dot = 0.0f;
-                for (int k = 0; k < d; k++)
-                    dot += X_centered[i][pt * d + k] * segments[j * d + k];
-
-                // normalize and clip
-                float t = dot / dists[j];
-                if (t < 0.0f) t = 0.0f;
-
-                // raise to power p and accumulate
-                aff_row[j] += std::pow(t, p);
-            }
-        }
-        for (int j = 0; j < m; j++)
-            affinity[i * m + j] = aff_row[j];
     }
 
-    // Step 3 — symmetrize and normalize by counts
-    // affinity = ((A + Aᵀ) / counts) ^ (1/p)
-    // where counts[i,j] = nᵢ + nⱼ
-    #pragma omp parallel for collapse(2)
+    // Step 3 — symmetrize and normalize by counts in log-space,
+    // then exponentiate exactly as Python does.
+    MatrixD affinity(m * m, 0.0);
     for (int i = 0; i < m; i++) {
         for (int j = i; j < m; j++) {
-            float sym = (affinity[i * m + j] + affinity[j * m + i])
-                        / (float)(counts[i] + counts[j]);
-            sym = std::pow(sym, 1.0f / p);
+            double log_sym = logaddexp(log_affinity[i * m + j], log_affinity[j * m + i])
+                             - std::log(static_cast<double>(counts[i] + counts[j]));
+            double sym = std::exp(log_sym / p);
             affinity[i * m + j] = sym;
             affinity[j * m + i] = sym;
         }
     }
 
-    // Step 4 — subtract 0.5 * max for numerical stability
-    float maxVal = *std::max_element(affinity.begin(), affinity.end());
-    for (float& v : affinity)
-        v -= 0.5f * maxVal;
+    // Step 4 — subtract max before perplexity calibration
+    double maxVal = *std::max_element(affinity.begin(), affinity.end());
+    MatrixD aff_double(m * m);
+    for (int i = 0; i < m * m; i++) {
+        aff_double[i] = affinity[i] - maxVal;
+    }
 
-    // Step 5 — exponential transform: ã = exp(γ * a)
-    // γ = log(M) / (q90 - q10)
-    std::vector<float> sorted_aff(affinity.begin(), affinity.end());
-    std::sort(sorted_aff.begin(), sorted_aff.end());
-    int total = m * m;
-    float q10 = sorted_aff[static_cast<int>(0.1f * total)];
-    float q90 = sorted_aff[static_cast<int>(0.9f * total)];
+    // Step 5 — Scale affinity matrix using Perplexity Calibration (Binary Search)
+    double low = 0.0;
+    double high = 1000.0;
+    double gamma = (low + high) / 2.0;
+    int max_iter = 16;
+    double tol = 1e-2;
 
-    float gamma = std::log(M) / (q90 - q10);
-    #pragma omp parallel for
-    for (int i = 0; i < (int)affinity.size(); i++)
-        affinity[i] = std::exp(gamma * affinity[i]);
+    for (int iter = 0; iter < max_iter; ++iter) {
+        double mean_entropy = 0.0;
 
-    return affinity;
+        for (int i = 0; i < m; ++i) {
+            double max_log_A = -std::numeric_limits<double>::infinity();
+            for (int j = 0; j < m; ++j) {
+                if (i == j) continue;
+                double log_A_val = gamma * aff_double[i * m + j];
+                if (log_A_val > max_log_A) max_log_A = log_A_val;
+            }
+
+            double sum_exp = 0.0;
+            for (int j = 0; j < m; ++j) {
+                if (i == j) continue;
+                sum_exp += std::exp(gamma * aff_double[i * m + j] - max_log_A);
+            }
+            double log_sum_A = max_log_A + std::log(sum_exp);
+
+            double row_entropy = 0.0;
+            for (int j = 0; j < m; ++j) {
+                if (i == j) continue;
+                double log_P = gamma * aff_double[i * m + j] - log_sum_A;
+                double P = std::exp(log_P);
+                if (P > 0.0) {
+                    row_entropy -= P * log_P;
+                }
+            }
+            mean_entropy += row_entropy;
+        }
+
+        mean_entropy /= static_cast<double>(m);
+        double current_perp = std::exp(mean_entropy);
+
+        if (current_perp > target_perplexity) {
+            low = gamma;
+        } else {
+            high = gamma;
+        }
+        gamma = (low + high) / 2.0;
+
+        if (std::abs(current_perp - target_perplexity) / target_perplexity < tol) {
+            break;
+        }
+    }
+
+    // Step 6 — Final exponential transform (do not zero diagonal;
+    // Python keeps diagonal values from exp(gamma * A_shifted)).
+    for (int i = 0; i < m * m; i++) {
+        aff_double[i] = std::exp(gamma * aff_double[i]);
+    }
+
+    return aff_double;
 }

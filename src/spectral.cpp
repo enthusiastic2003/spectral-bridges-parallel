@@ -7,8 +7,8 @@
 #include <iostream>
 
 SpectralClustering::SpectralClustering(
-    int n_clusters, int num_vornoi, int n_iter, float M, uint64_t random_state)
-    : n_clusters(n_clusters), n_iter(n_iter), random_state(random_state), num_vornoi(num_vornoi), M(M){}
+    int n_clusters, int num_vornoi, int n_iter, float target_perplexity, uint64_t random_state)
+    : n_clusters(n_clusters), n_iter(n_iter), num_vornoi(num_vornoi), random_state(random_state), target_perplexity(target_perplexity){}
 
 
 SBResult SpectralClustering::fit(
@@ -17,75 +17,71 @@ SBResult SpectralClustering::fit(
     int d)
 {
     // Delegate to the free function; core spectral logic lives there.
- return spectralBridges(X, n, d, n_clusters, num_vornoi, M, n_iter, random_state);
+ return spectralBridges(X, n, d, n_clusters, num_vornoi, target_perplexity, n_iter, random_state);
 }
 
 SpectralResult spectralClustering(
-    const Matrix& affinity,
+    const MatrixD& affinity,
     int m, int k,
     uint64_t random_state)
 {
-    // Step 1 — build normalized Laplacian L = D^(-1/2) (D - A) D^(-1/2)
-    // where D is the degree matrix (row sums of affinity)
-    Eigen::MatrixXf A(m, m);
+    Eigen::MatrixXd A(m, m);
     for (int i = 0; i < m; i++)
         for (int j = 0; j < m; j++)
             A(i, j) = affinity[i * m + j];
 
-    // Degree vector
-    Eigen::VectorXf deg = A.rowwise().sum();
+    Eigen::VectorXd d_vec(m);
+    for (int i = 0; i < m; i++) {
+        double row_mean = A.row(i).mean();
+        d_vec(i) = std::pow(row_mean, -0.5);
+    }
 
-    // D^(-1/2) — avoid division by zero
-    Eigen::VectorXf deg_inv_sqrt(m);
-    for (int i = 0; i < m; i++)
-        deg_inv_sqrt(i) = (deg(i) > 1e-10f) ? 1.0f / std::sqrt(deg(i)) : 0.0f;
-
-    // L = I - D^(-1/2) A D^(-1/2)
-    Eigen::MatrixXf L(m, m);
-    for (int i = 0; i < m; i++)
-        for (int j = 0; j < m; j++)
-            L(i, j) = (i == j ? 1.0f : 0.0f)
-                      - deg_inv_sqrt(i) * A(i, j) * deg_inv_sqrt(j);
+    Eigen::MatrixXd L = -(d_vec.asDiagonal() * A * d_vec.asDiagonal());
+    double tol = 1e-8;
+    for (int i = 0; i < m; i++) {
+        L(i, i) = static_cast<double>(m) + tol;
+    }
 
     // Step 2 — eigen decomposition (L is symmetric, use SelfAdjointEigenSolver)
     // Returns eigenvalues in ascending order
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> solver(L);
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(L);
     if (solver.info() != Eigen::Success)
         throw std::runtime_error("Eigen decomposition failed");
 
-    Eigen::VectorXf eigvals = solver.eigenvalues();
-    Eigen::MatrixXf eigvecs = solver.eigenvectors(); // columns are eigenvectors
+    Eigen::VectorXd eigvals = solver.eigenvalues();
+    Eigen::MatrixXd eigvecs = solver.eigenvectors(); // columns are eigenvectors
 
     // Step 3 — take first k eigenvectors, row-normalize
-    Eigen::MatrixXf U = eigvecs.leftCols(k); // [m × k]
+    Eigen::MatrixXd U = eigvecs.leftCols(k); // [m × k]
     for (int i = 0; i < m; i++) {
-        float norm = U.row(i).norm();
-        if (norm > 1e-10f)
+        double norm = U.row(i).norm();
+        if (norm > 1e-10)
             U.row(i) /= norm;
     }
 
     // Step 4 — normalized eigengap
-    // ngap = (λ[k] - λ[k-1]) / λ[k]
+    // Python uses: (λ[k] - λ[k-1]) / λ[k-1]
     float ngap = 0.0f;
     if (k < m) {
-        float lk   = eigvals(k);
-        float lkm1 = eigvals(k - 1);
-        ngap = (lk > 1e-10f) ? (lk - lkm1) / lk : 0.0f;
+        double lk   = eigvals(k);
+        double lkm1 = eigvals(k - 1);
+        ngap = (std::abs(lkm1) > 1e-10) ? static_cast<float>((lk - lkm1) / lkm1) : 0.0f;
     }
 
-    // Step 5 — k-means on rows of U
+    // Collect eigenvalues before downstream k-means to avoid any accidental
+    // mutation if later stages are unstable.
+    std::vector<float> eigvals_vec(m);
+    for (int i = 0; i < m; i++)
+        eigvals_vec[i] = static_cast<float>(eigvals(i));
+
+    // Step 5 — k-means on rows of U (use project KMeans implementation).
     Matrix U_flat(m * k);
     for (int i = 0; i < m; i++)
         for (int j = 0; j < k; j++)
-            U_flat[i * k + j] = U(i, j);
+            U_flat[i * k + j] = static_cast<float>(U(i, j));
 
     KMeans km(k, 20, -1, random_state);
     auto kmResult = km.fit(U_flat, m, k);
-
-    // Collect eigenvalues
-    std::vector<float> eigvals_vec(m);
-    for (int i = 0; i < m; i++)
-        eigvals_vec[i] = eigvals(i);
 
     return {kmResult.labels, eigvals_vec, ngap};
 }
@@ -94,18 +90,18 @@ SBResult spectralBridges(
     const Matrix& X,
     int n, int d,
     int k, int m,
-    float M,
+    float target_perplexity,
     int n_iter,
     uint64_t random_state)
 {
     // Step 1 — vector quantization
     KMeans km(m, n_iter, -1, random_state);
-    auto kmResult = km.initCentroids(X, n, d, std::mt19937_64(random_state));
+    auto kmResult = km.fit(X, n, d);
 
     std::cout << "K-means completed. Voronoi centers computed: " << m << std::endl;
 
     // Step 2 — affinity matrix
-    Matrix aff = computeAffinity(X, kmResult, n, m, d, M);
+    MatrixD aff = computeAffinity(X, kmResult, n, m, d, target_perplexity);
 
     std::cout << "Affinity matrix computed." << std::endl;
 

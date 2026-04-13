@@ -62,18 +62,10 @@ PYBIND11_MODULE(specbridge, m) {
             return result;
         })
         .def_property_readonly("labels", [](const SBResult& r) {
-            py::array_t<int> arr(r.labels.size());
-            auto buf = arr.request();
-            std::copy(r.labels.begin(), r.labels.end(),
-                static_cast<int*>(buf.ptr));
-            return arr;
+            return py::cast(r.labels);
         })
         .def_property_readonly("eigvals", [](const SBResult& r) {
-            py::array_t<float> arr(r.eigvals.size());
-            auto buf = arr.request();
-            std::copy(r.eigvals.begin(), r.eigvals.end(),
-                static_cast<float*>(buf.ptr));
-            return arr;
+            return py::cast(r.eigvals);
         })
         .def_readonly("ngap", &SBResult::ngap);
 
@@ -109,13 +101,13 @@ PYBIND11_MODULE(specbridge, m) {
             py::arg("n_clusters"),
             py::arg("num_voronoi"),
             py::arg("n_iter") = 20,
-            py::arg("M") = 10000.0f,
+            py::arg("target_perplexity") = 2.0f,
             py::arg("random_state") = 42)
         .def_readwrite("n_clusters", &SpectralClustering::n_clusters)
         .def_readwrite("n_iter", &SpectralClustering::n_iter)
         .def_readwrite("num_vornoi", &SpectralClustering::num_vornoi)
         .def_readwrite("random_state", &SpectralClustering::random_state)
-        .def_readwrite("M", &SpectralClustering::M)
+        .def_readwrite("target_perplexity", &SpectralClustering::target_perplexity)
         .def("fit", [](SpectralClustering& self,
             py::array_t<float, py::array::c_style | py::array::forcecast> X_in) {
                 py::buffer_info buf = X_in.request();

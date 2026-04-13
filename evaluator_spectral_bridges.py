@@ -3,7 +3,7 @@ import sys
 import os
 
 # 1. Add the build folder to Python's search path
-sys.path.append(os.path.abspath("bin/"))
+sys.path.append(os.path.abspath("build/"))
 
 # %%
 import specbridge as sb
@@ -31,12 +31,17 @@ X = np.vstack(X_parts).astype(np.float32)
 # %%
 bridge = sb.SpectralClustering(
     n_clusters=4,
-    num_voronoi = 1000,
+    num_voronoi = 100,
     n_iter = 20,
     M = 10e4,
     random_state=42
 )
 
 # %%
+# Time the fitting process
+import time
+start_time = time.time()
 result = bridge.fit(X)
+end_time = time.time()
+print(f"Spectral clustering completed in {end_time - start_time:.2f} seconds")
 

@@ -22,13 +22,13 @@ public:
     int n_iter;
 	int num_vornoi;
     uint64_t random_state;
-    float M;
+    float target_perplexity;
 
 
     SpectralClustering(int n_clusters,
                         int num_vornoi,
                        int n_iter = 20,
-		                float M = 10000.0f,
+		                float target_perplexity = 2.0f,
                        uint64_t random_state = 42);
 
 
@@ -41,7 +41,7 @@ public:
 
 // Backward-compatible free function.
 SpectralResult spectralClustering(
-    const Matrix& affinity,  // [m × m]
+    const MatrixD& affinity, // [m × m]
     int m,                   // number of voronoi regions
     int k,                   // number of clusters
     uint64_t random_state
@@ -52,7 +52,7 @@ SBResult spectralBridges(
     int n, int d,
     int k,           // number of clusters
     int m,           // number of voronoi regions
-    float M,
+    float target_perplexity,
     int n_iter,
     uint64_t random_state
 );
