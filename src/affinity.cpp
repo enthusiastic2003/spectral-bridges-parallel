@@ -48,6 +48,7 @@ MatrixD computeAffinity(
     MatrixD log_affinity(m * m, -std::numeric_limits<double>::infinity());
     const double tiny = std::numeric_limits<double>::min();
 
+    #pragma omp parallel for
     for (int i = 0; i < m; i++) {
         int ni = counts[i];
         if (ni == 0) {
@@ -86,6 +87,8 @@ MatrixD computeAffinity(
     // Step 3 — symmetrize and normalize by counts in log-space,
     // then exponentiate exactly as Python does.
     MatrixD affinity(m * m, 0.0);
+
+    #pragma omp parallel for schedule(dynamic, 32)
     for (int i = 0; i < m; i++) {
         for (int j = i; j < m; j++) {
             double log_sym = logaddexp(log_affinity[i * m + j], log_affinity[j * m + i])
@@ -99,6 +102,8 @@ MatrixD computeAffinity(
     // Step 4 — subtract max before perplexity calibration
     double maxVal = *std::max_element(affinity.begin(), affinity.end());
     MatrixD aff_double(m * m);
+
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < m * m; i++) {
         aff_double[i] = affinity[i] - maxVal;
     }
@@ -113,6 +118,7 @@ MatrixD computeAffinity(
     for (int iter = 0; iter < max_iter; ++iter) {
         double mean_entropy = 0.0;
 
+        #pragma omp parallel for reduction(+:mean_entropy)
         for (int i = 0; i < m; ++i) {
             double max_log_A = -std::numeric_limits<double>::infinity();
             for (int j = 0; j < m; ++j) {
@@ -157,6 +163,7 @@ MatrixD computeAffinity(
 
     // Step 6 — Final exponential transform (do not zero diagonal;
     // Python keeps diagonal values from exp(gamma * A_shifted)).
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < m * m; i++) {
         aff_double[i] = std::exp(gamma * aff_double[i]);
     }

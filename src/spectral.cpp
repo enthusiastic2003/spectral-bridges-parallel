@@ -98,17 +98,17 @@ SBResult spectralBridges(
     KMeans km(m, n_iter, -1, random_state);
     auto kmResult = km.fit(X, n, d);
 
-    std::cout << "K-means completed. Voronoi centers computed: " << m << std::endl;
+    // std::cout << "K-means completed. Voronoi centers computed: " << m << std::endl;
 
     // Step 2 — affinity matrix
     MatrixD aff = computeAffinity(X, kmResult, n, m, d, target_perplexity);
 
-    std::cout << "Affinity matrix computed." << std::endl;
+    // std::cout << "Affinity matrix computed." << std::endl;
 
     // Step 3 — spectral clustering on affinity
     SpectralResult sc = spectralClustering(aff, m, k, random_state);
 
-    std::cout << "Spectral clustering completed. Eigenvalues and labels computed." << std::endl;
+    // std::cout << "Spectral clustering completed. Eigenvalues and labels computed." << std::endl;
 
     // Step 4 — propagate region labels back to points
     std::vector<int> pointLabels(n);
@@ -120,7 +120,7 @@ SBResult spectralBridges(
     for (int i = 0; i < n; i++)
         clusters[pointLabels[i]].push_back(i);
 
-    std::cout << "Point labels propagated back to clusters." << std::endl;
+    // std::cout << "Point labels propagated back to clusters." << std::endl;
     
     return {clusters, pointLabels, sc.eigvals, sc.ngap};
 }

@@ -6,3 +6,4 @@ bin/
 pics/
 .vs/
 *.png
+*.log

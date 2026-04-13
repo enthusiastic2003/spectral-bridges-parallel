@@ -99,11 +99,11 @@ KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_6
 }
 
 KMeansResult KMeans::fit(const Matrix& X, int n, int d) {
-    std::cout << "Total processors: " << omp_get_num_procs() << ", threads: " << omp_get_max_threads() << std::endl;
+    // std::cout << "Total processors: " << omp_get_num_procs() << ", threads: " << omp_get_max_threads() << std::endl;
     std::mt19937_64 rng(random_state);
     KMeansResult result = initCentroids(X, n, d, rng);
     Matrix centroids = result.centroids;
-    std::cout << "Centroids initialized using k-means++." << std::endl;
+    // std::cout << "Centroids initialized using k-means++." << std::endl;
     std::vector<int> labels(n);
 
     for (int iter = 0; iter < n_iter; iter++) {

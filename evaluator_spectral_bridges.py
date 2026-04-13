@@ -33,15 +33,35 @@ bridge = sb.SpectralClustering(
     n_clusters=4,
     num_voronoi = 100,
     n_iter = 20,
-    M = 10e4,
+     target_perplexity=2.0,
     random_state=42
 )
 
-# %%
-# Time the fitting process
+scaling_threads = [1, 4, 8, 16, 36, 72]
 import time
+for threads in scaling_threads:
+    sb.set_num_threads(threads)
+    print(f"Running with {sb.get_max_threads()} threads; {sb.get_num_procs()} processors")
+    start_time = time.time()
+    result = bridge.fit(X)
+    print("uniques: ", np.unique(result.labels))
+    end_time = time.time()
+    print(f"Completed in {end_time - start_time:.2f} seconds")
+    print("*"*40)
+
+
+from sbcluster import SpectralBridges, ngap_scorer
+
+actual_sb = SpectralBridges(
+    n_clusters=4,
+    n_nodes=100,
+    random_state=42,
+    n_iter=20
+)
+
 start_time = time.time()
-result = bridge.fit(X)
+y = actual_sb.fit_predict(X)
 end_time = time.time()
-print(f"Spectral clustering completed in {end_time - start_time:.2f} seconds")
+print(f"Actual SpectralBridges completed in {end_time - start_time:.2f} seconds")
+
 
