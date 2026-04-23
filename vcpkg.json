@@ -1,8 +1,0 @@
-{
-  "name": "spectral-bridges",
-  "version": "0.1.0",
-  "dependencies": [
-    "eigen3",
-    "openblas"
-  ]
-}

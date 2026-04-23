@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 #include <algorithm>
 #include "kmeans.hpp"
+#include "kmeans_cuda.hpp"
 #include "spectral.hpp"
 #include <omp.h>
 
@@ -95,6 +96,36 @@ PYBIND11_MODULE(specbridge, m) {
             }, py::arg("X"))
         .def("fit_raw", &KMeans::fit,
             py::arg("X"), py::arg("n"), py::arg("d"));
+
+    // CUDA KMeans - free function binding
+    m.def("fit_kmeans_cuda", [](
+        py::array_t<float, py::array::c_style | py::array::forcecast> X_in,
+        int n_clusters,
+        int n_iter,
+        uint64_t random_state) {
+            py::buffer_info buf = X_in.request();
+            if (buf.ndim != 2)
+                throw std::runtime_error("Input must be a 2D NumPy array");
+
+            const int n = static_cast<int>(buf.shape[0]);
+            const int d = static_cast<int>(buf.shape[1]);
+            const auto* ptr = static_cast<const float*>(buf.ptr);
+            Matrix X(ptr, ptr + n * d);
+
+            py::gil_scoped_release release;
+            return fitKMeansCuda(X, n, d, n_clusters, n_iter, random_state);
+        },
+        py::arg("X"),
+        py::arg("n_clusters"),
+        py::arg("n_iter") = 20,
+        py::arg("random_state") = 42,
+        "Run KMeans clustering on GPU via CUDA");
+
+    // Also expose the raw version for callers that already have flat data
+    m.def("fit_kmeans_cuda_raw", &fitKMeansCuda,
+        py::arg("X"), py::arg("n"), py::arg("d"),
+        py::arg("n_clusters"), py::arg("n_iter"), py::arg("random_state"),
+        "Run KMeans clustering on GPU via CUDA (raw flat vector input)");
 
     py::class_<SpectralClustering>(m, "SpectralClustering")
         .def(py::init<int, int, int, float, uint64_t>(),

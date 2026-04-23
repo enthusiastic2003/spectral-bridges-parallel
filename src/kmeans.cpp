@@ -16,6 +16,7 @@ KMeans::KMeans(int n_clusters, int n_iter, int n_local_trials, uint64_t random_s
 std::vector<float> KMeans::pairwiseDists(const Matrix& X, const Matrix& C,
                                           int n, int m, int d) {
     std::vector<float> D(n * m, 0.0f);
+    #pragma omp parallel for collapse(2) schedule(static)
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             float dist = 0.0f;
@@ -68,7 +69,8 @@ KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_6
         std::discrete_distribution<int> weighted(minDists.begin(), minDists.end());
         int bestCandidate = -1;
         float bestInertia = std::numeric_limits<float>::max();
-
+        
+        #pragma omp parallel for
         for (int t = 0; t < trials; t++) {
             int cand = weighted(rng);
             const float* candPtr = X.data() + cand * d;
