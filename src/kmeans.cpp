@@ -70,7 +70,7 @@ KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_6
         int bestCandidate = -1;
         float bestInertia = std::numeric_limits<float>::max();
         
-        #pragma omp parallel for
+        // #pragma omp parallel for
         for (int t = 0; t < trials; t++) {
             int cand = weighted(rng);
             const float* candPtr = X.data() + cand * d;

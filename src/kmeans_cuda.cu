@@ -173,6 +173,8 @@ KMeansResult fitKMeansCuda(
 
     cublasHandle_t handle = nullptr;
 
+    const int k = n_clusters;
+
     try {
         CUDA_CHECK(cudaMalloc(&d_X,        n * d * sizeof(float)));
         CUDA_CHECK(cudaMalloc(&d_C,        n_clusters * d * sizeof(float)));
@@ -192,15 +194,11 @@ KMeansResult fitKMeansCuda(
 
         // Initialize centroids: random sample of points (simple; replace with k-means++ later)
         std::mt19937_64 rng(random_state);
-        std::uniform_int_distribution<int> uni(0, n - 1);
-        std::vector<int> chosen(n_clusters);
-        for (int c = 0; c < n_clusters; c++) chosen[c] = uni(rng);
-        for (int c = 0; c < n_clusters; c++) {
-            CUDA_CHECK(cudaMemcpy(d_C + c * d,
-                                  X.data() + chosen[c] * d,
-                                  d * sizeof(float),
-                                  cudaMemcpyHostToDevice));
-        }
+            KMeans seeder(k, /*n_iter=*/0, /*n_local_trials=*/-1, random_state);
+            KMeansResult seed = seeder.initCentroids(X, n, d, rng);
+            CUDA_CHECK(cudaMemcpy(d_C, seed.centroids.data(),
+                                (size_t)k * d * sizeof(float),
+                                cudaMemcpyHostToDevice));
 
         CUBLAS_CHECK(cublasCreate(&handle));
 
