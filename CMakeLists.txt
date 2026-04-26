@@ -117,6 +117,7 @@ set(SB_CORE_SOURCES
 if(USE_CUDA)
     list(APPEND SB_CORE_SOURCES
         src/kmeans_cuda.cu
+        src/affinity.cu
     )
 endif()
 
@@ -154,8 +155,17 @@ endif()
 # --- 4. Python Extension Module ---
 if(PYMODULE)
     find_package(pybind11 REQUIRED)
-    pybind11_add_module(specbridge python/bindings.cpp)
+    if(USE_CUDA)
+        pybind11_add_module(specbridge MODULE NO_EXTRAS python/bindings.cpp)
+    else()
+        pybind11_add_module(specbridge python/bindings.cpp)
+    endif()
     target_link_libraries(specbridge PRIVATE sb_core)
+
+    if(USE_CUDA)
+        # Avoid GCC/NVCC LTO plugin version mismatches at CUDA device-link time.
+        set_target_properties(specbridge PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+    endif()
 
     if(WIN32)
         set_target_properties(specbridge PROPERTIES

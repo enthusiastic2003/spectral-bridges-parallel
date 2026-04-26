@@ -2,15 +2,24 @@ import numpy as np
 import pandas as pd
 from sklearn.datasets import make_moons, make_circles
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
-from spectralbridges import SpectralBridges
+from sbcluster import SpectralBridges, ngap_scorer
+
 
 def save_dataset(X, name):
     pd.DataFrame(X).to_csv(f"tests/data/{name}_X.csv", index=False, header=False)
 
 def run_and_save(X, y_true, name, n_clusters, n_nodes, seed=42):
-    sb = SpectralBridges(n_clusters=n_clusters, n_nodes=n_nodes, random_state=seed)
-    sb.fit(X)
-    labels = sb.predict(X)
+    # sb = SpectralBridges(n_clusters=n_clusters, n_nodes=n_nodes, random_state=seed)
+    sb = SpectralBridges(
+    n_clusters=n_clusters,
+    n_nodes=n_nodes,
+    random_state=seed,
+    perplexity=2,
+    n_iter=20
+    )
+
+    # sb.fit(X)
+    labels = sb.fit_predict(X)
 
     # Save data
     pd.DataFrame(X).to_csv(f"tests/data/{name}_X.csv", index=False, header=False)

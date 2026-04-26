@@ -1,4 +1,7 @@
 #include "spectral.hpp"
+// #include "kmeans_cuda.hpp"
+#include "affinity_gpu.hpp"
+#include "affinity.hpp"
 #include <Eigen/Dense>
 #include <cmath>
 #include <algorithm>
@@ -7,8 +10,8 @@
 #include <iostream>
 
 SpectralClustering::SpectralClustering(
-    int n_clusters, int num_vornoi, int n_iter, float target_perplexity, uint64_t random_state)
-    : n_clusters(n_clusters), n_iter(n_iter), num_vornoi(num_vornoi), random_state(random_state), target_perplexity(target_perplexity){}
+    int n_clusters, int num_vornoi, int n_iter, float target_perplexity, uint64_t random_state, bool use_gpu)
+    : n_clusters(n_clusters), n_iter(n_iter), num_vornoi(num_vornoi), random_state(random_state), target_perplexity(target_perplexity), use_gpu(use_gpu){}
 
 
 SBResult SpectralClustering::fit(
@@ -17,13 +20,14 @@ SBResult SpectralClustering::fit(
     int d)
 {
     // Delegate to the free function; core spectral logic lives there.
- return spectralBridges(X, n, d, n_clusters, num_vornoi, target_perplexity, n_iter, random_state);
+ return spectralBridges(X, n, d, n_clusters, num_vornoi, target_perplexity, n_iter, random_state, use_gpu);
 }
 
 SpectralResult spectralClustering(
     const MatrixD& affinity,
     int m, int k,
-    uint64_t random_state)
+    uint64_t random_state,
+    bool use_gpu)
 {
     Eigen::MatrixXd A(m, m);
     for (int i = 0; i < m; i++)
@@ -33,7 +37,11 @@ SpectralResult spectralClustering(
     Eigen::VectorXd d_vec(m);
     for (int i = 0; i < m; i++) {
         double row_mean = A.row(i).mean();
-        d_vec(i) = std::pow(row_mean, -0.5);
+        if (row_mean <= 0.0) {
+            d_vec(i) = 0.0;
+        } else {
+            d_vec(i) = std::pow(row_mean, -0.5);
+        }
     }
 
     Eigen::MatrixXd L = -(d_vec.asDiagonal() * A * d_vec.asDiagonal());
@@ -92,7 +100,8 @@ SBResult spectralBridges(
     int k, int m,
     float target_perplexity,
     int n_iter,
-    uint64_t random_state)
+    uint64_t random_state,
+    bool use_gpu)
 {
     // Step 1 — vector quantization
     KMeans km(m, n_iter, -1, random_state);
@@ -100,13 +109,22 @@ SBResult spectralBridges(
 
     // std::cout << "K-means completed. Voronoi centers computed: " << m << std::endl;
 
-    // Step 2 — affinity matrix
-    MatrixD aff = computeAffinity(X, kmResult, n, m, d, target_perplexity);
+    MatrixD aff;
+    if(use_gpu) {
+        std::cout << "Using GPU for affinity computation." << std::endl;
+        // Step 2 — affinity matrix
+        aff = computeAffinityGPU(X, kmResult, n, m, d, target_perplexity);
+    }
+    else{
+        std::cout << "Using CPU for affinity computation." << std::endl;
+        // Step 2 — affinity matrix
+        aff = computeAffinity(X, kmResult, n, m, d, target_perplexity);
+    }
 
     // std::cout << "Affinity matrix computed." << std::endl;
 
     // Step 3 — spectral clustering on affinity
-    SpectralResult sc = spectralClustering(aff, m, k, random_state);
+    SpectralResult sc = spectralClustering(aff, m, k, random_state, use_gpu);
 
     // std::cout << "Spectral clustering completed. Eigenvalues and labels computed." << std::endl;
 

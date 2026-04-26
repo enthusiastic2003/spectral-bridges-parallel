@@ -8,13 +8,23 @@
 #include <omp.h>
 #include <iostream>
 
+/*
+    Compute the affinity matrix for the given data and k-means result.
+    X = Matrix of shape [n × d]
+    km = KMeansResult containing centroids and labels
+    n = number of data points
+    m = number of Voronoi regions (k-means clusters)
+    d = dimensionality of data
+    target_perplexity = perplexity value for scaling affinities
+*/
+
 MatrixD computeAffinity(
     const Matrix& X,
     const KMeansResult& km,
     int n, int m, int d,
     float target_perplexity)
 {
-	double p = static_cast<double>(DEFAULT_P);
+	double p = static_cast<double>(target_perplexity);
     // Step 1 — center each Voronoi region around its centroid
     // X_centered[i] is a flat [nᵢ × d] matrix of (x - µᵢ) for points in region i
     std::vector<Matrix> X_centered(m);

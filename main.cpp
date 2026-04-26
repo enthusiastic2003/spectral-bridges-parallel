@@ -52,7 +52,7 @@ int main() {
     int m = 3; // voronoi regions
 
     auto result = spectralBridges(X, n, d, k, m,
-                                  1e4f, 20, 42);
+                                  1e4f, 20, 42, false);
 
     std::cout << "Point labels: ";
     for (int l : result.labels)

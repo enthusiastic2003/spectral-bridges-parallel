@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 # Reproducible synthetic data from 4 clearly separated 2D clusters
 rng = np.random.default_rng(42)
-points_per_cluster = 5_000_000
+points_per_cluster = 500_000
 cluster_std = 0.8
 centers = np.array([
     [-6.0, -6.0],
@@ -34,10 +34,11 @@ bridge = sb.SpectralClustering(
     num_voronoi = 100,
     n_iter = 20,
      target_perplexity=2.0,
-    random_state=42
+    random_state=42,
+    use_gpu=True,  # Set to True to test GPU affinity computation
 )
 
-scaling_threads = [1, 4, 8, 16, 36, 72]
+scaling_threads = [6]
 import time
 for threads in scaling_threads:
     sb.set_num_threads(threads)

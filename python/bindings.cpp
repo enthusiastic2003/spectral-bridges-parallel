@@ -128,12 +128,13 @@ PYBIND11_MODULE(specbridge, m) {
         "Run KMeans clustering on GPU via CUDA (raw flat vector input)");
 
     py::class_<SpectralClustering>(m, "SpectralClustering")
-        .def(py::init<int, int, int, float, uint64_t>(),
+        .def(py::init<int, int, int, float, uint64_t, bool>(),
             py::arg("n_clusters"),
             py::arg("num_voronoi"),
             py::arg("n_iter") = 20,
             py::arg("target_perplexity") = 2.0f,
-            py::arg("random_state") = 42)
+            py::arg("random_state") = 42,
+            py::arg("use_gpu") = false)
         .def_readwrite("n_clusters", &SpectralClustering::n_clusters)
         .def_readwrite("n_iter", &SpectralClustering::n_iter)
         .def_readwrite("num_vornoi", &SpectralClustering::num_vornoi)

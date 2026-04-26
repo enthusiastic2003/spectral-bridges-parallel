@@ -159,7 +159,7 @@ void runTest(const TestCase& tc) {
 
     // Run C++ implementation
     auto result = spectralBridges(X, n, d, tc.k, tc.m,
-                                   1e4f, 20, 42);
+                                   2.0, 20, 42, true);
 
     // Metrics vs ground truth
     float cppARI = computeARI(trueLabels, result.labels, n);

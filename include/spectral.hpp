@@ -23,13 +23,15 @@ public:
 	int num_vornoi;
     uint64_t random_state;
     float target_perplexity;
+    bool use_gpu;
 
 
     SpectralClustering(int n_clusters,
                         int num_vornoi,
                        int n_iter = 20,
 		                float target_perplexity = 2.0f,
-                       uint64_t random_state = 42);
+                       uint64_t random_state = 42,
+                       bool use_gpu = false);
 
 
     SBResult fit(
@@ -44,7 +46,8 @@ SpectralResult spectralClustering(
     const MatrixD& affinity, // [m × m]
     int m,                   // number of voronoi regions
     int k,                   // number of clusters
-    uint64_t random_state
+    uint64_t random_state,
+        bool use_gpu
 );
 
 SBResult spectralBridges(
@@ -54,5 +57,6 @@ SBResult spectralBridges(
     int m,           // number of voronoi regions
     float target_perplexity,
     int n_iter,
-    uint64_t random_state
+    uint64_t random_state,
+    bool use_gpu
 );

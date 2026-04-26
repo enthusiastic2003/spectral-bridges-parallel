@@ -1,6 +1,5 @@
 #pragma once
 #include "kmeans.hpp"
-#define DEFAULT_P 2.0f
 
 // Returns flat [n_nodes × n_nodes] affinity matrix
 MatrixD computeAffinity(
