@@ -3,7 +3,7 @@
 #SBATCH --partition=debug
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=36
 #SBATCH --gres=gpu:1
 #SBATCH --time=00:30:00
 #SBATCH --output=logs/cuda_test.out
@@ -104,7 +104,10 @@ cmake --build . -j $SLURM_CPUS_PER_TASK --target test_kmeans_cuda specbridge \
 # =============================================================
 echo ""
 echo "--- Running test_kmeans_cuda ---"
-./test_kmeans_cuda
+# ./test_kmeans_cuda
+source /home/sirjanhansda/projectfolder/.venv/bin/activate
+cd /home/sirjanhansda/projectfolder/spectral-bridges-parallel && \
+python -u ./evaluator_spectral_bridges.py --skip-baseline --repeats 1
 TEST_EXIT=$?
 
 echo ""

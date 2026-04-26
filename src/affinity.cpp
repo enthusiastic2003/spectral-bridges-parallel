@@ -5,6 +5,7 @@
 #include <numeric>
 #include <cassert>
 #include <limits>
+#include <chrono>
 #include <omp.h>
 #include <iostream>
 

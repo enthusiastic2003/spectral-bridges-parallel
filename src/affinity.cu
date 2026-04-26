@@ -419,6 +419,7 @@ MatrixD computeAffinityGPU(
     int n, int m, int d,
     float target_perplexity)
 {
+
     std::cout << "Computing affinity matrix on GPU..."<< " "<< target_perplexity << std::endl;
     double p = static_cast<double>(target_perplexity);
 
@@ -459,7 +460,9 @@ MatrixD computeAffinityGPU(
     const size_t bytes_Xc         = (size_t)m * n_max * d * sizeof(double);
     const size_t bytes_segments   = (size_t)m * m * d     * sizeof(double);
     const size_t bytes_dists      = (size_t)m * m         * sizeof(double);
-    const size_t bytes_projs      = (size_t)m * n_max * m * sizeof(double);
+    // const size_t bytes_projs      = (size_t)m * n_max * m * sizeof(double);
+    const int    CHUNK            = std::min(10, m);  // tune for your GPU
+    const size_t bytes_projs      = (size_t)CHUNK * n_max * m * sizeof(double);
     const size_t bytes_log_aff    = (size_t)m * m         * sizeof(double);
     const size_t bytes_A          = bytes_log_aff;
 
@@ -510,56 +513,72 @@ MatrixD computeAffinityGPU(
         CUDA_CHECK(cudaGetLastError());
     }
 
-    // -------- Per-region GEMMs via cuBLAS strided batched DGEMM --------
-    //
-    // Row-major view (what we want to compute):
-    //   projs[i] (n_max, m) = X_centered[i] (n_max, d) @ segments[i]^T (d, m)
-    //
-    // Column-major view (what cuBLAS sees):
-    //   A row-major (R, C) matrix is identical memory to a column-major (C, R)
-    //   matrix. So in column-major:
-    //     X_centered[i]_cm : shape (d, n_max)   with X_cm[k, r] = X_rm[r, k]
-    //     segments[i]_cm   : shape (d, m)       with seg_cm[k, j] = seg_rm[j, k]
-    //                                           = mu_j[k] - mu_i[k]
-    //     projs[i]_cm      : shape (m, n_max)   with projs_cm[j, r] = projs_rm[r, j]
-    //
-    //   Then projs_cm[j, r] = sum_k (mu_j[k] - mu_i[k]) * X_centered[r, k],
-    //   i.e. C = segments_cm^T @ X_centered_cm = (m × d) @ (d × n_max).
-    //
-    //   So:  op(A) = T, A = segments,    lda = d
-    //        op(B) = N, B = X_centered,  ldb = d
-    //                   C = projs,       ldc = m
 
+    // ###################################################
+    // -------- Tiled GEMM + column logsumexp over regions --------
+    //
+    // We process CHUNK source-regions at a time. For each chunk:
+    //   1. cuBLAS strided-batched DGEMM fills d_projs with CHUNK slabs of
+    //      shape (n_max, m), one per region in the chunk.
+    //   2. column_logsumexp_kernel reduces each slab into one row of
+    //      d_log_affinity, written at offset chunk_start.
+    //
+    // Pointer offsets per chunk:
+    //   d_X_centered + chunk_start * n_max * d   (input slabs)
+    //   d_segments   + chunk_start * m     * d   (segment matrices)
+    //   d_dists      + chunk_start * m            (per-region dist rows)
+    //   d_counts     + chunk_start                (per-region counts)
+    //   d_log_affinity + chunk_start * m          (output rows)
+    //
     cublasHandle_t handle;
     CUBLAS_CHECK(cublasCreate(&handle));
 
     {
         const double alpha = 1.0, beta = 0.0;
-        CUBLAS_CHECK(cublasDgemmStridedBatched(
-            handle,
-            CUBLAS_OP_T, CUBLAS_OP_N,
-            /*m_*/ m, /*n_*/ n_max, /*k_*/ d,
-            &alpha,
-            d_segments,   /*lda*/ d, /*strideA*/ (long long)m * d,
-            d_X_centered, /*ldb*/ d, /*strideB*/ (long long)n_max * d,
-            &beta,
-            d_projs,      /*ldc*/ m, /*strideC*/ (long long)n_max * m,
-            m));
-    }
 
-    // -------- Kernel 3: column-wise logsumexp per region --------
-    {
-        int threads = 256;
-        // Don't over-allocate threads if rows are scarce.
-        while (threads > 32 && threads > n_max) threads /= 2;
-        if (threads < 32) threads = 32;
-        dim3 grid(m, m);
-        size_t shm = threads * sizeof(double);
-        column_logsumexp_kernel<<<grid, threads, shm>>>(
-            d_projs, d_dists, d_counts,
-            m, n_max, p, d_log_affinity);
-        CUDA_CHECK(cudaGetLastError());
+        // Pick logsumexp launch params once; they only depend on n_max.
+        int lse_threads = 256;
+        while (lse_threads > 32 && lse_threads > n_max) lse_threads /= 2;
+        if (lse_threads < 32) lse_threads = 32;
+        size_t lse_shm = lse_threads * sizeof(double);
+
+        for (int chunk_start = 0; chunk_start < m; chunk_start += CHUNK) {
+            int chunk = std::min(CHUNK, m - chunk_start);
+
+            const double* seg_chunk =
+                d_segments + (size_t)chunk_start * m * d;
+            const double* xc_chunk =
+                d_X_centered + (size_t)chunk_start * n_max * d;
+
+            // GEMM: CHUNK batched (m x n_max) outputs.
+            CUBLAS_CHECK(cublasDgemmStridedBatched(
+                handle,
+                CUBLAS_OP_T, CUBLAS_OP_N,
+                /*m_*/ m, /*n_*/ n_max, /*k_*/ d,
+                &alpha,
+                seg_chunk,    /*lda*/ d, /*strideA*/ (long long)m * d,
+                xc_chunk,     /*ldb*/ d, /*strideB*/ (long long)n_max * d,
+                &beta,
+                d_projs,      /*ldc*/ m, /*strideC*/ (long long)n_max * m,
+                chunk));
+
+            // Column logsumexp: writes `chunk` rows of d_log_affinity
+            // starting at row `chunk_start`.
+            dim3 lse_grid(chunk, m);
+            column_logsumexp_kernel<<<lse_grid, lse_threads, lse_shm>>>(
+                d_projs,
+                d_dists  + (size_t)chunk_start * m,
+                d_counts + chunk_start,
+                /*m=*/ m,        // number of target regions (cols of projs)
+                n_max, p,
+                d_log_affinity + (size_t)chunk_start * m);
+            CUDA_CHECK(cudaGetLastError());
+        }
     }
+    // ###################################################
+
+
+    
 
     // -------- Kernel 4: symmetrize / normalize / exp --------
     {

@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <omp.h>
 #include <iostream>
-
+#include <chrono>
 KMeans::KMeans(int n_clusters, int n_iter, int n_local_trials, uint64_t random_state)
     : n_clusters(n_clusters), n_iter(n_iter),
       n_local_trials(n_local_trials), random_state(random_state) {}
@@ -31,6 +31,7 @@ std::vector<float> KMeans::pairwiseDists(const Matrix& X, const Matrix& C,
 }
 
 KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_64& rng) {
+    auto time_now = std::chrono::high_resolution_clock::now();
     int trials = (n_local_trials < 0)
         ? (2 + static_cast<int>(std::log(n_clusters)))
         : n_local_trials;
@@ -96,6 +97,9 @@ KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_6
         std::copy_n(X.begin() + bestCandidate * d, d,
                     centroids.begin() + c * d);
     }
+    auto time_end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = time_end - time_now;
+    std::cout << "      K-Means++ initialization took " << elapsed.count() << " seconds.\n";
 
     return {centroids, labels, n_clusters, d};
 }
