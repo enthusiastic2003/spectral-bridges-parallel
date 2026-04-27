@@ -5,14 +5,14 @@
 // Pipeline:
 //   3.1 Laplacian:  L = -D^{-1/2} A D^{-1/2}, then add (m + tol) on the diagonal,
 //                   where D_ii = (mean of row i of A)^{-1/2}.
-//   3.2 Eigen:      symmetric eigendecomposition via cusolverDnDsyevd
+//   3.2 Eigen:      symmetric eigendecomposition via cusolverDnSsyevd
 //                   (ascending eigenvalues, eigenvectors as columns).
 //   3.3 U + norm:   take first k columns of eigenvectors, L2-normalize each row.
 //                   Compute ngap = (lambda_k - lambda_{k-1}) / lambda_{k-1}.
-//   3.4 K-Means:    reuses fitKMeansCuda on the float-cast U.
+//   3.4 K-Means:    reuses fitKMeansCuda on U.
 //
 // Notes on layout: cuSOLVER and Eigen both use column-major storage for the
-// eigenvector matrix, so "first k columns" is just the first m*k doubles of
+// eigenvector matrix, so "first k columns" is just the first m*k floats of
 // the eigenvector buffer.
 
 #include "spectral_cuda.hpp"
@@ -58,17 +58,17 @@
 // style operations match Eigen/cuSOLVER expectations.
 //
 // One block per row; threads in the block do a shared-memory reduction.
-__global__ void rowMeanAndTransposeKernel(const double* __restrict__ A_in_row,
-                                          double* __restrict__ A_out_col,
-                                          double* __restrict__ row_mean,
+__global__ void rowMeanAndTransposeKernel(const float* __restrict__ A_in_row,
+                                          float* __restrict__ A_out_col,
+                                          float* __restrict__ row_mean,
                                           int m) {
-    extern __shared__ double sdata[];
+    extern __shared__ float sdata[];
     int row = blockIdx.x;
     int tid = threadIdx.x;
 
-    double sum = 0.0;
+    float sum = 0.0f;
     for (int j = tid; j < m; j += blockDim.x) {
-        double v = A_in_row[row * m + j];
+        float v = A_in_row[row * m + j];
         sum += v;
         // Row-major (row, j)  ->  Column-major index = j * m + row.
         A_out_col[j * m + row] = v;
@@ -81,35 +81,35 @@ __global__ void rowMeanAndTransposeKernel(const double* __restrict__ A_in_row,
         __syncthreads();
     }
     if (tid == 0) {
-        row_mean[row] = sdata[0] / static_cast<double>(m);
+        row_mean[row] = sdata[0] / static_cast<float>(m);
     }
 }
 
 // d_vec[i] = (row_mean[i] > 0) ? row_mean[i]^{-1/2} : 0.
-__global__ void buildDvecKernel(const double* __restrict__ row_mean,
-                                double* __restrict__ d_vec,
+__global__ void buildDvecKernel(const float* __restrict__ row_mean,
+                                float* __restrict__ d_vec,
                                 int m) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i >= m) return;
-    double rm = row_mean[i];
-    d_vec[i] = (rm > 0.0) ? rsqrt(rm) : 0.0;
+    float rm = row_mean[i];
+    d_vec[i] = (rm > 0.0f) ? rsqrtf(rm) : 0.0f;
 }
 
 // In-place: A <- -D * A * D, where D = diag(d_vec).
 // A is column-major, m x m. Element (i, j) lives at A[j*m + i].
 // Scaling by D on both sides means A(i,j) *= d_vec[i] * d_vec[j].
 // Then add (m + tol) to the diagonal.
-__global__ void scaleAndShiftDiagKernel(double* A,
-                                        const double* __restrict__ d_vec,
+__global__ void scaleAndShiftDiagKernel(float* A,
+                                        const float* __restrict__ d_vec,
                                         int m,
-                                        double diag_shift) {
+                                        float diag_shift) {
     int i = blockIdx.y * blockDim.y + threadIdx.y;
     int j = blockIdx.x * blockDim.x + threadIdx.x;
     if (i >= m || j >= m) return;
 
     int idx = j * m + i;  // column-major
-    double v = A[idx];
-    double scaled = -v * d_vec[i] * d_vec[j];
+    float v = A[idx];
+    float scaled = -v * d_vec[i] * d_vec[j];
     if (i == j) scaled += diag_shift;
     A[idx] = scaled;
 }
@@ -118,18 +118,18 @@ __global__ void scaleAndShiftDiagKernel(double* A,
 // produce a row-major (m x k) float matrix with each row L2-normalized.
 //
 // One block per row; threads in the block cooperate on the row's norm.
-__global__ void extractAndRowNormalizeKernel(const double* __restrict__ V_col,
+__global__ void extractAndRowNormalizeKernel(const float* __restrict__ V_col,
                                              float* __restrict__ U_row_f,
                                              int m,
                                              int k) {
-    extern __shared__ double sdata[];
+    extern __shared__ float sdata[];
     int row = blockIdx.x;
     int tid = threadIdx.x;
 
     // Sum of squares for this row across the first k columns.
-    double sumsq = 0.0;
+    float sumsq = 0.0f;
     for (int j = tid; j < k; j += blockDim.x) {
-        double v = V_col[j * m + row];   // column-major (row, j)
+        float v = V_col[j * m + row];   // column-major (row, j)
         sumsq += v * v;
     }
     sdata[tid] = sumsq;
@@ -140,13 +140,13 @@ __global__ void extractAndRowNormalizeKernel(const double* __restrict__ V_col,
         __syncthreads();
     }
 
-    double norm = sqrt(sdata[0]);
-    double inv = (norm > 1e-10) ? (1.0 / norm) : 0.0;
+    float norm = sqrtf(sdata[0]);
+    float inv = (norm > 1e-10f) ? (1.0f / norm) : 0.0f;
 
     for (int j = tid; j < k; j += blockDim.x) {
-        double v = V_col[j * m + row];
+        float v = V_col[j * m + row];
         // store as row-major float: row*k + j
-        U_row_f[row * k + j] = static_cast<float>(v * inv);
+        U_row_f[row * k + j] = v * inv;
     }
 }
 
@@ -158,7 +158,7 @@ auto print_duration_cuda = [](const std::string& name, std::chrono::duration<dou
 
 // ---------- main entry point ----------------------------------------------
 
-SpectralResult spectralClusteringCuda(const MatrixD& affinity,
+SpectralResult spectralClusteringCuda(const Matrix& affinity,
                                       int m,
                                       int k,
                                       int n_iter,
@@ -171,25 +171,25 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
     // -----------------------------------------------------------------
     auto start_laplacian = std::chrono::high_resolution_clock::now();
 
-    // Upload affinity (assumed row-major double, size m*m).
-    double* d_A_row = nullptr;   // row-major copy (input)
-    double* d_L     = nullptr;   // column-major working buffer (becomes L)
-    double* d_rmean = nullptr;
-    double* d_dvec  = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_A_row, sizeof(double) * m * m));
-    CUDA_CHECK(cudaMalloc(&d_L,     sizeof(double) * m * m));
-    CUDA_CHECK(cudaMalloc(&d_rmean, sizeof(double) * m));
-    CUDA_CHECK(cudaMalloc(&d_dvec,  sizeof(double) * m));
+    // Upload affinity (assumed row-major float, size m*m).
+    float* d_A_row = nullptr;   // row-major copy (input)
+    float* d_L     = nullptr;   // column-major working buffer (becomes L)
+    float* d_rmean = nullptr;
+    float* d_dvec  = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_A_row, sizeof(float) * m * m));
+    CUDA_CHECK(cudaMalloc(&d_L,     sizeof(float) * m * m));
+    CUDA_CHECK(cudaMalloc(&d_rmean, sizeof(float) * m));
+    CUDA_CHECK(cudaMalloc(&d_dvec,  sizeof(float) * m));
 
-    // affinity is std::vector<double> (or similar) of length m*m, row-major.
+    // affinity is std::vector<float> (or similar) of length m*m, row-major.
     CUDA_CHECK(cudaMemcpy(d_A_row, affinity.data(),
-                          sizeof(double) * m * m,
+                          sizeof(float) * m * m,
                           cudaMemcpyHostToDevice));
 
     // Row means + transpose to column-major into d_L.
     {
         int threads = 256;
-        size_t shmem = sizeof(double) * threads;
+        size_t shmem = sizeof(float) * threads;
         rowMeanAndTransposeKernel<<<m, threads, shmem>>>(
             d_A_row, d_L, d_rmean, m);
         CUDA_CHECK(cudaGetLastError());
@@ -205,8 +205,8 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
 
     // L = -D L D + (m + tol) * I    (in place on d_L)
     {
-        const double tol = 1e-8;
-        const double diag_shift = static_cast<double>(m) + tol;
+        const float tol = 1e-8f;
+        const float diag_shift = static_cast<float>(m) + tol;
         dim3 block(16, 16);
         dim3 grid((m + 15) / 16, (m + 15) / 16);
         scaleAndShiftDiagKernel<<<grid, block>>>(d_L, d_dvec, m, diag_shift);
@@ -222,7 +222,7 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
     print_duration_cuda(" -> Laplacian Setup (CUDA)", end_laplacian - start_laplacian);
 
     // -----------------------------------------------------------------
-    // Phase 3.2: Eigendecomposition (cusolverDnDsyevd)
+    // Phase 3.2: Eigendecomposition (cusolverDnSsyevd)
     //   - Computes all eigenvalues (ascending) + eigenvectors of L.
     //   - Eigenvectors overwrite d_L on output (column-major).
     // -----------------------------------------------------------------
@@ -231,22 +231,22 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
     cusolverDnHandle_t cusolverH = nullptr;
     CUSOLVER_CHECK(cusolverDnCreate(&cusolverH));
 
-    double* d_eigvals = nullptr;
-    int*    d_info    = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_eigvals, sizeof(double) * m));
+    float* d_eigvals = nullptr;
+    int*   d_info    = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_eigvals, sizeof(float) * m));
     CUDA_CHECK(cudaMalloc(&d_info,    sizeof(int)));
 
     int lwork = 0;
-    CUSOLVER_CHECK(cusolverDnDsyevd_bufferSize(
+    CUSOLVER_CHECK(cusolverDnSsyevd_bufferSize(
         cusolverH,
         CUSOLVER_EIG_MODE_VECTOR,   // eigenvalues + eigenvectors
         CUBLAS_FILL_MODE_LOWER,     // L is symmetric; use lower triangle
         m, d_L, m, d_eigvals, &lwork));
 
-    double* d_work = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_work, sizeof(double) * lwork));
+    float* d_work = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_work, sizeof(float) * lwork));
 
-    CUSOLVER_CHECK(cusolverDnDsyevd(
+    CUSOLVER_CHECK(cusolverDnSsyevd(
         cusolverH,
         CUSOLVER_EIG_MODE_VECTOR,
         CUBLAS_FILL_MODE_LOWER,
@@ -263,7 +263,7 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
         cudaFree(d_dvec);
         cudaFree(d_L);
         cusolverDnDestroy(cusolverH);
-        throw std::runtime_error("cusolverDnDsyevd failed, info=" +
+        throw std::runtime_error("cusolverDnSsyevd failed, info=" +
                                  std::to_string(h_info));
     }
 
@@ -279,23 +279,20 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
     // Phase 3.3: Eigenvector extraction & row normalization
     // -----------------------------------------------------------------
     // Copy eigenvalues to host so we can compute ngap and the float vector.
-    std::vector<double> eigvals_host(m);
+    std::vector<float> eigvals_host(m);
     CUDA_CHECK(cudaMemcpy(eigvals_host.data(), d_eigvals,
-                          sizeof(double) * m, cudaMemcpyDeviceToHost));
+                          sizeof(float) * m, cudaMemcpyDeviceToHost));
 
     float ngap = 0.0f;
     if (k < m && k >= 1) {
-        double lk   = eigvals_host[k];
-        double lkm1 = eigvals_host[k - 1];
-        ngap = (std::abs(lkm1) > 1e-10)
-                   ? static_cast<float>((lk - lkm1) / lkm1)
+        float lk   = eigvals_host[k];
+        float lkm1 = eigvals_host[k - 1];
+        ngap = (std::fabs(lkm1) > 1e-6f)
+                   ? ((lk - lkm1) / lkm1)
                    : 0.0f;
     }
 
-    std::vector<float> eigvals_vec(m);
-    for (int i = 0; i < m; ++i) {
-        eigvals_vec[i] = static_cast<float>(eigvals_host[i]);
-    }
+    std::vector<float> eigvals_vec = eigvals_host;
 
     // Build row-normalized U (m x k), float, row-major, on device.
     float* d_U_f = nullptr;
@@ -304,7 +301,7 @@ SpectralResult spectralClusteringCuda(const MatrixD& affinity,
         int threads = 128;
         // pick at least k threads-worth of work per block, capped at 512
         if (k > threads) threads = std::min(512, ((k + 31) / 32) * 32);
-        size_t shmem = sizeof(double) * threads;
+        size_t shmem = sizeof(float) * threads;
         extractAndRowNormalizeKernel<<<m, threads, shmem>>>(
             d_L, d_U_f, m, k);
         CUDA_CHECK(cudaGetLastError());

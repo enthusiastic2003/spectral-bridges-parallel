@@ -6,7 +6,6 @@
 
 // Public types match your CPU implementation's conventions.
 using Matrix  = std::vector<float>;   // row-major
-using MatrixD = std::vector<double>;  // row-major
 
 
 // GPU-accelerated affinity computation.
@@ -22,7 +21,7 @@ using MatrixD = std::vector<double>;  // row-major
 // Output:
 //   (m × m) row-major double affinity matrix, post-symmetrization.
 //   This is the matrix that would be fed into perplexity calibration.
-MatrixD computeAffinityGPU(
+Matrix computeAffinityGPU(
     const Matrix& X,
     const KMeansResult& km,
     int n, int m, int d,

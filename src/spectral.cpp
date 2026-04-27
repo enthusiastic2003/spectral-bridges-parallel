@@ -42,7 +42,7 @@ auto print_duration = [](const std::string& name, std::chrono::duration<double> 
 };
 
 SpectralResult spectralClustering(
-    const MatrixD& affinity,
+    const Matrix& affinity,
     int m, int k,
     int n_iter,
     uint64_t random_state
@@ -56,25 +56,25 @@ SpectralResult spectralClustering(
     // Phase 3.1: Laplacian Construction
     // ---------------------------------------------------------
     auto start_laplacian = std::chrono::high_resolution_clock::now();
-    Eigen::MatrixXd A(m, m);
+    Eigen::MatrixXf A(m, m);
     for (int i = 0; i < m; i++)
         for (int j = 0; j < m; j++)
             A(i, j) = affinity[i * m + j];
 
-    Eigen::VectorXd d_vec(m);
+    Eigen::VectorXf d_vec(m);
     for (int i = 0; i < m; i++) {
-        double row_mean = A.row(i).mean();
-        if (row_mean <= 0.0) {
-            d_vec(i) = 0.0;
+        float row_mean = A.row(i).mean();
+        if (row_mean <= 0.0f) {
+            d_vec(i) = 0.0f;
         } else {
-            d_vec(i) = std::pow(row_mean, -0.5);
+            d_vec(i) = std::pow(row_mean, -0.5f);
         }
     }
 
-    Eigen::MatrixXd L = -(d_vec.asDiagonal() * A * d_vec.asDiagonal());
-    double tol = 1e-8;
+    Eigen::MatrixXf L = -(d_vec.asDiagonal() * A * d_vec.asDiagonal());
+    float tol = 1e-8f;
     for (int i = 0; i < m; i++) {
-        L(i, i) = static_cast<double>(m) + tol;
+        L(i, i) = static_cast<float>(m) + tol;
     }
     auto end_laplacian = std::chrono::high_resolution_clock::now();
     print_duration("    -> Laplacian Setup", end_laplacian - start_laplacian);
@@ -83,30 +83,30 @@ SpectralResult spectralClustering(
     // Phase 3.2: Eigen Decomposition
     // ---------------------------------------------------------
     auto start_eigen = std::chrono::high_resolution_clock::now();
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(L);
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> solver(L);
     if (solver.info() != Eigen::Success)
         throw std::runtime_error("Eigen decomposition failed");
 
-    Eigen::VectorXd eigvals = solver.eigenvalues();
-    Eigen::MatrixXd eigvecs = solver.eigenvectors();
+    Eigen::VectorXf eigvals = solver.eigenvalues();
+    Eigen::MatrixXf eigvecs = solver.eigenvectors();
     auto end_eigen = std::chrono::high_resolution_clock::now();
     print_duration("    -> Eigen Decomposition", end_eigen - start_eigen);
 
     // ---------------------------------------------------------
     // Phase 3.3: Eigenvector Extraction & Normalization
     // ---------------------------------------------------------
-    Eigen::MatrixXd U = eigvecs.leftCols(k); 
+    Eigen::MatrixXf U = eigvecs.leftCols(k); 
     for (int i = 0; i < m; i++) {
-        double norm = U.row(i).norm();
+        float norm = U.row(i).norm();
         if (norm > 1e-10)
             U.row(i) /= norm;
     }
 
     float ngap = 0.0f;
     if (k < m) {
-        double lk   = eigvals(k);
-        double lkm1 = eigvals(k - 1);
-        ngap = (std::abs(lkm1) > 1e-10) ? static_cast<float>((lk - lkm1) / lkm1) : 0.0f;
+        float lk   = eigvals(k);
+        float lkm1 = eigvals(k - 1);
+        ngap = (std::abs(lkm1) > 1e-10f) ? static_cast<float>((lk - lkm1) / lkm1) : 0.0f;
     }
 
     std::vector<float> eigvals_vec(m);
@@ -168,7 +168,7 @@ SBResult spectralBridges(
     // Step 2: Affinity Computation
     // ---------------------------------------------------------
     auto start_aff = std::chrono::high_resolution_clock::now();
-    MatrixD aff;
+    Matrix aff;
     if(use_gpu) {
         aff = computeAffinityGPU(X, kmResult, n, m, d, target_perplexity);
     }

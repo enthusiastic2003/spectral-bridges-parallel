@@ -8,3 +8,5 @@ pics/
 *.png
 *.log
 logs/
+*.csv
+*.png

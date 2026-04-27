@@ -2,7 +2,7 @@
 #include "kmeans.hpp"
 
 // Returns flat [n_nodes × n_nodes] affinity matrix
-MatrixD computeAffinity(
+Matrix computeAffinity(
     const Matrix& X,          // full dataset [n × d]
     const KMeansResult& km,   // centroids [m × d] + labels [n]
     int n, int m, int d,

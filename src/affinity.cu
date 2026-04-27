@@ -9,7 +9,7 @@
 //                  X_centered : (m, n_max, d) row-major within each slab
 //                  counts     : (m,)  -- actual row count per region
 //
-//   2. Per-region GEMM via cuBLAS strided-batched DGEMM:
+//   2. Per-region GEMM via cuBLAS strided-batched SGEMM:
 //          projs[i] = X_centered[i] @ segments[i]^T          shape (n_max, m)
 //      where segments[i, j, :] = mu_j - mu_i, dists[i, j] = ||segments[i,j]||^2
 //      with dists[i,i] := 1 to avoid division by zero.
@@ -29,8 +29,8 @@
 // downstream Laplacian / spectral steps are handled separately.
 //
 // Notes on numerical conventions (matched to the Python author):
-//   - All floating-point work is in double precision.
-//   - log() of clipped projections uses tiny = std::numeric_limits<double>::min().
+//   - All floating-point work is in single precision.
+//   - log() of clipped projections uses tiny = std::numeric_limits<float>::min().
 //   - Padded rows in each region's slab are tagged with PADDED_SENTINEL so the
 //     logsumexp kernel can mask them out.
 
@@ -88,7 +88,7 @@ namespace cg = cooperative_groups;
 //   region_offset, counts, centroids as in struct comments
 //
 // Output:
-//   X_centered : (m, n_max, d) double, row-major within each (n_max, d) slab.
+//   X_centered : (m, n_max, d) float, row-major within each (n_max, d) slab.
 //                Real rows 0..counts[i]-1 contain (x - mu_i); padded rows
 //                counts[i]..n_max-1 are zeroed.
 //
@@ -101,14 +101,14 @@ __global__ void build_centered_slabs_kernel(
     const int*    __restrict__ counts,
     const float*  __restrict__ centroids,
     int n, int m, int d, int n_max,
-    double* __restrict__ X_centered)
+    float* __restrict__ X_centered)
 {
     int region = blockIdx.x;
     if (region >= m) return;
 
     int n_i      = counts[region];
     int off      = region_offset[region];
-    double* slab = X_centered + (size_t)region * n_max * d;
+    float* slab  = X_centered + (size_t)region * n_max * d;
 
     // Cache this region's centroid in shared memory.
     extern __shared__ float s_mu[];
@@ -122,8 +122,7 @@ __global__ void build_centered_slabs_kernel(
          row += gridDim.y * blockDim.y) {
         int orig_idx = point_perm[off + row];
         for (int k = threadIdx.x; k < d; k += blockDim.x) {
-            slab[row * d + k] =
-                (double)X[orig_idx * d + k] - (double)s_mu[k];
+            slab[row * d + k] = X[orig_idx * d + k] - s_mu[k];
         }
     }
 
@@ -132,7 +131,7 @@ __global__ void build_centered_slabs_kernel(
     for (int row = n_i + blockIdx.y * blockDim.y + threadIdx.y; row < n_max;
          row += gridDim.y * blockDim.y) {
         for (int k = threadIdx.x; k < d; k += blockDim.x) {
-            slab[row * d + k] = 0.0;
+            slab[row * d + k] = 0.0f;
         }
     }
 }
@@ -148,21 +147,21 @@ __global__ void build_centered_slabs_kernel(
 __global__ void build_segments_and_dists_kernel(
     const float* __restrict__ centroids,
     int m, int d,
-    double* __restrict__ segments,   // (m, m, d) row-major in (j, k) per i
-    double* __restrict__ dists)      // (m, m)
+    float* __restrict__ segments,    // (m, m, d) row-major in (j, k) per i
+    float* __restrict__ dists)       // (m, m)
 {
     int i = blockIdx.x;
     int j = blockIdx.y;
     if (i >= m || j >= m) return;
 
     // Shared partial sums for ||.||^2
-    extern __shared__ double s_partial[];
-    double local = 0.0;
+    extern __shared__ float s_partial[];
+    float local = 0.0f;
 
-    double* seg_ij = segments + ((size_t)i * m + j) * d;
+    float* seg_ij = segments + ((size_t)i * m + j) * d;
 
     for (int k = threadIdx.x; k < d; k += blockDim.x) {
-        double v = (double)centroids[j * d + k] - (double)centroids[i * d + k];
+        float v = centroids[j * d + k] - centroids[i * d + k];
         seg_ij[k] = v;
         local += v * v;
     }
@@ -175,8 +174,8 @@ __global__ void build_segments_and_dists_kernel(
         __syncthreads();
     }
     if (threadIdx.x == 0) {
-        double sq = s_partial[0];
-        if (i == j) sq = 1.0;          // avoid divide-by-zero on diagonal
+        float sq = s_partial[0];
+        if (i == j) sq = 1.0f;         // avoid divide-by-zero on diagonal
         dists[i * m + j] = sq;
     }
 }
@@ -196,19 +195,19 @@ __global__ void build_segments_and_dists_kernel(
 // Threads stride over rows, then do shared-memory reductions for max and sum.
 //
 __global__ void column_logsumexp_kernel(
-    const double* __restrict__ projs_all,    // (m, n_max, m)
-    const double* __restrict__ dists,        // (m, m)
-    const int*    __restrict__ counts,       // (m,)
+    const float* __restrict__ projs_all,     // (m, n_max, m)
+    const float* __restrict__ dists,         // (m, m)
+    const int*   __restrict__ counts,        // (m,)
     int m, int n_max,
-    double p,
-    double* __restrict__ log_affinity)       // (m, m)
+    float p,
+    float* __restrict__ log_affinity)        // (m, m)
 {
     int i = blockIdx.x;
     int j = blockIdx.y;
     if (i >= m || j >= m) return;
 
-    const double tiny    = std::numeric_limits<double>::min();
-    const double NEG_INF = -std::numeric_limits<double>::infinity();
+    const float tiny    = std::numeric_limits<float>::min();
+    const float NEG_INF = -std::numeric_limits<float>::infinity();
 
     int n_i = counts[i];
     if (n_i == 0) {
@@ -216,33 +215,33 @@ __global__ void column_logsumexp_kernel(
         return;
     }
 
-    const double* projs_i = projs_all + (size_t)i * n_max * m;
-    const double  inv_d   = 1.0 / dists[i * m + j];
+    const float* projs_i = projs_all + (size_t)i * n_max * m;
+    const float  inv_d   = 1.0f / dists[i * m + j];
 
-    extern __shared__ double s_buf[];
+    extern __shared__ float s_buf_f[];
     int tid = threadIdx.x;
     int bs  = blockDim.x;
 
     // Pass 1: column max of log(clip(v, tiny)) over the n_i real rows.
-    double local_max = NEG_INF;
+    float local_max = NEG_INF;
     for (int r = tid; r < n_i; r += bs) {
-        double v  = projs_i[r * m + j] * inv_d;
-        double vc = v > tiny ? v : tiny;
-        double lp = log(vc);
+        float v  = projs_i[r * m + j] * inv_d;
+        float vc = v > tiny ? v : tiny;
+        float lp = logf(vc);
         if (lp > local_max) local_max = lp;
     }
-    s_buf[tid] = local_max;
+    s_buf_f[tid] = local_max;
     __syncthreads();
 
     for (int s = bs / 2; s > 0; s >>= 1) {
         if (tid < s) {
-            double a = s_buf[tid];
-            double b = s_buf[tid + s];
-            s_buf[tid] = (a > b) ? a : b;
+            float a = s_buf_f[tid];
+            float b = s_buf_f[tid + s];
+            s_buf_f[tid] = (a > b) ? a : b;
         }
         __syncthreads();
     }
-    double col_max = s_buf[0];
+    float col_max = s_buf_f[0];
     __syncthreads();
 
     if (col_max == NEG_INF) {
@@ -251,23 +250,23 @@ __global__ void column_logsumexp_kernel(
     }
 
     // Pass 2: sum_r exp(p * (lp - col_max)).
-    double local_sum = 0.0;
+    float local_sum = 0.0f;
     for (int r = tid; r < n_i; r += bs) {
-        double v  = projs_i[r * m + j] * inv_d;
-        double vc = v > tiny ? v : tiny;
-        double lp = log(vc);
-        local_sum += exp(p * (lp - col_max));
+        float v  = projs_i[r * m + j] * inv_d;
+        float vc = v > tiny ? v : tiny;
+        float lp = logf(vc);
+        local_sum += expf(p * (lp - col_max));
     }
-    s_buf[tid] = local_sum;
+    s_buf_f[tid] = local_sum;
     __syncthreads();
 
     for (int s = bs / 2; s > 0; s >>= 1) {
-        if (tid < s) s_buf[tid] += s_buf[tid + s];
+        if (tid < s) s_buf_f[tid] += s_buf_f[tid + s];
         __syncthreads();
     }
 
     if (tid == 0) {
-        log_affinity[i * m + j] = p * col_max + log(s_buf[0]);
+        log_affinity[i * m + j] = p * col_max + logf(s_buf_f[0]);
     }
 }
 
@@ -278,39 +277,39 @@ __global__ void column_logsumexp_kernel(
 //
 // One thread per upper-triangle entry; both halves written.
 //
-__device__ __forceinline__ double logaddexp_dev(double a, double b) {
-    double NEG_INF = std::numeric_limits<double>::infinity();
+__device__ __forceinline__ float logaddexp_dev(float a, float b) {
+    float NEG_INF = std::numeric_limits<float>::infinity();
     if (a == NEG_INF) return b;
     if (b == NEG_INF) return a;
-    double mx = a > b ? a : b;
-    double mn = a > b ? b : a;
-    return mx + log1p(exp(mn - mx));
+    float mx = a > b ? a : b;
+    float mn = a > b ? b : a;
+    return mx + log1pf(expf(mn - mx));
 }
 
 __global__ void symmetrize_normalize_exp_kernel(
-    const double* __restrict__ log_affinity,
-    const int*    __restrict__ counts,
-    int m, double p,
-    double* __restrict__ A)
+    const float* __restrict__ log_affinity,
+    const int*   __restrict__ counts,
+    int m, float p,
+    float* __restrict__ A)
 {
     int i = blockIdx.y * blockDim.y + threadIdx.y;
     int j = blockIdx.x * blockDim.x + threadIdx.x;
     if (i >= m || j >= m || j < i) return;
 
-    double Lij = log_affinity[i * m + j];
-    double Lji = log_affinity[j * m + i];
+    float Lij = log_affinity[i * m + j];
+    float Lji = log_affinity[j * m + i];
 
-    double log_count = log((double)(counts[i] + counts[j]));
-    double log_sym   = logaddexp_dev(Lij, Lji) - log_count;
-    double sym       = exp(log_sym / p);
+    float log_count = logf((float)(counts[i] + counts[j]));
+    float log_sym   = logaddexp_dev(Lij, Lji) - log_count;
+    float sym       = expf(log_sym / p);
 
     A[i * m + j] = sym;
     A[j * m + i] = sym;
 }
 
-__global__ void subtract_max_kernel(double* __restrict__ A,
+__global__ void subtract_max_kernel(float* __restrict__ A,
                                     size_t N,
-                                    double maxVal)
+                                    float maxVal)
 {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     size_t stride = blockDim.x * gridDim.x;
@@ -320,82 +319,82 @@ __global__ void subtract_max_kernel(double* __restrict__ A,
 }
 
 __global__ void compute_row_entropies_kernel(
-    const double* __restrict__ A,
+    const float* __restrict__ A,
     int m,
-    double gamma,
-    double* __restrict__ entropies)
+    float gamma,
+    float* __restrict__ entropies)
 {
     int i = blockIdx.x;
     if (i >= m) return;
 
-    extern __shared__ double s_buf[];
+    extern __shared__ float s_buf_f[];
     int tid = threadIdx.x;
     int bs = blockDim.x;
 
-    const double NEG_INF = -std::numeric_limits<double>::infinity();
-    double local_max = NEG_INF;
-    const double* row = A + (size_t)i * m;
+    const float NEG_INF = -std::numeric_limits<float>::infinity();
+    float local_max = NEG_INF;
+    const float* row = A + (size_t)i * m;
     for (int j = tid; j < m; j += bs) {
         if (j == i) continue;
-        double val = gamma * row[j];
+        float val = gamma * row[j];
         if (val > local_max) local_max = val;
     }
-    s_buf[tid] = local_max;
+    s_buf_f[tid] = local_max;
     __syncthreads();
 
     for (int s = bs / 2; s > 0; s >>= 1) {
         if (tid < s) {
-            double a = s_buf[tid];
-            double b = s_buf[tid + s];
-            s_buf[tid] = a > b ? a : b;
+            float a = s_buf_f[tid];
+            float b = s_buf_f[tid + s];
+            s_buf_f[tid] = a > b ? a : b;
         }
         __syncthreads();
     }
 
-    double row_max = s_buf[0];
+    float row_max = s_buf_f[0];
     if (row_max == NEG_INF) {
-        if (tid == 0) entropies[i] = 0.0;
+        if (tid == 0) entropies[i] = 0.0f;
         return;
     }
 
-    double local_sum = 0.0;
+    float local_sum = 0.0f;
     for (int j = tid; j < m; j += bs) {
         if (j == i) continue;
-        local_sum += exp(gamma * row[j] - row_max);
+        local_sum += expf(gamma * row[j] - row_max);
     }
-    s_buf[tid] = local_sum;
+    s_buf_f[tid] = local_sum;
     __syncthreads();
     for (int s = bs / 2; s > 0; s >>= 1) {
-        if (tid < s) s_buf[tid] += s_buf[tid + s];
+        if (tid < s) s_buf_f[tid] += s_buf_f[tid + s];
         __syncthreads();
     }
 
-    double log_sum = row_max + log(s_buf[0]);
-    double local_entropy = 0.0;
+    float log_sum = row_max + logf(s_buf_f[0]);
+    float local_entropy = 0.0f;
     for (int j = tid; j < m; j += bs) {
         if (j == i) continue;
-        double log_P = gamma * row[j] - log_sum;
-        double P = exp(log_P);
+        float log_P = gamma * row[j] - log_sum;
+        float P = expf(log_P);
         local_entropy -= P * log_P;
     }
-    s_buf[tid] = local_entropy;
+    s_buf_f[tid] = local_entropy;
     __syncthreads();
     for (int s = bs / 2; s > 0; s >>= 1) {
-        if (tid < s) s_buf[tid] += s_buf[tid + s];
+        if (tid < s) s_buf_f[tid] += s_buf_f[tid + s];
         __syncthreads();
     }
 
-    if (tid == 0) entropies[i] = s_buf[0];
+    if (tid == 0) entropies[i] = s_buf_f[0];
 }
 
-__global__ void exp_scale_kernel(double* __restrict__ A,
+__global__ void exp_scale_kernel(float* __restrict__ A,
                                  size_t N,
-                                 double gamma)
+                                 float gamma)
 {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     size_t stride = blockDim.x * gridDim.x;
     for (size_t i = idx; i < N; i += stride) {
-        A[i] = exp(gamma * A[i]);
+        A[i] = expf(gamma * A[i]);
     }
 }
 
@@ -413,7 +412,7 @@ __global__ void exp_scale_kernel(double* __restrict__ A,
     target_perplexity = perplexity value for scaling affinities
 */
 
-MatrixD computeAffinityGPU(
+Matrix computeAffinityGPU(
     const Matrix& X,
     const KMeansResult& km,
     int n, int m, int d,
@@ -421,7 +420,7 @@ MatrixD computeAffinityGPU(
 {
 
     std::cout << "Computing affinity matrix on GPU..."<< " "<< target_perplexity << std::endl;
-    double p = static_cast<double>(target_perplexity);
+    float p = target_perplexity;
 
     // -------- Host-side: sort points by Voronoi label --------
     std::vector<int> counts_h(m, 0);
@@ -446,24 +445,24 @@ MatrixD computeAffinityGPU(
     // -------- Device allocations --------
     float  *d_X = nullptr, *d_centroids = nullptr;
     int    *d_point_perm = nullptr, *d_region_offset = nullptr, *d_counts = nullptr;
-    double *d_X_centered = nullptr;
-    double *d_segments = nullptr, *d_dists = nullptr;
-    double *d_projs = nullptr;
-    double *d_log_affinity = nullptr;
-    double *d_A = nullptr;
+    float  *d_X_centered = nullptr;
+    float  *d_segments = nullptr, *d_dists = nullptr;
+    float  *d_projs = nullptr;
+    float  *d_log_affinity = nullptr;
+    float  *d_A = nullptr;
 
     const size_t bytes_X          = (size_t)n * d * sizeof(float);
     const size_t bytes_centroids  = (size_t)m * d * sizeof(float);
     const size_t bytes_perm       = (size_t)n     * sizeof(int);
     const size_t bytes_offset     = (size_t)(m+1) * sizeof(int);
     const size_t bytes_counts     = (size_t)m     * sizeof(int);
-    const size_t bytes_Xc         = (size_t)m * n_max * d * sizeof(double);
-    const size_t bytes_segments   = (size_t)m * m * d     * sizeof(double);
-    const size_t bytes_dists      = (size_t)m * m         * sizeof(double);
-    // const size_t bytes_projs      = (size_t)m * n_max * m * sizeof(double);
+    const size_t bytes_Xc         = (size_t)m * n_max * d * sizeof(float);
+    const size_t bytes_segments   = (size_t)m * m * d     * sizeof(float);
+    const size_t bytes_dists      = (size_t)m * m         * sizeof(float);
+    // const size_t bytes_projs      = (size_t)m * n_max * m * sizeof(float);
     const int    CHUNK            = std::min(10, m);  // tune for your GPU
-    const size_t bytes_projs      = (size_t)CHUNK * n_max * m * sizeof(double);
-    const size_t bytes_log_aff    = (size_t)m * m         * sizeof(double);
+    const size_t bytes_projs      = (size_t)CHUNK * n_max * m * sizeof(float);
+    const size_t bytes_log_aff    = (size_t)m * m         * sizeof(float);
     const size_t bytes_A          = bytes_log_aff;
 
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_X),             bytes_X));
@@ -477,8 +476,8 @@ MatrixD computeAffinityGPU(
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_projs),         bytes_projs));
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_log_affinity),  bytes_log_aff));
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_A),             bytes_A));
-    double *d_entropies = nullptr;
-    const size_t bytes_entropies = (size_t)m * sizeof(double);
+    float *d_entropies = nullptr;
+    const size_t bytes_entropies = (size_t)m * sizeof(float);
     CUDA_CHECK(cudaMalloc(reinterpret_cast<void**>(&d_entropies), bytes_entropies));
 
     // -------- H2D copies --------
@@ -507,7 +506,7 @@ MatrixD computeAffinityGPU(
         while (threads > d && threads > 32) threads /= 2;
         if (threads < 32) threads = 32;
         dim3 grid(m, m);
-        size_t shm = threads * sizeof(double);
+        size_t shm = threads * sizeof(float);
         build_segments_and_dists_kernel<<<grid, threads, shm>>>(
             d_centroids, m, d, d_segments, d_dists);
         CUDA_CHECK(cudaGetLastError());
@@ -518,7 +517,7 @@ MatrixD computeAffinityGPU(
     // -------- Tiled GEMM + column logsumexp over regions --------
     //
     // We process CHUNK source-regions at a time. For each chunk:
-    //   1. cuBLAS strided-batched DGEMM fills d_projs with CHUNK slabs of
+    //   1. cuBLAS strided-batched SGEMM fills d_projs with CHUNK slabs of
     //      shape (n_max, m), one per region in the chunk.
     //   2. column_logsumexp_kernel reduces each slab into one row of
     //      d_log_affinity, written at offset chunk_start.
@@ -534,24 +533,24 @@ MatrixD computeAffinityGPU(
     CUBLAS_CHECK(cublasCreate(&handle));
 
     {
-        const double alpha = 1.0, beta = 0.0;
+        const float alpha = 1.0f, beta = 0.0f;
 
         // Pick logsumexp launch params once; they only depend on n_max.
         int lse_threads = 256;
         while (lse_threads > 32 && lse_threads > n_max) lse_threads /= 2;
         if (lse_threads < 32) lse_threads = 32;
-        size_t lse_shm = lse_threads * sizeof(double);
+        size_t lse_shm = lse_threads * sizeof(float);
 
         for (int chunk_start = 0; chunk_start < m; chunk_start += CHUNK) {
             int chunk = std::min(CHUNK, m - chunk_start);
 
-            const double* seg_chunk =
+            const float* seg_chunk =
                 d_segments + (size_t)chunk_start * m * d;
-            const double* xc_chunk =
+            const float* xc_chunk =
                 d_X_centered + (size_t)chunk_start * n_max * d;
 
             // GEMM: CHUNK batched (m x n_max) outputs.
-            CUBLAS_CHECK(cublasDgemmStridedBatched(
+            CUBLAS_CHECK(cublasSgemmStridedBatched(
                 handle,
                 CUBLAS_OP_T, CUBLAS_OP_N,
                 /*m_*/ m, /*n_*/ n_max, /*k_*/ d,
@@ -591,8 +590,8 @@ MatrixD computeAffinityGPU(
 
     // -------- D2H final result --------
     size_t total = static_cast<size_t>(m) * static_cast<size_t>(m);
-    thrust::device_ptr<double> d_A_ptr(d_A);
-    double maxVal = *thrust::max_element(d_A_ptr, d_A_ptr + total);
+    thrust::device_ptr<float> d_A_ptr(d_A);
+    float maxVal = *thrust::max_element(d_A_ptr, d_A_ptr + total);
 
     {
         const int threads = 256;
@@ -603,33 +602,33 @@ MatrixD computeAffinityGPU(
     }
 
     // -------- Perplexity calibration via binary search --------
-    double low = 0.0;
-    double high = 1000.0;
-    double gamma = 0.5 * (low + high);
+    float low = 0.0f;
+    float high = 1000.0f;
+    float gamma = 0.5f * (low + high);
     int max_iter = 16;
-    double tol = 1e-2;
-    thrust::device_ptr<double> d_entropies_ptr(d_entropies);
+    float tol = 1e-2f;
+    thrust::device_ptr<float> d_entropies_ptr(d_entropies);
 
     for (int iter = 0; iter < max_iter; ++iter) {
         int threads = 256;
         int blocks = m;
-        size_t shm = threads * sizeof(double);
+        size_t shm = threads * sizeof(float);
         compute_row_entropies_kernel<<<blocks, threads, shm>>>(
             d_A, m, gamma, d_entropies);
         CUDA_CHECK(cudaGetLastError());
 
-        double sum_entropy = thrust::reduce(d_entropies_ptr, d_entropies_ptr + m, 0.0);
-        double mean_entropy = sum_entropy / static_cast<double>(m);
-        double current_perp = exp(mean_entropy);
+        float sum_entropy = thrust::reduce(d_entropies_ptr, d_entropies_ptr + m, 0.0f);
+        float mean_entropy = sum_entropy / static_cast<float>(m);
+        float current_perp = expf(mean_entropy);
 
         if (current_perp > target_perplexity) {
             low = gamma;
         } else {
             high = gamma;
         }
-        gamma = 0.5 * (low + high);
+        gamma = 0.5f * (low + high);
 
-        if (fabs(current_perp - target_perplexity) / target_perplexity < tol) {
+        if (fabsf(current_perp - target_perplexity) / target_perplexity < tol) {
             break;
         }
     }
@@ -643,7 +642,7 @@ MatrixD computeAffinityGPU(
         CUDA_CHECK(cudaGetLastError());
     }
 
-    MatrixD A_host(m * m);
+    Matrix A_host(m * m);
     CUDA_CHECK(cudaMemcpy(A_host.data(), d_A, bytes_A, cudaMemcpyDeviceToHost));
 
     // -------- Cleanup --------

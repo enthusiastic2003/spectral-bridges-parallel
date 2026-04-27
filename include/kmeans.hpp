@@ -5,7 +5,6 @@
 
 // Row-major matrix: data[i * cols + j] = element at row i, col j
 using Matrix = std::vector<float>;
-using MatrixD = std::vector<double>;
 
 struct KMeansResult {
     Matrix centroids;    // shape: [n_clusters × dim]

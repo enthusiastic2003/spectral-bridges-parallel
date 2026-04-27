@@ -43,7 +43,7 @@ public:
 
 // Backward-compatible free function.
 SpectralResult spectralClustering(
-    const MatrixD& affinity, // [m × m]
+    const Matrix& affinity, // [m × m]
     int m,                   // number of voronoi regions
     int k,                   // number of clusters
     int n_iter,
