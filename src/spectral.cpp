@@ -2,6 +2,7 @@
 #include "kmeans_cuda.hpp"
 #include "kmeans.hpp"
 #include "affinity_gpu.hpp"
+#include "spectral_cuda.hpp"
 #include "affinity.hpp"
 #include <Eigen/Dense>
 #include <cmath>
@@ -34,7 +35,6 @@ SBResult SpectralClustering::fit(
     return spectralBridges(X, n, d, n_clusters, num_vornoi, target_perplexity, n_iter, random_state, use_gpu);
 }
 
-
 // Helper lambda to make printing cleaner
 auto print_duration = [](const std::string& name, std::chrono::duration<double> duration) {
     std::cout << std::fixed << std::setprecision(4) 
@@ -44,10 +44,13 @@ auto print_duration = [](const std::string& name, std::chrono::duration<double> 
 SpectralResult spectralClustering(
     const MatrixD& affinity,
     int m, int k,
-    uint64_t random_state,
-    bool use_gpu)
+    int n_iter,
+    uint64_t random_state
+    )
 {
     auto start_all = std::chrono::high_resolution_clock::now();
+     std::cout << "Running spectral clustering on CPU with m=" << m << ", k=" << k << "\n";
+
 
     // ---------------------------------------------------------
     // Phase 3.1: Laplacian Construction
@@ -113,13 +116,16 @@ SpectralResult spectralClustering(
     // ---------------------------------------------------------
     // Phase 3.4: Downstream K-Means
     // ---------------------------------------------------------
+    // Get shape of U
+    // std::cout << "Shape of U: (" << U.rows() << ", " << U.cols() << ")\n";
+    // Shape of U is (num_vornoi(m), n_clusters(k))
     auto start_km2 = std::chrono::high_resolution_clock::now();
     Matrix U_flat(m * k);
     for (int i = 0; i < m; i++)
         for (int j = 0; j < k; j++)
             U_flat[i * k + j] = static_cast<float>(U(i, j));
 
-    KMeans km(k, 20, -1, random_state);
+    KMeans km(k, n_iter, -1, random_state);
     auto kmResult = km.fit(U_flat, m, k);
     auto end_km2 = std::chrono::high_resolution_clock::now();
     print_duration("    -> Spectral K-Means", end_km2 - start_km2);
@@ -177,7 +183,15 @@ SBResult spectralBridges(
     // ---------------------------------------------------------
     std::cout << "  [Profile] Entering Step 3: Spectral Core...\n";
     auto start_sc = std::chrono::high_resolution_clock::now();
-    SpectralResult sc = spectralClustering(aff, m, k, random_state, use_gpu);
+    SpectralResult sc;
+    
+    if((use_gpu)) { // GPU eigendecomposition can be slower for large m due to cuSOLVER overheads
+        sc = spectralClusteringCuda(aff, m, k, n_iter, random_state);
+    }
+    else{
+        sc = spectralClustering(aff, m, k, n_iter, random_state);
+    }
+
     auto end_sc = std::chrono::high_resolution_clock::now();
     print_duration("Step 3: Total Spectral Core", end_sc - start_sc);
 

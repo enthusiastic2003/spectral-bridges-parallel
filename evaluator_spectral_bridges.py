@@ -55,8 +55,9 @@ def run_benchmarks(X, n_repeats=3, n_clusters=4, skip_baseline=False):
         print("-" * 50)
 
     experiments = [
-        {"name": "CPU", "use_gpu": False},
-        {"name": "GPU", "use_gpu": True}
+                {"name": "GPU", "use_gpu": True},
+
+        {"name": "CPU", "use_gpu": False}
     ]
 
     for exp in experiments:
@@ -110,8 +111,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--skip-baseline", action="store_true",
                         help="Disable author's implementation and metric computation")
-    parser.add_argument("--points-per-cluster", type=int, default=5_000_000)
-    parser.add_argument("--repeats", type=int, default=5)
+    parser.add_argument("--points-per-cluster", type=int, default=5_000)
+    parser.add_argument("--repeats", type=int, default=1)
 
     args = parser.parse_args()
 

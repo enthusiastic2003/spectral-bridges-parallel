@@ -46,8 +46,8 @@ SpectralResult spectralClustering(
     const MatrixD& affinity, // [m × m]
     int m,                   // number of voronoi regions
     int k,                   // number of clusters
-    uint64_t random_state,
-        bool use_gpu
+    int n_iter,
+    uint64_t random_state
 );
 
 SBResult spectralBridges(

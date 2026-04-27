@@ -118,6 +118,7 @@ if(USE_CUDA)
     list(APPEND SB_CORE_SOURCES
         src/kmeans_cuda.cu
         src/affinity.cu
+        src/spectral.cu
     )
 endif()
 
@@ -144,6 +145,19 @@ if(USE_CUDA)
     target_link_libraries(sb_core PUBLIC
         CUDA::cudart
         CUDA::cublas
+    )
+    target_compile_definitions(sb_core PUBLIC SB_HAVE_CUDA)
+
+    set_target_properties(sb_core PROPERTIES
+        CUDA_SEPARABLE_COMPILATION ON
+    )
+endif()
+
+if(USE_CUDA)
+    target_link_libraries(sb_core PUBLIC
+        CUDA::cudart
+        CUDA::cublas
+        CUDA::cusolver
     )
     target_compile_definitions(sb_core PUBLIC SB_HAVE_CUDA)
 
