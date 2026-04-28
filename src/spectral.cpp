@@ -13,7 +13,10 @@
 #include <chrono>
 #include <iostream>
 #include <iomanip>
-
+// Add at the top of the file (with the other includes):
+#include <Spectra/SymEigsSolver.h>
+#include <Spectra/MatOp/DenseSymMatProd.h>
+//   #include <Spectra/MatOp/DenseSymShiftSolve.h>
 /*
 X=Matrix
 m = num_vornoi
@@ -41,6 +44,13 @@ auto print_duration = [](const std::string& name, std::chrono::duration<double> 
               << "  [Profile] " << name << ": " << duration.count() << " s\n";
 };
 
+// Replace these two includes at the top of src/spectral.cpp
+// (remove the SymEigsShiftSolver / DenseSymShiftSolve ones if you had them):
+//
+//   #include <Spectra/SymEigsSolver.h>
+//   #include <Spectra/MatOp/DenseSymMatProd.h>
+
+
 SpectralResult spectralClustering(
     const Matrix& affinity,
     int m, int k,
@@ -49,11 +59,10 @@ SpectralResult spectralClustering(
     )
 {
     auto start_all = std::chrono::high_resolution_clock::now();
-     std::cout << "Running spectral clustering on CPU with m=" << m << ", k=" << k << "\n";
-
+    std::cout << "Running spectral clustering on CPU with m=" << m << ", k=" << k << "\n";
 
     // ---------------------------------------------------------
-    // Phase 3.1: Laplacian Construction
+    // Phase 3.1: Laplacian Construction  (unchanged)
     // ---------------------------------------------------------
     auto start_laplacian = std::chrono::high_resolution_clock::now();
     Eigen::MatrixXf A(m, m);
@@ -80,50 +89,123 @@ SpectralResult spectralClustering(
     print_duration("    -> Laplacian Setup", end_laplacian - start_laplacian);
 
     // ---------------------------------------------------------
-    // Phase 3.2: Eigen Decomposition
+    // Phase 3.2: Eigen Decomposition (Spectra, regularized matvec mode)
+    //
+    // STRATEGY: Lanczos naturally amplifies large eigenvalues, so finding
+    // smallest eigenvalues directly via SmallestAlge converges poorly.
+    // Shift-invert (SymEigsShiftSolver) helps but requires an LU/LDLT
+    // factorization that we observed does not parallelize in our build.
+    //
+    // Instead, build M = c*I - L, where c is an upper bound on the largest
+    // eigenvalue of L. Then:
+    //   - eigenvectors of M and L are identical
+    //   - eigenvalue mapping is lambda_M = c - lambda_L
+    //   - LARGEST eigenvalues of M correspond to SMALLEST of L
+    //
+    // We can now use the standard SymEigsSolver with LargestAlge, which is
+    // Lanczos's natural fast-converging mode. The inner kernel is plain
+    // dense-symmetric-matvec (SGEMV via OpenBLAS), which DOES parallelize.
+    //
+    // Bound on lambda_max(L): the diagonal of L is exactly (m + tol) by
+    // construction; off-diagonals are bounded in magnitude by 1 (from the
+    // affinity normalization). Gershgorin gives lambda_max <= (m + tol) + m,
+    // so c = 2*(m + tol) is a safe upper bound.
     // ---------------------------------------------------------
     auto start_eigen = std::chrono::high_resolution_clock::now();
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> solver(L);
-    if (solver.info() != Eigen::Success)
-        throw std::runtime_error("Eigen decomposition failed");
 
-    Eigen::VectorXf eigvals = solver.eigenvalues();
-    Eigen::MatrixXf eigvecs = solver.eigenvectors();
+    int n_requested = std::min(k + 1, m);
+    Eigen::VectorXf eigvals;
+    Eigen::MatrixXf eigvecs;
+
+    bool used_spectra = false;
+    try {
+        // Build M = c*I - L. We allocate a fresh matrix; this is m^2 floats
+        // (~256 MB at m=8000 -- one-time cost, fully parallelizable).
+        const float c = 2.0f * (static_cast<float>(m) + tol);
+        Eigen::MatrixXf M = -L;
+        M.diagonal().array() += c;
+
+        // ncv: Krylov subspace size. Larger = faster convergence but more
+        // memory and per-iter cost. 4*n_requested is a robust choice for
+        // LargestAlge mode at small n_requested relative to m.
+        int ncv = std::min(std::max(4 * n_requested, 20), m);
+
+        Spectra::DenseSymMatProd<float> op(M);
+        Spectra::SymEigsSolver<Spectra::DenseSymMatProd<float>>
+            solver(op, n_requested, ncv);
+
+        solver.init();
+        int nconv = solver.compute(
+            Spectra::SortRule::LargestAlge,   // natural Lanczos mode
+            /*maxit=*/ 1000,
+            /*tol=*/   1e-6f,
+            Spectra::SortRule::LargestAlge    // sort returned descending in M
+        );
+
+        if (solver.info() == Spectra::CompInfo::Successful && nconv >= n_requested) {
+            // Map eigenvalues of M back to eigenvalues of L: lambda_L = c - lambda_M.
+            // Spectra returned them sorted DESCENDING in M, which means
+            // ASCENDING in L -- exactly what downstream code expects.
+            Eigen::VectorXf raw = solver.eigenvalues();
+            eigvals.resize(n_requested);
+            for (int i = 0; i < n_requested; i++) {
+                eigvals(i) = c - raw(i);
+            }
+            // Eigenvectors are unchanged (M and L share eigenvectors).
+            eigvecs = solver.eigenvectors();
+            used_spectra = true;
+        } else {
+            std::cout << "    -> Spectra did not converge (nconv=" << nconv
+                      << "), falling back to dense solver\n";
+        }
+    } catch (const std::exception& e) {
+        std::cout << "    -> Spectra threw (" << e.what()
+                  << "), falling back to dense solver\n";
+    }
+
+    if (!used_spectra) {
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> solver(L);
+        if (solver.info() != Eigen::Success)
+            throw std::runtime_error("Eigen decomposition failed");
+        eigvals = solver.eigenvalues().head(n_requested);
+        eigvecs = solver.eigenvectors().leftCols(n_requested);
+    }
+
     auto end_eigen = std::chrono::high_resolution_clock::now();
-    print_duration("    -> Eigen Decomposition", end_eigen - start_eigen);
+    print_duration(used_spectra
+                       ? "    -> Eigen Decomposition (Spectra-matvec)"
+                       : "    -> Eigen Decomposition (dense)",
+                   end_eigen - start_eigen);
 
     // ---------------------------------------------------------
-    // Phase 3.3: Eigenvector Extraction & Normalization
+    // Phase 3.3: Eigenvector Extraction & Normalization  (unchanged)
     // ---------------------------------------------------------
-    Eigen::MatrixXf U = eigvecs.leftCols(k); 
+    Eigen::MatrixXf U = eigvecs.leftCols(k);
     for (int i = 0; i < m; i++) {
         float norm = U.row(i).norm();
-        if (norm > 1e-10)
+        if (norm > 1e-10f)
             U.row(i) /= norm;
     }
 
     float ngap = 0.0f;
-    if (k < m) {
+    if (k < n_requested && k >= 1) {
         float lk   = eigvals(k);
         float lkm1 = eigvals(k - 1);
-        ngap = (std::abs(lkm1) > 1e-10f) ? static_cast<float>((lk - lkm1) / lkm1) : 0.0f;
+        ngap = (std::abs(lkm1) > 1e-10f) ? ((lk - lkm1) / lkm1) : 0.0f;
     }
 
-    std::vector<float> eigvals_vec(m);
-    for (int i = 0; i < m; i++)
-        eigvals_vec[i] = static_cast<float>(eigvals(i));
+    std::vector<float> eigvals_vec(m, 0.0f);
+    for (int i = 0; i < n_requested; i++)
+        eigvals_vec[i] = eigvals(i);
 
     // ---------------------------------------------------------
-    // Phase 3.4: Downstream K-Means
+    // Phase 3.4: Downstream K-Means  (unchanged)
     // ---------------------------------------------------------
-    // Get shape of U
-    // std::cout << "Shape of U: (" << U.rows() << ", " << U.cols() << ")\n";
-    // Shape of U is (num_vornoi(m), n_clusters(k))
     auto start_km2 = std::chrono::high_resolution_clock::now();
     Matrix U_flat(m * k);
     for (int i = 0; i < m; i++)
         for (int j = 0; j < k; j++)
-            U_flat[i * k + j] = static_cast<float>(U(i, j));
+            U_flat[i * k + j] = U(i, j);
 
     KMeans km(k, n_iter, -1, random_state);
     auto kmResult = km.fit(U_flat, m, k);
@@ -189,6 +271,8 @@ SBResult spectralBridges(
         sc = spectralClusteringCuda(aff, m, k, n_iter, random_state);
     }
     else{
+        auto eigen_threads = Eigen::nbThreads();
+        std::cout << "    -> Using Eigen with " << eigen_threads << " threads for eigendecomposition\n"; 
         sc = spectralClustering(aff, m, k, n_iter, random_state);
     }
 

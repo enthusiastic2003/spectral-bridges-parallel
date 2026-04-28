@@ -18,7 +18,6 @@
 //   d_labels  n   ints
 //   d_counts  k   ints
 //
-#include "kmeans.hpp"
 #include "kmeans_cuda.hpp"
 
 #include <cuda_runtime.h>
@@ -42,6 +41,75 @@
 
 constexpr int BLOCK = 256;
 
+
+// ───────────────────────────────────────────────────────────────
+//  K-MEANS++ INIT KERNELS
+// ───────────────────────────────────────────────────────────────
+
+// Update minDists against the most recently chosen centroid.
+// One thread per point. Fused min-update (no separate label pass —
+// labels get rewritten by assignKernel on iter 0 anyway).
+__global__ void initUpdateMinDistsKernel(
+    const float* __restrict__ X,
+    const float* __restrict__ last,    // d floats: the new centroid
+    float*       __restrict__ minDists,
+    int n, int d)
+{
+    const int gid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (gid >= n) return;
+
+    const float* xi = X + (size_t)gid * d;
+    float dist = 0.0f;
+    for (int dim = 0; dim < d; ++dim) {
+        float diff = xi[dim] - last[dim];
+        dist += diff * diff;
+    }
+    float cur = minDists[gid];
+    if (dist < cur) minDists[gid] = dist;
+}
+
+// Evaluate inertia for ALL trial candidates in one launch.
+// Grid: (blocksPerCand, trials). Each block accumulates a partial
+// sum for one candidate and atomicAdds it into inertia[t].
+__global__ void initCandidateInertiaKernel(
+    const float* __restrict__ X,
+    const float* __restrict__ minDists,
+    const int*   __restrict__ candIdx,    // [trials]
+    float*       __restrict__ inertia,    // [trials], pre-zeroed
+    int n, int d, int trials)
+{
+    const int t = blockIdx.y;
+    if (t >= trials) return;
+
+    const float* candPtr = X + (size_t)candIdx[t] * d;
+
+    const int stride = blockDim.x * gridDim.x;
+    float local = 0.0f;
+    for (int idx = blockIdx.x * blockDim.x + threadIdx.x;
+         idx < n; idx += stride)
+    {
+        const float* xi = X + (size_t)idx * d;
+        float dist = 0.0f;
+        for (int dim = 0; dim < d; ++dim) {
+            float diff = xi[dim] - candPtr[dim];
+            dist += diff * diff;
+        }
+        const float m = minDists[idx];
+        local += (dist < m) ? dist : m;
+    }
+
+    // Block reduction in shared memory (no CUB dependency).
+    __shared__ float s_red[BLOCK];
+    s_red[threadIdx.x] = local;
+    __syncthreads();
+    for (int off = blockDim.x / 2; off > 0; off >>= 1) {
+        if (threadIdx.x < off) s_red[threadIdx.x] += s_red[threadIdx.x + off];
+        __syncthreads();
+    }
+    if (threadIdx.x == 0) atomicAdd(&inertia[t], s_red[0]);
+}
+
+
 // ───────────────────────────────────────────────────────────────
 //  ASSIGN
 //
@@ -49,6 +117,9 @@ constexpr int BLOCK = 256;
 //  rows. If even one centroid row will not fit in shared mem
 //  (tile_k == 0), reads centroids straight from global memory.
 // ───────────────────────────────────────────────────────────────
+
+
+
 __global__ void assignKernel(
     const float* __restrict__ X,
     const float* __restrict__ C,
@@ -174,6 +245,99 @@ __global__ void divideKernel(
 }
 
 // ───────────────────────────────────────────────────────────────
+//  K-MEANS++ SEEDER (device-resident)
+//
+//  Writes k centroids into d_C using d_X already on the device.
+//  Weighted sampling stays on the host: cheap, runs k times, and
+//  matches std::discrete_distribution semantics exactly.
+// ───────────────────────────────────────────────────────────────
+static void initCentroidsCuda(
+    const float* d_X, float* d_C,
+    int n, int d, int k,
+    int n_local_trials, std::mt19937_64& rng)
+{
+    const int trials = (n_local_trials < 0)
+                     ? (2 + static_cast<int>(std::log((double)k)))
+                     : n_local_trials;
+
+    float* d_minDists = nullptr;
+    int*   d_candIdx  = nullptr;
+    float* d_inertia  = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_minDists, (size_t)n      * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_candIdx,  (size_t)trials * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_inertia,  (size_t)trials * sizeof(float)));
+
+    // minDists ← +inf
+    {
+        std::vector<float> hMin(n, FLT_MAX);
+        CUDA_CHECK(cudaMemcpy(d_minDists, hMin.data(),
+                              (size_t)n * sizeof(float),
+                              cudaMemcpyHostToDevice));
+    }
+
+    // First centroid: uniform random index → d_C[0]
+    std::uniform_int_distribution<int> uni(0, n - 1);
+    int first = uni(rng);
+    CUDA_CHECK(cudaMemcpy(d_C, d_X + (size_t)first * d,
+                          (size_t)d * sizeof(float),
+                          cudaMemcpyDeviceToDevice));
+
+    const int nblocks = (n + BLOCK - 1) / BLOCK;
+
+    std::vector<float> hMinDists(n);
+    std::vector<int>   hCandIdx(trials);
+    std::vector<float> hInertia(trials);
+
+    for (int c = 1; c <= k; ++c) {
+        // 1) Update minDists against centroid (c-1)
+        const float* d_last = d_C + (size_t)(c - 1) * d;
+        initUpdateMinDistsKernel<<<nblocks, BLOCK>>>(
+            d_X, d_last, d_minDists, n, d);
+        CUDA_CHECK_KERNEL();
+
+        if (c == k) break;
+
+        // 2) Sample `trials` candidates on host, weighted by minDists
+        CUDA_CHECK(cudaMemcpy(hMinDists.data(), d_minDists,
+                              (size_t)n * sizeof(float),
+                              cudaMemcpyDeviceToHost));
+        std::discrete_distribution<int> weighted(
+            hMinDists.begin(), hMinDists.end());
+        for (int t = 0; t < trials; ++t) hCandIdx[t] = weighted(rng);
+        CUDA_CHECK(cudaMemcpy(d_candIdx, hCandIdx.data(),
+                              (size_t)trials * sizeof(int),
+                              cudaMemcpyHostToDevice));
+
+        // 3) Score all candidates in one launch
+        CUDA_CHECK(cudaMemsetAsync(d_inertia, 0,
+                                   (size_t)trials * sizeof(float)));
+        const int blocksPerCand = std::min(nblocks, 512);
+        dim3 grid(blocksPerCand, trials);
+        initCandidateInertiaKernel<<<grid, BLOCK>>>(
+            d_X, d_minDists, d_candIdx, d_inertia, n, d, trials);
+        CUDA_CHECK_KERNEL();
+
+        // 4) Argmin over `trials` floats on host
+        CUDA_CHECK(cudaMemcpy(hInertia.data(), d_inertia,
+                              (size_t)trials * sizeof(float),
+                              cudaMemcpyDeviceToHost));
+        int bestT = 0;
+        for (int t = 1; t < trials; ++t)
+            if (hInertia[t] < hInertia[bestT]) bestT = t;
+
+        // 5) Write chosen centroid into slot c of d_C
+        CUDA_CHECK(cudaMemcpy(d_C + (size_t)c * d,
+                              d_X + (size_t)hCandIdx[bestT] * d,
+                              (size_t)d * sizeof(float),
+                              cudaMemcpyDeviceToDevice));
+    }
+
+    cudaFree(d_minDists);
+    cudaFree(d_candIdx);
+    cudaFree(d_inertia);
+}
+
+// ───────────────────────────────────────────────────────────────
 //  HOST ENTRY POINT
 // ───────────────────────────────────────────────────────────────
 KMeansResult fitKMeansCuda(
@@ -211,13 +375,9 @@ KMeansResult fitKMeansCuda(
                               (size_t)n * d * sizeof(float),
                               cudaMemcpyHostToDevice));
 
-        // Init centroids via the host seeder.
+        // Init centroids on device — d_X is already populated.
         std::mt19937_64 rng(random_state);
-        KMeans seeder(k, /*n_iter=*/n_iter, /*n_local_trials=*/-1, random_state);
-        KMeansResult seed = seeder.initCentroids(X, n, d, rng);
-        CUDA_CHECK(cudaMemcpy(d_C, seed.centroids.data(),
-                              (size_t)k * d * sizeof(float),
-                              cudaMemcpyHostToDevice));
+        initCentroidsCuda(d_X, d_C, n, d, k, /*n_local_trials=*/-1, rng);
 
         const int nblocks = (n + BLOCK - 1) / BLOCK;
 

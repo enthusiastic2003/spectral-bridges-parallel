@@ -3,9 +3,9 @@
 #SBATCH --partition=debug
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=32
-#SBATCH --output=specbridge_output.log
-#SBATCH --error=specbridge_error.log
+#SBATCH --cpus-per-task=36
+#SBATCH --output=logs_cpu/specbridge_output.log
+#SBATCH --error=logs_cpu/specbridge_error.log
 
 # Environment setup
 
@@ -47,11 +47,14 @@ cd build
 # Configure with CMake
 
 cmake .. \
--DPYMODULE=ON \
--DCMAKE_MODULE_PATH=$EIGEN_DIR/cmake \
--DEIGEN3_INCLUDE_DIR=$EIGEN_DIR \
--DBLAS_LIBRARIES=$OPENBLAS_LIB \
--Dpybind11_DIR=$(python -m pybind11 --cmakedir)
+    -DPYMODULE=ON \
+    -DCMAKE_MODULE_PATH=$EIGEN_DIR/cmake \
+    -DEIGEN3_INCLUDE_DIR=$EIGEN_DIR \
+    -DBLAS_LIBRARIES=$OPENBLAS_LIB \
+    -DLAPACKE_INCLUDE_DIR=$OPENBLAS_DIR/include \
+    -DSPECTRA_INCLUDE_DIR=/home/sirjanhansda/projectfolder/spectra/include \
+    -DUSE_CUDA=ON \
+    -Dpybind11_DIR=$(python -m pybind11 --cmakedir)
 
 # Build
 
@@ -63,4 +66,5 @@ cd ..
 
 echo "Running module..."
 
-python -u ./evaluator_spectral_bridges.py
+python -u ./test_suit_speedups_cpu.py --experiment n
+# python -u ./mnist_test.py

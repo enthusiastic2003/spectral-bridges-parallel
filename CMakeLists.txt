@@ -61,30 +61,61 @@ else()
 endif()
 
 # --- 2b. BLAS ---
+# --- 2b. BLAS / LAPACK / LAPACKE ---
 if(APPLE)
     find_library(ACCELERATE_FRAMEWORK Accelerate REQUIRED)
     set(BLAS_LIBS ${ACCELERATE_FRAMEWORK})
+    # Accelerate provides BLAS but NOT LAPACKE. Skip EIGEN_USE_LAPACKE on macOS
+    # unless you've installed openblas via homebrew.
+    set(HAVE_LAPACKE OFF)
 elseif(WIN32)
     find_package(OpenBLAS QUIET)
     if(OpenBLAS_FOUND)
         set(BLAS_LIBS OpenBLAS::OpenBLAS)
+        set(HAVE_LAPACKE ON)
         message(STATUS "BLAS: OpenBLAS (${OpenBLAS_DIR})")
     else()
         find_package(BLAS QUIET)
         if(BLAS_FOUND)
             set(BLAS_LIBS ${BLAS_LIBRARIES})
-            message(STATUS "BLAS: ${BLAS_LIBRARIES}")
+            set(HAVE_LAPACKE OFF)
+            message(STATUS "BLAS: ${BLAS_LIBRARIES} (no LAPACKE)")
         else()
-            message(WARNING
-                "No BLAS found on Windows. Eigen will use its own fallback "
-                "routines. Install OpenBLAS via vcpkg or conda for best "
-                "performance.")
+            message(WARNING "No BLAS found on Windows.")
             set(BLAS_LIBS "")
+            set(HAVE_LAPACKE OFF)
         endif()
     endif()
 elseif(UNIX)
-    find_package(BLAS REQUIRED)
-    set(BLAS_LIBS ${BLAS_LIBRARIES})
+    # Look for a single OpenBLAS library that bundles BLAS + LAPACK + LAPACKE.
+    # We accept it via -DBLAS_LIBRARIES on the command line, or by searching.
+    if(BLAS_LIBRARIES)
+        set(OPENBLAS_LIB ${BLAS_LIBRARIES})
+    else()
+        find_library(OPENBLAS_LIB NAMES openblas
+                     HINTS $ENV{HOME}/local/lib /usr/local/lib /usr/lib
+                     NO_DEFAULT_PATH)
+    endif()
+
+    find_path(LAPACKE_INCLUDE_DIR NAMES lapacke.h
+              HINTS $ENV{HOME}/local/include
+                    /home/sirjanhansda/projectfolder/openblas/include
+                    /usr/local/include /usr/include
+              NO_DEFAULT_PATH)
+
+    if(OPENBLAS_LIB AND LAPACKE_INCLUDE_DIR)
+        set(BLAS_LIBS ${OPENBLAS_LIB})
+        set(HAVE_LAPACKE ON)
+        message(STATUS "BLAS/LAPACK/LAPACKE: OpenBLAS at ${OPENBLAS_LIB}")
+        message(STATUS "LAPACKE include: ${LAPACKE_INCLUDE_DIR}")
+    else()
+        set(BLAS_LIBS ${OPENBLAS_LIB})
+        set(HAVE_LAPACKE OFF)
+        message(WARNING
+            "LAPACKE headers or OpenBLAS lib not found. "
+            "OPENBLAS_LIB=${OPENBLAS_LIB} "
+            "LAPACKE_INCLUDE_DIR=${LAPACKE_INCLUDE_DIR}")
+    endif()
 endif()
 
 # --- 2c. CUDA (optional) ---
@@ -134,12 +165,35 @@ if(DEFINED EIGEN3_INCLUDE_DIR)
   target_include_directories(sb_core PUBLIC ${EIGEN3_INCLUDE_DIR})
 endif()
 
+
+# Spectra: header-only partial-spectrum eigensolver
+set(SPECTRA_INCLUDE_DIR "$ENV{HOME}/projectfolder/spectra/include"
+    CACHE PATH "Path to Spectra includes")
+if(NOT EXISTS "${SPECTRA_INCLUDE_DIR}/Spectra/SymEigsSolver.h")
+    message(FATAL_ERROR "Spectra not found at ${SPECTRA_INCLUDE_DIR}. "
+                        "Clone from https://github.com/yixuan/spectra.git")
+endif()
+target_include_directories(sb_core PUBLIC ${SPECTRA_INCLUDE_DIR})
+message(STATUS "Spectra: ${SPECTRA_INCLUDE_DIR}")
+
+
 target_link_libraries(sb_core
     PUBLIC
     Eigen3::Eigen
     OpenMP::OpenMP_CXX
     ${BLAS_LIBS}
 )
+
+# Route Eigen through LAPACK for parallelized eigensolvers etc.
+if(HAVE_LAPACKE)
+    target_compile_definitions(sb_core PUBLIC EIGEN_USE_LAPACKE EIGEN_USE_BLAS)
+    if(LAPACKE_INCLUDE_DIR)
+        target_include_directories(sb_core PUBLIC ${LAPACKE_INCLUDE_DIR})
+    endif()
+    message(STATUS "Eigen: using LAPACKE backend")
+else()
+    message(STATUS "Eigen: using built-in routines (no LAPACKE)")
+endif()
 
 if(USE_CUDA)
     target_link_libraries(sb_core PUBLIC

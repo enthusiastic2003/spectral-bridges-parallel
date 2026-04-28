@@ -1,0 +1,1511 @@
+======================================================
+Job ID:        24360
+Node:          node5
+CPUs:          36
+GPU request:   0
+Start time:    Tue Apr 28 10:14:39 IST 2026
+======================================================
+
+--- GPU info ---
+Tue Apr 28 10:14:39 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.142                Driver Version: 550.142        CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX A5000               Off |   00000000:18:00.0 Off |                  Off |
+| 30%   24C    P8             12W /  230W |      10MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A      3883      G   /usr/libexec/Xorg                               4MiB |
++-----------------------------------------------------------------------------------------+
+
+--- Toolchain ---
+/usr/local/cuda/bin/nvcc
+Cuda compilation tools, release 11.8, V11.8.89
+Build cuda_11.8.r11.8/compiler.31833905_0
+/home/sirjanhansda/projectfolder/.venv/bin/cmake
+cmake version 4.3.1
+/usr/bin/gcc
+gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-28)
+
+CUDA architecture: sm_86
+
+--- Configuring ---
+-- The CXX compiler identification is GNU 8.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Eigen3 include dir: /home/sirjanhansda/projectfolder/eigen-3.4.0
+-- Found OpenMP_CXX: -fopenmp (found version "4.5")
+-- Found OpenMP: TRUE (found version "4.5")
+-- OpenMP: -fopenmp
+-- A cache variable, namely BLAS_DIR, has been set to specify the install directory of BLAS
+-- A library with BLAS API found.
+-- BLAS_LIBRARIES /home/sirjanhansda/projectfolder/openblas/lib/libopenblas.so
+-- The CUDA compiler identification is NVIDIA 11.8.89 with host compiler GNU 8.5.0
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: /usr/local/cuda/targets/x86_64-linux/include (found version "11.8.89")
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE
+-- CUDA: enabled, arch=86
+-- Found PythonInterp: /home/sirjanhansda/projectfolder/.venv/bin/python (found suitable version "3.10.14", minimum required is "3.8")
+-- Found PythonLibs: /home/sirjanhansda/python310/lib/libpython3.10.a
+-- Performing Test HAS_FLTO_AUTO
+-- Performing Test HAS_FLTO_AUTO - Success
+-- Found pybind11: /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/include (found version "3.0.3")
+-- Configuring done (15.4s)
+-- Generating done (4.0s)
+-- Build files have been written to: /home/sirjanhansda/projectfolder/spectral-bridges-parallel/build
+
+--- Building ---
+[ 60%] Building CXX object CMakeFiles/sb_core.dir/src/kmeans.cpp.o
+[ 60%] Building CUDA object CMakeFiles/sb_core.dir/src/kmeans_cuda.cu.o
+[ 60%] Building CXX object CMakeFiles/sb_core.dir/src/affinity.cpp.o
+[ 60%] Building CXX object CMakeFiles/sb_core.dir/src/spectral.cpp.o
+[ 60%] Building CUDA object CMakeFiles/sb_core.dir/src/affinity.cu.o
+[ 60%] Building CUDA object CMakeFiles/sb_core.dir/src/spectral.cu.o
+[ 70%] Linking CXX static library libsb_core.a
+[ 70%] Built target sb_core
+[ 80%] Building CXX object CMakeFiles/test_kmeans_cuda.dir/tests/test_kmeans_cuda.cpp.o
+[ 90%] Linking CUDA device code CMakeFiles/test_kmeans_cuda.dir/cmake_device_link.o
+[100%] Linking CXX executable test_kmeans_cuda
+[100%] Built target test_kmeans_cuda
+[ 70%] Built target sb_core
+[ 80%] Building CXX object CMakeFiles/specbridge.dir/python/bindings.cpp.o
+[ 90%] Linking CUDA device code CMakeFiles/specbridge.dir/cmake_device_link.o
+[100%] Linking CXX shared module specbridge.cpython-310-x86_64-linux-gnu.so
+[100%] Built target specbridge
+
+--- Running test_kmeans_cuda ---
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[10:15:20 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[10:15:20 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[10:15:20 | +    0.0s]     Python             : 3.10.14
+[10:15:20 | +    0.0s]     NumPy              : 2.2.6
+[10:15:20 | +    0.0s]     scikit-learn       : 1.7.2
+[10:15:20 | +    0.0s]     SciPy              : 1.15.3
+[10:15:20 | +    0.0s]     OMP_NUM_THREADS    : 36
+[10:15:20 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[10:15:20 | +    0.0s]     specbridge threads : 36
+[10:15:20 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[10:15:20 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[10:15:20 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[10:15:20 | +    0.0s]     Process peak RSS   : 253.2 MB (so far)
+
+==============================================================================
+  Configuration
+==============================================================================
+[10:15:20 | +    0.0s]     N_VALUES       : [1000, 2500, 5000, 10000, 25000, 50000, 100000, 500000, 1000000, 5000000, 10000000]
+[10:15:20 | +    0.0s]     N_SCALING_M    : 250
+[10:15:20 | +    0.0s]     N_SCALING_D    : 64
+[10:15:20 | +    0.0s]     N_SCALING_K    : 10
+[10:15:20 | +    0.0s]     M_VALUES       : [50, 100, 250, 500, 1000, 1500, 2000, 4000, 8000, 12000]
+[10:15:20 | +    0.0s]     M_SCALING_N    : 20000
+[10:15:20 | +    0.0s]     M_SCALING_H    : 64
+[10:15:20 | +    0.0s]     M_SCALING_K    : 10
+[10:15:20 | +    0.0s]     N_RUNS         : 5
+[10:15:20 | +    0.0s]     BASE_SEED      : 22188
+[10:15:20 | +    0.0s]     PERPLEXITY     : 2.0
+[10:15:20 | +    0.0s]     N_ITER         : 20
+[10:15:20 | +    0.0s]     NUM_THREADS    : 36
+[10:15:20 | +    0.0s]     setting specbridge num_threads to 36
+[10:15:20 | +    0.0s]     opening CSV for write: results_n_scaling.csv
+
+==============================================================================
+  Experiment 1: n-scaling  (synthetic, fixed m=250)
+==============================================================================
+[10:15:20 | +    0.0s]     sweeping n over [1000, 2500, 5000, 10000, 25000, 50000, 100000, 500000, 1000000, 5000000, 10000000]
+[10:15:20 | +    0.0s]     each n: 5 paired runs (author + cuda)
+
+------------------------------------------------------------------------------
+  n = 1,000  (1/11 | ETA ??:??:??)
+------------------------------------------------------------------------------
+[10:15:20 | +    0.0s] >>> run 1/5  (seed=22188)
+[10:15:20 | +    0.0s]       generating synthetic data: n=1,000, d=64, k=10, seed=22188
+[10:15:20 | +    0.1s]       data generated in 0.01s, X shape=(1000, 64), dtype=float32, size=0.3 MB
+[10:15:20 | +    0.1s]         [author] starting fit (n=1,000, d=64, m=250)
+[10:15:20 | +    0.2s]         [author] done in 0.16s, ARI=1.000, NMI=1.000
+[10:15:20 | +    0.2s]         [cuda]   starting fit (n=1,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.1709 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 0 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0157 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0065 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0085 s
+  [Profile] Step 3: Total Spectral Core: 0.0085 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:21 | +    0.4s]         [cuda]   done in 0.20s, ARI=1.000, NMI=1.000
+[10:15:21 | +    0.4s] >>> run 2/5  (seed=22189)
+[10:15:21 | +    0.4s]       generating synthetic data: n=1,000, d=64, k=10, seed=22189
+[10:15:21 | +    0.4s]       data generated in 0.00s, X shape=(1000, 64), dtype=float32, size=0.3 MB
+[10:15:21 | +    0.4s]         [author] starting fit (n=1,000, d=64, m=250)
+[10:15:21 | +    0.6s]         [author] done in 0.14s, ARI=1.000, NMI=1.000
+[10:15:21 | +    0.6s]         [cuda]   starting fit (n=1,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0675 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 0 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0046 s
+  [Profile] Step 3: Total Spectral Core: 0.0046 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:21 | +    0.6s]         [cuda]   done in 0.07s, ARI=1.000, NMI=1.000
+[10:15:21 | +    0.6s] >>> run 3/5  (seed=22190)
+[10:15:21 | +    0.6s]       generating synthetic data: n=1,000, d=64, k=10, seed=22190
+[10:15:21 | +    0.6s]       data generated in 0.00s, X shape=(1000, 64), dtype=float32, size=0.3 MB
+[10:15:21 | +    0.6s]         [author] starting fit (n=1,000, d=64, m=250)
+[10:15:21 | +    0.8s]         [author] done in 0.15s, ARI=1.000, NMI=1.000
+[10:15:21 | +    0.8s]         [cuda]   starting fit (n=1,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0675 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 0 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0046 s
+  [Profile] Step 3: Total Spectral Core: 0.0046 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:21 | +    0.9s]         [cuda]   done in 0.07s, ARI=1.000, NMI=1.000
+[10:15:21 | +    0.9s] >>> run 4/5  (seed=22191)
+[10:15:21 | +    0.9s]       generating synthetic data: n=1,000, d=64, k=10, seed=22191
+[10:15:21 | +    0.9s]       data generated in 0.00s, X shape=(1000, 64), dtype=float32, size=0.3 MB
+[10:15:21 | +    0.9s]         [author] starting fit (n=1,000, d=64, m=250)
+[10:15:21 | +    1.0s]         [author] done in 0.14s, ARI=1.000, NMI=1.000
+[10:15:21 | +    1.0s]         [cuda]   starting fit (n=1,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0672 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 0 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0046 s
+  [Profile] Step 3: Total Spectral Core: 0.0046 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:21 | +    1.1s]         [cuda]   done in 0.07s, ARI=1.000, NMI=1.000
+[10:15:21 | +    1.1s] >>> run 5/5  (seed=22192)
+[10:15:21 | +    1.1s]       generating synthetic data: n=1,000, d=64, k=10, seed=22192
+[10:15:21 | +    1.1s]       data generated in 0.00s, X shape=(1000, 64), dtype=float32, size=0.3 MB
+[10:15:21 | +    1.1s]         [author] starting fit (n=1,000, d=64, m=250)
+[10:15:21 | +    1.2s]         [author] done in 0.14s, ARI=1.000, NMI=1.000
+[10:15:21 | +    1.2s]         [cuda]   starting fit (n=1,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0672 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 0 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:21 | +    1.3s]         [cuda]   done in 0.07s, ARI=1.000, NMI=1.000
+[10:15:21 | +    1.3s]     finished n=1,000 in 1.3s  (10 ok, 0 errors)  peak RSS=424 MB
+
+------------------------------------------------------------------------------
+  n = 2,500  (2/11 | ETA 0:00:12)
+------------------------------------------------------------------------------
+[10:15:21 | +    1.3s] >>> run 1/5  (seed=22188)
+[10:15:21 | +    1.3s]       generating synthetic data: n=2,500, d=64, k=10, seed=22188
+[10:15:21 | +    1.3s]       data generated in 0.01s, X shape=(2500, 64), dtype=float32, size=0.6 MB
+[10:15:21 | +    1.3s]         [author] starting fit (n=2,500, d=64, m=250)
+[10:15:22 | +    1.6s]         [author] done in 0.23s, ARI=1.000, NMI=1.000
+[10:15:22 | +    1.6s]         [cuda]   starting fit (n=2,500, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0723 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0021 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:22 | +    1.6s]         [cuda]   done in 0.08s, ARI=1.000, NMI=1.000
+[10:15:22 | +    1.6s] >>> run 2/5  (seed=22189)
+[10:15:22 | +    1.6s]       generating synthetic data: n=2,500, d=64, k=10, seed=22189
+[10:15:22 | +    1.7s]       data generated in 0.01s, X shape=(2500, 64), dtype=float32, size=0.6 MB
+[10:15:22 | +    1.7s]         [author] starting fit (n=2,500, d=64, m=250)
+[10:15:22 | +    1.9s]         [author] done in 0.26s, ARI=1.000, NMI=1.000
+[10:15:22 | +    1.9s]         [cuda]   starting fit (n=2,500, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0723 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:22 | +    2.0s]         [cuda]   done in 0.08s, ARI=1.000, NMI=1.000
+[10:15:22 | +    2.0s] >>> run 3/5  (seed=22190)
+[10:15:22 | +    2.0s]       generating synthetic data: n=2,500, d=64, k=10, seed=22190
+[10:15:22 | +    2.0s]       data generated in 0.01s, X shape=(2500, 64), dtype=float32, size=0.6 MB
+[10:15:22 | +    2.0s]         [author] starting fit (n=2,500, d=64, m=250)
+[10:15:22 | +    2.3s]         [author] done in 0.26s, ARI=1.000, NMI=1.000
+[10:15:22 | +    2.3s]         [cuda]   starting fit (n=2,500, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0723 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:23 | +    2.3s]         [cuda]   done in 0.08s, ARI=1.000, NMI=1.000
+[10:15:23 | +    2.3s] >>> run 4/5  (seed=22191)
+[10:15:23 | +    2.3s]       generating synthetic data: n=2,500, d=64, k=10, seed=22191
+[10:15:23 | +    2.4s]       data generated in 0.01s, X shape=(2500, 64), dtype=float32, size=0.6 MB
+[10:15:23 | +    2.4s]         [author] starting fit (n=2,500, d=64, m=250)
+[10:15:23 | +    2.6s]         [author] done in 0.25s, ARI=1.000, NMI=1.000
+[10:15:23 | +    2.6s]         [cuda]   starting fit (n=2,500, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0722 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0022 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:23 | +    2.7s]         [cuda]   done in 0.08s, ARI=1.000, NMI=1.000
+[10:15:23 | +    2.7s] >>> run 5/5  (seed=22192)
+[10:15:23 | +    2.7s]       generating synthetic data: n=2,500, d=64, k=10, seed=22192
+[10:15:23 | +    2.7s]       data generated in 0.01s, X shape=(2500, 64), dtype=float32, size=0.6 MB
+[10:15:23 | +    2.7s]         [author] starting fit (n=2,500, d=64, m=250)
+[10:15:23 | +    3.0s]         [author] done in 0.25s, ARI=1.000, NMI=1.000
+[10:15:23 | +    3.0s]         [cuda]   starting fit (n=2,500, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0722 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0021 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0010 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:23 | +    3.0s]         [cuda]   done in 0.08s, ARI=1.000, NMI=1.000
+[10:15:23 | +    3.0s]     finished n=2,500 in 1.7s  (10 ok, 0 errors)  peak RSS=427 MB
+
+------------------------------------------------------------------------------
+  n = 5,000  (3/11 | ETA 0:00:13)
+------------------------------------------------------------------------------
+[10:15:23 | +    3.0s] >>> run 1/5  (seed=22188)
+[10:15:23 | +    3.0s]       generating synthetic data: n=5,000, d=64, k=10, seed=22188
+[10:15:23 | +    3.1s]       data generated in 0.02s, X shape=(5000, 64), dtype=float32, size=1.3 MB
+[10:15:23 | +    3.1s]         [author] starting fit (n=5,000, d=64, m=250)
+[10:15:24 | +    3.5s]         [author] done in 0.39s, ARI=1.000, NMI=1.000
+[10:15:24 | +    3.5s]         [cuda]   starting fit (n=5,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0788 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0023 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:24 | +    3.5s]         [cuda]   done in 0.09s, ARI=1.000, NMI=1.000
+[10:15:24 | +    3.5s] >>> run 2/5  (seed=22189)
+[10:15:24 | +    3.5s]       generating synthetic data: n=5,000, d=64, k=10, seed=22189
+[10:15:24 | +    3.6s]       data generated in 0.02s, X shape=(5000, 64), dtype=float32, size=1.3 MB
+[10:15:24 | +    3.6s]         [author] starting fit (n=5,000, d=64, m=250)
+[10:15:24 | +    4.0s]         [author] done in 0.39s, ARI=1.000, NMI=1.000
+[10:15:24 | +    4.0s]         [cuda]   starting fit (n=5,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0788 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0023 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:24 | +    4.0s]         [cuda]   done in 0.09s, ARI=1.000, NMI=1.000
+[10:15:24 | +    4.0s] >>> run 3/5  (seed=22190)
+[10:15:24 | +    4.0s]       generating synthetic data: n=5,000, d=64, k=10, seed=22190
+[10:15:24 | +    4.1s]       data generated in 0.02s, X shape=(5000, 64), dtype=float32, size=1.3 MB
+[10:15:24 | +    4.1s]         [author] starting fit (n=5,000, d=64, m=250)
+[10:15:25 | +    4.5s]         [author] done in 0.39s, ARI=1.000, NMI=1.000
+[10:15:25 | +    4.5s]         [cuda]   starting fit (n=5,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0789 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0023 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:25 | +    4.5s]         [cuda]   done in 0.09s, ARI=1.000, NMI=1.000
+[10:15:25 | +    4.5s] >>> run 4/5  (seed=22191)
+[10:15:25 | +    4.5s]       generating synthetic data: n=5,000, d=64, k=10, seed=22191
+[10:15:25 | +    4.6s]       data generated in 0.02s, X shape=(5000, 64), dtype=float32, size=1.3 MB
+[10:15:25 | +    4.6s]         [author] starting fit (n=5,000, d=64, m=250)
+[10:15:25 | +    5.0s]         [author] done in 0.39s, ARI=1.000, NMI=1.000
+[10:15:25 | +    5.0s]         [cuda]   starting fit (n=5,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0787 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0024 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:25 | +    5.0s]         [cuda]   done in 0.09s, ARI=1.000, NMI=1.000
+[10:15:25 | +    5.0s] >>> run 5/5  (seed=22192)
+[10:15:25 | +    5.0s]       generating synthetic data: n=5,000, d=64, k=10, seed=22192
+[10:15:25 | +    5.1s]       data generated in 0.02s, X shape=(5000, 64), dtype=float32, size=1.3 MB
+[10:15:25 | +    5.1s]         [author] starting fit (n=5,000, d=64, m=250)
+[10:15:26 | +    5.5s]         [author] done in 0.39s, ARI=1.000, NMI=1.000
+[10:15:26 | +    5.5s]         [cuda]   starting fit (n=5,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0789 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0025 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:26 | +    5.5s]         [cuda]   done in 0.09s, ARI=1.000, NMI=1.000
+[10:15:26 | +    5.5s]     finished n=5,000 in 2.5s  (10 ok, 0 errors)  peak RSS=433 MB
+
+------------------------------------------------------------------------------
+  n = 10,000  (4/11 | ETA 0:00:14)
+------------------------------------------------------------------------------
+[10:15:26 | +    5.5s] >>> run 1/5  (seed=22188)
+[10:15:26 | +    5.5s]       generating synthetic data: n=10,000, d=64, k=10, seed=22188
+[10:15:26 | +    5.6s]       data generated in 0.03s, X shape=(10000, 64), dtype=float32, size=2.6 MB
+[10:15:26 | +    5.6s]         [author] starting fit (n=10,000, d=64, m=250)
+[10:15:26 | +    6.2s]         [author] done in 0.63s, ARI=1.000, NMI=1.000
+[10:15:26 | +    6.2s]         [cuda]   starting fit (n=10,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0941 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 3 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0028 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:26 | +    6.3s]         [cuda]   done in 0.10s, ARI=1.000, NMI=1.000
+[10:15:26 | +    6.3s] >>> run 2/5  (seed=22189)
+[10:15:26 | +    6.3s]       generating synthetic data: n=10,000, d=64, k=10, seed=22189
+[10:15:27 | +    6.3s]       data generated in 0.03s, X shape=(10000, 64), dtype=float32, size=2.6 MB
+[10:15:27 | +    6.3s]         [author] starting fit (n=10,000, d=64, m=250)
+[10:15:27 | +    7.0s]         [author] done in 0.63s, ARI=1.000, NMI=1.000
+[10:15:27 | +    7.0s]         [cuda]   starting fit (n=10,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0939 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 3 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0027 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:27 | +    7.1s]         [cuda]   done in 0.10s, ARI=1.000, NMI=1.000
+[10:15:27 | +    7.1s] >>> run 3/5  (seed=22190)
+[10:15:27 | +    7.1s]       generating synthetic data: n=10,000, d=64, k=10, seed=22190
+[10:15:27 | +    7.1s]       data generated in 0.03s, X shape=(10000, 64), dtype=float32, size=2.6 MB
+[10:15:27 | +    7.1s]         [author] starting fit (n=10,000, d=64, m=250)
+[10:15:28 | +    7.7s]         [author] done in 0.63s, ARI=1.000, NMI=1.000
+[10:15:28 | +    7.7s]         [cuda]   starting fit (n=10,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0939 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 3 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0027 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:28 | +    7.8s]         [cuda]   done in 0.10s, ARI=1.000, NMI=1.000
+[10:15:28 | +    7.8s] >>> run 4/5  (seed=22191)
+[10:15:28 | +    7.8s]       generating synthetic data: n=10,000, d=64, k=10, seed=22191
+[10:15:28 | +    7.9s]       data generated in 0.03s, X shape=(10000, 64), dtype=float32, size=2.6 MB
+[10:15:28 | +    7.9s]         [author] starting fit (n=10,000, d=64, m=250)
+[10:15:29 | +    8.5s]         [author] done in 0.63s, ARI=1.000, NMI=1.000
+[10:15:29 | +    8.5s]         [cuda]   starting fit (n=10,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0939 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 3 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0028 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[10:15:29 | +    8.6s]         [cuda]   done in 0.10s, ARI=1.000, NMI=0.999
+[10:15:29 | +    8.6s] >>> run 5/5  (seed=22192)
+[10:15:29 | +    8.6s]       generating synthetic data: n=10,000, d=64, k=10, seed=22192
+[10:15:29 | +    8.6s]       data generated in 0.03s, X shape=(10000, 64), dtype=float32, size=2.6 MB
+[10:15:29 | +    8.6s]         [author] starting fit (n=10,000, d=64, m=250)
+[10:15:29 | +    9.3s]         [author] done in 0.63s, ARI=1.000, NMI=1.000
+[10:15:29 | +    9.3s]         [cuda]   starting fit (n=10,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.0946 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 3 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0027 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0027 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0010 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0047 s
+  [Profile] Step 3: Total Spectral Core: 0.0047 s
+  [Profile] Step 4: Label Propagation: 0.0000 s
+===========================================
+
+[10:15:30 | +    9.4s]         [cuda]   done in 0.10s, ARI=1.000, NMI=0.999
+[10:15:30 | +    9.4s]     finished n=10,000 in 3.8s  (10 ok, 0 errors)  peak RSS=457 MB
+
+------------------------------------------------------------------------------
+  n = 25,000  (5/11 | ETA 0:00:16)
+------------------------------------------------------------------------------
+[10:15:30 | +    9.4s] >>> run 1/5  (seed=22188)
+[10:15:30 | +    9.4s]       generating synthetic data: n=25,000, d=64, k=10, seed=22188
+[10:15:30 | +    9.4s]       data generated in 0.07s, X shape=(25000, 64), dtype=float32, size=6.4 MB
+[10:15:30 | +    9.4s]         [author] starting fit (n=25,000, d=64, m=250)
+[10:15:31 | +   10.9s]         [author] done in 1.45s, ARI=1.000, NMI=1.000
+[10:15:31 | +   10.9s]         [cuda]   starting fit (n=25,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.1963 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 6 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0038 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0026 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0046 s
+  [Profile] Step 3: Total Spectral Core: 0.0046 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[10:15:31 | +   11.1s]         [cuda]   done in 0.21s, ARI=1.000, NMI=1.000
+[10:15:31 | +   11.1s] >>> run 2/5  (seed=22189)
+[10:15:31 | +   11.1s]       generating synthetic data: n=25,000, d=64, k=10, seed=22189
+[10:15:31 | +   11.2s]       data generated in 0.06s, X shape=(25000, 64), dtype=float32, size=6.4 MB
+[10:15:31 | +   11.2s]         [author] starting fit (n=25,000, d=64, m=250)
+[10:15:33 | +   12.6s]         [author] done in 1.46s, ARI=1.000, NMI=1.000
+[10:15:33 | +   12.6s]         [cuda]   starting fit (n=25,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.1747 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 6 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0039 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0023 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[10:15:33 | +   12.8s]         [cuda]   done in 0.18s, ARI=1.000, NMI=1.000
+[10:15:33 | +   12.8s] >>> run 3/5  (seed=22190)
+[10:15:33 | +   12.8s]       generating synthetic data: n=25,000, d=64, k=10, seed=22190
+[10:15:33 | +   12.9s]       data generated in 0.06s, X shape=(25000, 64), dtype=float32, size=6.4 MB
+[10:15:33 | +   12.9s]         [author] starting fit (n=25,000, d=64, m=250)
+[10:15:34 | +   14.3s]         [author] done in 1.40s, ARI=1.000, NMI=1.000
+[10:15:34 | +   14.3s]         [cuda]   starting fit (n=25,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.1751 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 6 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0037 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[10:15:35 | +   14.5s]         [cuda]   done in 0.18s, ARI=1.000, NMI=1.000
+[10:15:35 | +   14.5s] >>> run 4/5  (seed=22191)
+[10:15:35 | +   14.5s]       generating synthetic data: n=25,000, d=64, k=10, seed=22191
+[10:15:35 | +   14.6s]       data generated in 0.06s, X shape=(25000, 64), dtype=float32, size=6.4 MB
+[10:15:35 | +   14.6s]         [author] starting fit (n=25,000, d=64, m=250)
+[10:15:36 | +   15.9s]         [author] done in 1.39s, ARI=1.000, NMI=1.000
+[10:15:36 | +   15.9s]         [cuda]   starting fit (n=25,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.1756 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 6 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0035 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0023 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[10:15:36 | +   16.1s]         [cuda]   done in 0.18s, ARI=1.000, NMI=1.000
+[10:15:36 | +   16.1s] >>> run 5/5  (seed=22192)
+[10:15:36 | +   16.1s]       generating synthetic data: n=25,000, d=64, k=10, seed=22192
+[10:15:36 | +   16.2s]       data generated in 0.06s, X shape=(25000, 64), dtype=float32, size=6.4 MB
+[10:15:36 | +   16.2s]         [author] starting fit (n=25,000, d=64, m=250)
+[10:15:38 | +   17.6s]         [author] done in 1.39s, ARI=1.000, NMI=1.000
+[10:15:38 | +   17.6s]         [cuda]   starting fit (n=25,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.1755 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 6 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0035 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0023 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[10:15:38 | +   17.8s]         [cuda]   done in 0.18s, ARI=1.000, NMI=1.000
+[10:15:38 | +   17.8s]     finished n=25,000 in 8.4s  (10 ok, 0 errors)  peak RSS=512 MB
+
+------------------------------------------------------------------------------
+  n = 50,000  (6/11 | ETA 0:00:21)
+------------------------------------------------------------------------------
+[10:15:38 | +   17.8s] >>> run 1/5  (seed=22188)
+[10:15:38 | +   17.8s]       generating synthetic data: n=50,000, d=64, k=10, seed=22188
+[10:15:38 | +   17.9s]       data generated in 0.13s, X shape=(50000, 64), dtype=float32, size=12.8 MB
+[10:15:38 | +   17.9s]         [author] starting fit (n=50,000, d=64, m=250)
+[10:15:41 | +   20.6s]         [author] done in 2.64s, ARI=1.000, NMI=1.000
+[10:15:41 | +   20.6s]         [cuda]   starting fit (n=50,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.3503 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 12 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0064 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0023 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0002 s
+===========================================
+
+[10:15:41 | +   20.9s]         [cuda]   done in 0.36s, ARI=1.000, NMI=1.000
+[10:15:41 | +   20.9s] >>> run 2/5  (seed=22189)
+[10:15:41 | +   20.9s]       generating synthetic data: n=50,000, d=64, k=10, seed=22189
+[10:15:41 | +   21.0s]       data generated in 0.12s, X shape=(50000, 64), dtype=float32, size=12.8 MB
+[10:15:41 | +   21.1s]         [author] starting fit (n=50,000, d=64, m=250)
+[10:15:44 | +   23.7s]         [author] done in 2.65s, ARI=1.000, NMI=1.000
+[10:15:44 | +   23.7s]         [cuda]   starting fit (n=50,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.3587 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 12 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0064 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0023 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0002 s
+===========================================
+
+[10:15:44 | +   24.1s]         [cuda]   done in 0.37s, ARI=1.000, NMI=1.000
+[10:15:44 | +   24.1s] >>> run 3/5  (seed=22190)
+[10:15:44 | +   24.1s]       generating synthetic data: n=50,000, d=64, k=10, seed=22190
+[10:15:44 | +   24.2s]       data generated in 0.12s, X shape=(50000, 64), dtype=float32, size=12.8 MB
+[10:15:44 | +   24.2s]         [author] starting fit (n=50,000, d=64, m=250)
+[10:15:47 | +   26.9s]         [author] done in 2.67s, ARI=1.000, NMI=1.000
+[10:15:47 | +   26.9s]         [cuda]   starting fit (n=50,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.3573 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 12 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0065 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0002 s
+===========================================
+
+[10:15:47 | +   27.3s]         [cuda]   done in 0.37s, ARI=1.000, NMI=1.000
+[10:15:47 | +   27.3s] >>> run 4/5  (seed=22191)
+[10:15:47 | +   27.3s]       generating synthetic data: n=50,000, d=64, k=10, seed=22191
+[10:15:48 | +   27.4s]       data generated in 0.12s, X shape=(50000, 64), dtype=float32, size=12.8 MB
+[10:15:48 | +   27.4s]         [author] starting fit (n=50,000, d=64, m=250)
+[10:15:50 | +   30.0s]         [author] done in 2.63s, ARI=1.000, NMI=1.000
+[10:15:50 | +   30.0s]         [cuda]   starting fit (n=50,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.3644 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 12 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0064 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0002 s
+===========================================
+
+[10:15:51 | +   30.4s]         [cuda]   done in 0.38s, ARI=1.000, NMI=1.000
+[10:15:51 | +   30.4s] >>> run 5/5  (seed=22192)
+[10:15:51 | +   30.4s]       generating synthetic data: n=50,000, d=64, k=10, seed=22192
+[10:15:51 | +   30.5s]       data generated in 0.12s, X shape=(50000, 64), dtype=float32, size=12.8 MB
+[10:15:51 | +   30.5s]         [author] starting fit (n=50,000, d=64, m=250)
+[10:15:53 | +   33.2s]         [author] done in 2.62s, ARI=1.000, NMI=1.000
+[10:15:53 | +   33.2s]         [cuda]   starting fit (n=50,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.3511 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 12 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0063 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0001 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0023 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0041 s
+  [Profile] Step 3: Total Spectral Core: 0.0041 s
+  [Profile] Step 4: Label Propagation: 0.0002 s
+===========================================
+
+[10:15:54 | +   33.5s]         [cuda]   done in 0.36s, ARI=1.000, NMI=1.000
+[10:15:54 | +   33.5s]     finished n=50,000 in 15.8s  (10 ok, 0 errors)  peak RSS=556 MB
+
+------------------------------------------------------------------------------
+  n = 100,000  (7/11 | ETA 0:00:32)
+------------------------------------------------------------------------------
+[10:15:54 | +   33.5s] >>> run 1/5  (seed=22188)
+[10:15:54 | +   33.5s]       generating synthetic data: n=100,000, d=64, k=10, seed=22188
+[10:15:54 | +   33.8s]       data generated in 0.25s, X shape=(100000, 64), dtype=float32, size=25.6 MB
+[10:15:54 | +   33.8s]         [author] starting fit (n=100,000, d=64, m=250)
+[10:15:59 | +   39.1s]         [author] done in 5.32s, ARI=1.000, NMI=1.000
+[10:15:59 | +   39.1s]         [cuda]   starting fit (n=100,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.6267 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 25 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0130 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0007 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0009 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0049 s
+  [Profile] Step 3: Total Spectral Core: 0.0049 s
+  [Profile] Step 4: Label Propagation: 0.0003 s
+===========================================
+
+[10:16:00 | +   39.8s]         [cuda]   done in 0.65s, ARI=1.000, NMI=1.000
+[10:16:00 | +   39.8s] >>> run 2/5  (seed=22189)
+[10:16:00 | +   39.8s]       generating synthetic data: n=100,000, d=64, k=10, seed=22189
+[10:16:00 | +   40.1s]       data generated in 0.25s, X shape=(100000, 64), dtype=float32, size=25.6 MB
+[10:16:00 | +   40.1s]         [author] starting fit (n=100,000, d=64, m=250)
+[10:16:06 | +   45.4s]         [author] done in 5.34s, ARI=1.000, NMI=1.000
+[10:16:06 | +   45.4s]         [cuda]   starting fit (n=100,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.6325 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 25 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0128 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0011 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0051 s
+  [Profile] Step 3: Total Spectral Core: 0.0052 s
+  [Profile] Step 4: Label Propagation: 0.0003 s
+===========================================
+
+[10:16:06 | +   46.1s]         [cuda]   done in 0.66s, ARI=1.000, NMI=1.000
+[10:16:06 | +   46.1s] >>> run 3/5  (seed=22190)
+[10:16:06 | +   46.1s]       generating synthetic data: n=100,000, d=64, k=10, seed=22190
+[10:16:06 | +   46.3s]       data generated in 0.25s, X shape=(100000, 64), dtype=float32, size=25.6 MB
+[10:16:06 | +   46.3s]         [author] starting fit (n=100,000, d=64, m=250)
+[10:16:12 | +   51.6s]         [author] done in 5.23s, ARI=1.000, NMI=1.000
+[10:16:12 | +   51.6s]         [cuda]   starting fit (n=100,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.6228 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 25 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0128 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0008 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0049 s
+  [Profile] Step 3: Total Spectral Core: 0.0049 s
+  [Profile] Step 4: Label Propagation: 0.0003 s
+===========================================
+
+[10:16:12 | +   52.2s]         [cuda]   done in 0.65s, ARI=1.000, NMI=1.000
+[10:16:12 | +   52.2s] >>> run 4/5  (seed=22191)
+[10:16:12 | +   52.2s]       generating synthetic data: n=100,000, d=64, k=10, seed=22191
+[10:16:13 | +   52.5s]       data generated in 0.25s, X shape=(100000, 64), dtype=float32, size=25.6 MB
+[10:16:13 | +   52.5s]         [author] starting fit (n=100,000, d=64, m=250)
+[10:16:18 | +   57.7s]         [author] done in 5.24s, ARI=1.000, NMI=1.000
+[10:16:18 | +   57.7s]         [cuda]   starting fit (n=100,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.6240 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 25 MiB  |  per-chunk: 1 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0134 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0062 s
+  [Profile] Step 3: Total Spectral Core: 0.0062 s
+  [Profile] Step 4: Label Propagation: 0.0003 s
+===========================================
+
+[10:16:19 | +   58.4s]         [cuda]   done in 0.65s, ARI=1.000, NMI=1.000
+[10:16:19 | +   58.4s] >>> run 5/5  (seed=22192)
+[10:16:19 | +   58.4s]       generating synthetic data: n=100,000, d=64, k=10, seed=22192
+[10:16:19 | +   58.7s]       data generated in 0.25s, X shape=(100000, 64), dtype=float32, size=25.6 MB
+[10:16:19 | +   58.7s]         [author] starting fit (n=100,000, d=64, m=250)
+[10:16:24 | +   63.9s]         [author] done in 5.23s, ARI=1.000, NMI=1.000
+[10:16:24 | +   63.9s]         [cuda]   starting fit (n=100,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 0.6241 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 25 MiB  |  per-chunk: 0 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0130 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0019 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0024 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0060 s
+  [Profile] Step 3: Total Spectral Core: 0.0060 s
+  [Profile] Step 4: Label Propagation: 0.0003 s
+===========================================
+
+[10:16:25 | +   64.6s]         [cuda]   done in 0.65s, ARI=1.000, NMI=1.000
+[10:16:25 | +   64.6s]     finished n=100,000 in 31.0s  (10 ok, 0 errors)  peak RSS=633 MB
+
+------------------------------------------------------------------------------
+  n = 500,000  (8/11 | ETA 0:00:49)
+------------------------------------------------------------------------------
+[10:16:25 | +   64.6s] >>> run 1/5  (seed=22188)
+[10:16:25 | +   64.6s]       generating synthetic data: n=500,000, d=64, k=10, seed=22188
+[10:16:26 | +   65.8s]       data generated in 1.28s, X shape=(500000, 64), dtype=float32, size=128.0 MB
+[10:16:26 | +   65.8s]         [author] starting fit (n=500,000, d=64, m=250)
+[10:16:52 | +   91.9s]         [author] done in 25.98s, ARI=1.000, NMI=1.000
+[10:16:52 | +   91.9s]         [cuda]   starting fit (n=500,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 3.0247 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 124 MiB  |  per-chunk: 3 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0562 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0012 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0149 s
+  [Profile] Step 3: Total Spectral Core: 0.0149 s
+  [Profile] Step 4: Label Propagation: 0.0015 s
+===========================================
+
+[10:16:55 | +   95.1s]         [cuda]   done in 3.13s, ARI=1.000, NMI=1.000
+[10:16:55 | +   95.1s] >>> run 2/5  (seed=22189)
+[10:16:55 | +   95.1s]       generating synthetic data: n=500,000, d=64, k=10, seed=22189
+[10:16:57 | +   96.4s]       data generated in 1.28s, X shape=(500000, 64), dtype=float32, size=128.0 MB
+[10:16:57 | +   96.4s]         [author] starting fit (n=500,000, d=64, m=250)
+[10:17:23 | +  122.4s]         [author] done in 25.98s, ARI=1.000, NMI=1.000
+[10:17:23 | +  122.4s]         [cuda]   starting fit (n=500,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 3.0470 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 124 MiB  |  per-chunk: 4 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0576 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0063 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0022 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0159 s
+  [Profile] Step 3: Total Spectral Core: 0.0159 s
+  [Profile] Step 4: Label Propagation: 0.0015 s
+===========================================
+
+[10:17:26 | +  125.6s]         [cuda]   done in 3.15s, ARI=1.000, NMI=1.000
+[10:17:26 | +  125.6s] >>> run 3/5  (seed=22190)
+[10:17:26 | +  125.6s]       generating synthetic data: n=500,000, d=64, k=10, seed=22190
+[10:17:27 | +  126.9s]       data generated in 1.28s, X shape=(500000, 64), dtype=float32, size=128.0 MB
+[10:17:27 | +  126.9s]         [author] starting fit (n=500,000, d=64, m=250)
+[10:17:53 | +  153.0s]         [author] done in 26.00s, ARI=1.000, NMI=1.000
+[10:17:53 | +  153.0s]         [cuda]   starting fit (n=500,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 3.0423 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 124 MiB  |  per-chunk: 3 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0564 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0020 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0158 s
+  [Profile] Step 3: Total Spectral Core: 0.0158 s
+  [Profile] Step 4: Label Propagation: 0.0015 s
+===========================================
+
+[10:17:56 | +  156.2s]         [cuda]   done in 3.14s, ARI=1.000, NMI=1.000
+[10:17:56 | +  156.2s] >>> run 4/5  (seed=22191)
+[10:17:56 | +  156.2s]       generating synthetic data: n=500,000, d=64, k=10, seed=22191
+[10:17:58 | +  157.5s]       data generated in 1.28s, X shape=(500000, 64), dtype=float32, size=128.0 MB
+[10:17:58 | +  157.5s]         [author] starting fit (n=500,000, d=64, m=250)
+[10:18:24 | +  183.5s]         [author] done in 25.98s, ARI=1.000, NMI=1.000
+[10:18:24 | +  183.5s]         [cuda]   starting fit (n=500,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 3.0533 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 124 MiB  |  per-chunk: 3 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0563 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0008 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0142 s
+  [Profile] Step 3: Total Spectral Core: 0.0142 s
+  [Profile] Step 4: Label Propagation: 0.0015 s
+===========================================
+
+[10:18:27 | +  186.7s]         [cuda]   done in 3.15s, ARI=1.000, NMI=1.000
+[10:18:27 | +  186.7s] >>> run 5/5  (seed=22192)
+[10:18:27 | +  186.7s]       generating synthetic data: n=500,000, d=64, k=10, seed=22192
+[10:18:28 | +  188.0s]       data generated in 1.29s, X shape=(500000, 64), dtype=float32, size=128.0 MB
+[10:18:28 | +  188.0s]         [author] starting fit (n=500,000, d=64, m=250)
+[10:18:54 | +  214.1s]         [author] done in 26.02s, ARI=1.000, NMI=1.000
+[10:18:54 | +  214.1s]         [cuda]   starting fit (n=500,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 3.0527 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 124 MiB  |  per-chunk: 3 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.0562 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0017 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0154 s
+  [Profile] Step 3: Total Spectral Core: 0.0154 s
+  [Profile] Step 4: Label Propagation: 0.0015 s
+===========================================
+
+[10:18:58 | +  217.4s]         [cuda]   done in 3.15s, ARI=1.000, NMI=1.000
+[10:18:58 | +  217.4s]     finished n=500,000 in 152.8s  (10 ok, 0 errors)  peak RSS=1030 MB
+
+------------------------------------------------------------------------------
+  n = 1,000,000  (9/11 | ETA 0:02:07)
+------------------------------------------------------------------------------
+[10:18:58 | +  217.4s] >>> run 1/5  (seed=22188)
+[10:18:58 | +  217.4s]       generating synthetic data: n=1,000,000, d=64, k=10, seed=22188
+[10:19:00 | +  220.0s]       data generated in 2.61s, X shape=(1000000, 64), dtype=float32, size=256.0 MB
+[10:19:00 | +  220.0s]         [author] starting fit (n=1,000,000, d=64, m=250)
+[10:19:53 | +  273.2s]         [author] done in 53.12s, ARI=1.000, NMI=1.000
+[10:19:53 | +  273.2s]         [cuda]   starting fit (n=1,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 6.2021 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 248 MiB  |  per-chunk: 5 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.1071 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0158 s
+  [Profile] Step 3: Total Spectral Core: 0.0158 s
+  [Profile] Step 4: Label Propagation: 0.0031 s
+===========================================
+
+[10:20:00 | +  279.7s]         [cuda]   done in 6.38s, ARI=1.000, NMI=1.000
+[10:20:00 | +  279.7s] >>> run 2/5  (seed=22189)
+[10:20:00 | +  279.7s]       generating synthetic data: n=1,000,000, d=64, k=10, seed=22189
+[10:20:02 | +  282.3s]       data generated in 2.61s, X shape=(1000000, 64), dtype=float32, size=256.0 MB
+[10:20:02 | +  282.3s]         [author] starting fit (n=1,000,000, d=64, m=250)
+[10:20:56 | +  335.6s]         [author] done in 53.15s, ARI=1.000, NMI=1.000
+[10:20:56 | +  335.6s]         [cuda]   starting fit (n=1,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 6.1821 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 248 MiB  |  per-chunk: 6 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.1084 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0158 s
+  [Profile] Step 3: Total Spectral Core: 0.0158 s
+  [Profile] Step 4: Label Propagation: 0.0031 s
+===========================================
+
+[10:21:02 | +  342.1s]         [cuda]   done in 6.36s, ARI=1.000, NMI=1.000
+[10:21:02 | +  342.2s] >>> run 3/5  (seed=22190)
+[10:21:02 | +  342.2s]       generating synthetic data: n=1,000,000, d=64, k=10, seed=22190
+[10:21:05 | +  344.8s]       data generated in 2.61s, X shape=(1000000, 64), dtype=float32, size=256.0 MB
+[10:21:05 | +  344.8s]         [author] starting fit (n=1,000,000, d=64, m=250)
+[10:21:58 | +  398.2s]         [author] done in 53.23s, ARI=1.000, NMI=1.000
+[10:21:58 | +  398.2s]         [cuda]   starting fit (n=1,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 6.2041 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 248 MiB  |  per-chunk: 5 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.1072 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0063 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0158 s
+  [Profile] Step 3: Total Spectral Core: 0.0158 s
+  [Profile] Step 4: Label Propagation: 0.0031 s
+===========================================
+
+[10:22:05 | +  404.7s]         [cuda]   done in 6.38s, ARI=1.000, NMI=1.000
+[10:22:05 | +  404.7s] >>> run 4/5  (seed=22191)
+[10:22:05 | +  404.7s]       generating synthetic data: n=1,000,000, d=64, k=10, seed=22191
+[10:22:07 | +  407.3s]       data generated in 2.61s, X shape=(1000000, 64), dtype=float32, size=256.0 MB
+[10:22:07 | +  407.3s]         [author] starting fit (n=1,000,000, d=64, m=250)
+[10:23:01 | +  460.6s]         [author] done in 53.18s, ARI=1.000, NMI=1.000
+[10:23:01 | +  460.6s]         [cuda]   starting fit (n=1,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 6.2143 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 248 MiB  |  per-chunk: 6 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.1072 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0063 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0158 s
+  [Profile] Step 3: Total Spectral Core: 0.0158 s
+  [Profile] Step 4: Label Propagation: 0.0031 s
+===========================================
+
+[10:23:07 | +  467.1s]         [cuda]   done in 6.39s, ARI=1.000, NMI=1.000
+[10:23:07 | +  467.1s] >>> run 5/5  (seed=22192)
+[10:23:07 | +  467.1s]       generating synthetic data: n=1,000,000, d=64, k=10, seed=22192
+[10:23:10 | +  469.8s]       data generated in 2.61s, X shape=(1000000, 64), dtype=float32, size=256.0 MB
+[10:23:10 | +  469.8s]         [author] starting fit (n=1,000,000, d=64, m=250)
+[10:24:03 | +  523.2s]         [author] done in 53.28s, ARI=1.000, NMI=1.000
+[10:24:03 | +  523.2s]         [cuda]   starting fit (n=1,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 6.2067 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 248 MiB  |  per-chunk: 5 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.1073 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0158 s
+  [Profile] Step 3: Total Spectral Core: 0.0158 s
+  [Profile] Step 4: Label Propagation: 0.0031 s
+===========================================
+
+[10:24:10 | +  529.7s]         [cuda]   done in 6.38s, ARI=1.000, NMI=1.000
+[10:24:10 | +  529.7s]     finished n=1,000,000 in 312.3s  (10 ok, 0 errors)  peak RSS=1584 MB
+
+------------------------------------------------------------------------------
+  n = 5,000,000  (10/11 | ETA 0:03:28)
+------------------------------------------------------------------------------
+[10:24:10 | +  529.7s] >>> run 1/5  (seed=22188)
+[10:24:10 | +  529.7s]       generating synthetic data: n=5,000,000, d=64, k=10, seed=22188
+[10:24:23 | +  542.8s]       data generated in 13.15s, X shape=(5000000, 64), dtype=float32, size=1280.0 MB
+[10:24:23 | +  542.8s]         [author] starting fit (n=5,000,000, d=64, m=250)
+[10:28:58 | +  817.5s]         [author] done in 273.79s, ARI=1.000, NMI=1.000
+[10:28:58 | +  817.5s]         [cuda]   starting fit (n=5,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 32.9235 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1240 MiB  |  per-chunk: 35 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.5211 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0074 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0179 s
+  [Profile] Step 3: Total Spectral Core: 0.0179 s
+  [Profile] Step 4: Label Propagation: 0.0183 s
+===========================================
+
+[10:29:32 | +  852.1s]         [cuda]   done in 33.74s, ARI=1.000, NMI=1.000
+[10:29:32 | +  852.1s] >>> run 2/5  (seed=22189)
+[10:29:32 | +  852.1s]       generating synthetic data: n=5,000,000, d=64, k=10, seed=22189
+[10:29:45 | +  865.3s]       data generated in 13.15s, X shape=(5000000, 64), dtype=float32, size=1280.0 MB
+[10:29:45 | +  865.3s]         [author] starting fit (n=5,000,000, d=64, m=250)
+[10:34:21 | + 1141.0s]         [author] done in 274.76s, ARI=1.000, NMI=1.000
+[10:34:21 | + 1141.0s]         [cuda]   starting fit (n=5,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 32.9829 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1240 MiB  |  per-chunk: 27 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.5174 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0074 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0179 s
+  [Profile] Step 3: Total Spectral Core: 0.0179 s
+  [Profile] Step 4: Label Propagation: 0.0184 s
+===========================================
+
+[10:34:56 | + 1175.8s]         [cuda]   done in 33.80s, ARI=1.000, NMI=1.000
+[10:34:56 | + 1175.9s] >>> run 3/5  (seed=22190)
+[10:34:56 | + 1175.9s]       generating synthetic data: n=5,000,000, d=64, k=10, seed=22190
+[10:35:09 | + 1189.0s]       data generated in 13.18s, X shape=(5000000, 64), dtype=float32, size=1280.0 MB
+[10:35:09 | + 1189.0s]         [author] starting fit (n=5,000,000, d=64, m=250)
+[10:39:45 | + 1465.2s]         [author] done in 275.47s, ARI=1.000, NMI=1.000
+[10:39:45 | + 1465.2s]         [cuda]   starting fit (n=5,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 32.9993 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1240 MiB  |  per-chunk: 43 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.5273 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0074 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0179 s
+  [Profile] Step 3: Total Spectral Core: 0.0179 s
+  [Profile] Step 4: Label Propagation: 0.0185 s
+===========================================
+
+[10:40:20 | + 1499.9s]         [cuda]   done in 33.83s, ARI=1.000, NMI=1.000
+[10:40:20 | + 1499.9s] >>> run 4/5  (seed=22191)
+[10:40:20 | + 1499.9s]       generating synthetic data: n=5,000,000, d=64, k=10, seed=22191
+[10:40:33 | + 1513.1s]       data generated in 13.18s, X shape=(5000000, 64), dtype=float32, size=1280.0 MB
+[10:40:33 | + 1513.1s]         [author] starting fit (n=5,000,000, d=64, m=250)
+[10:45:08 | + 1787.5s]         [author] done in 273.57s, ARI=1.000, NMI=1.000
+[10:45:08 | + 1787.5s]         [cuda]   starting fit (n=5,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 32.8990 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1240 MiB  |  per-chunk: 37 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.5217 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0074 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0179 s
+  [Profile] Step 3: Total Spectral Core: 0.0179 s
+  [Profile] Step 4: Label Propagation: 0.0177 s
+===========================================
+
+[10:45:42 | + 1822.2s]         [cuda]   done in 33.71s, ARI=1.000, NMI=1.000
+[10:45:42 | + 1822.2s] >>> run 5/5  (seed=22192)
+[10:45:42 | + 1822.2s]       generating synthetic data: n=5,000,000, d=64, k=10, seed=22192
+[10:45:55 | + 1835.3s]       data generated in 13.04s, X shape=(5000000, 64), dtype=float32, size=1280.0 MB
+[10:45:55 | + 1835.3s]         [author] starting fit (n=5,000,000, d=64, m=250)
+[10:50:29 | + 2109.3s]         [author] done in 272.95s, ARI=1.000, NMI=1.000
+[10:50:29 | + 2109.3s]         [cuda]   starting fit (n=5,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 32.9220 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 1240 MiB  |  per-chunk: 27 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 0.5144 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0074 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0179 s
+  [Profile] Step 3: Total Spectral Core: 0.0179 s
+  [Profile] Step 4: Label Propagation: 0.0178 s
+===========================================
+
+[10:51:04 | + 2144.3s]         [cuda]   done in 33.73s, ARI=1.000, NMI=1.000
+[10:51:04 | + 2144.3s]     finished n=5,000,000 in 1614.6s  (10 ok, 0 errors)  peak RSS=6031 MB
+
+------------------------------------------------------------------------------
+  n = 10,000,000  (11/11 | ETA 0:07:05)
+------------------------------------------------------------------------------
+[10:51:04 | + 2144.3s] >>> run 1/5  (seed=22188)
+[10:51:04 | + 2144.3s]       generating synthetic data: n=10,000,000, d=64, k=10, seed=22188
+[10:51:32 | + 2171.4s]       data generated in 27.13s, X shape=(10000000, 64), dtype=float32, size=2560.0 MB
+[10:51:32 | + 2171.4s]         [author] starting fit (n=10,000,000, d=64, m=250)
+[11:00:31 | + 2711.2s]         [author] done in 538.11s, ARI=1.000, NMI=1.000
+[11:00:31 | + 2711.2s]         [cuda]   starting fit (n=10,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 67.4418 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 2480 MiB  |  per-chunk: 75 MiB  |  CHUNK=228
+  [Profile] Step 2: Affinity (GPU): 1.0288 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0020 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0157 s
+  [Profile] Step 3: Total Spectral Core: 0.0157 s
+  [Profile] Step 4: Label Propagation: 0.0374 s
+===========================================
+
+[11:01:43 | + 2782.7s]         [cuda]   done in 69.03s, ARI=1.000, NMI=1.000
+[11:01:43 | + 2782.7s] >>> run 2/5  (seed=22189)
+[11:01:43 | + 2782.7s]       generating synthetic data: n=10,000,000, d=64, k=10, seed=22189
+[11:02:09 | + 2808.8s]       data generated in 26.15s, X shape=(10000000, 64), dtype=float32, size=2560.0 MB
+[11:02:09 | + 2808.8s]         [author] starting fit (n=10,000,000, d=64, m=250)
+[11:11:09 | + 3348.4s]         [author] done in 537.98s, ARI=1.000, NMI=1.000
+[11:11:09 | + 3348.4s]         [cuda]   starting fit (n=10,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 67.4205 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 2480 MiB  |  per-chunk: 57 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 1.0236 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0020 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0157 s
+  [Profile] Step 3: Total Spectral Core: 0.0157 s
+  [Profile] Step 4: Label Propagation: 0.0365 s
+===========================================
+
+[11:12:21 | + 3420.4s]         [cuda]   done in 69.00s, ARI=1.000, NMI=1.000
+[11:12:21 | + 3420.4s] >>> run 3/5  (seed=22190)
+[11:12:21 | + 3420.4s]       generating synthetic data: n=10,000,000, d=64, k=10, seed=22190
+[11:12:47 | + 3447.3s]       data generated in 26.88s, X shape=(10000000, 64), dtype=float32, size=2560.0 MB
+[11:12:47 | + 3447.3s]         [author] starting fit (n=10,000,000, d=64, m=250)
+[11:21:47 | + 3987.2s]         [author] done in 537.83s, ARI=1.000, NMI=1.000
+[11:21:47 | + 3987.2s]         [cuda]   starting fit (n=10,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 67.3838 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 2480 MiB  |  per-chunk: 60 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 1.0251 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0020 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0157 s
+  [Profile] Step 3: Total Spectral Core: 0.0157 s
+  [Profile] Step 4: Label Propagation: 0.0368 s
+===========================================
+
+[11:22:59 | + 4059.1s]         [cuda]   done in 68.96s, ARI=1.000, NMI=1.000
+[11:22:59 | + 4059.1s] >>> run 4/5  (seed=22191)
+[11:22:59 | + 4059.1s]       generating synthetic data: n=10,000,000, d=64, k=10, seed=22191
+[11:23:25 | + 4085.2s]       data generated in 26.12s, X shape=(10000000, 64), dtype=float32, size=2560.0 MB
+[11:23:25 | + 4085.2s]         [author] starting fit (n=10,000,000, d=64, m=250)
+[11:32:26 | + 4626.0s]         [author] done in 538.62s, ARI=1.000, NMI=1.000
+[11:32:26 | + 4626.0s]         [cuda]   starting fit (n=10,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 67.1220 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 2480 MiB  |  per-chunk: 92 MiB  |  CHUNK=185
+  [Profile] Step 2: Affinity (GPU): 1.0373 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0021 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0074 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0179 s
+  [Profile] Step 3: Total Spectral Core: 0.0179 s
+  [Profile] Step 4: Label Propagation: 0.0361 s
+===========================================
+
+[11:33:37 | + 4697.1s]         [cuda]   done in 68.71s, ARI=1.000, NMI=1.000
+[11:33:37 | + 4697.1s] >>> run 5/5  (seed=22192)
+[11:33:37 | + 4697.1s]       generating synthetic data: n=10,000,000, d=64, k=10, seed=22192
+[11:34:03 | + 4723.3s]       data generated in 26.22s, X shape=(10000000, 64), dtype=float32, size=2560.0 MB
+[11:34:03 | + 4723.3s]         [author] starting fit (n=10,000,000, d=64, m=250)
+[11:43:04 | + 5263.4s]         [author] done in 537.55s, ARI=1.000, NMI=1.000
+[11:43:04 | + 5263.4s]         [cuda]   starting fit (n=10,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  [Profile] Step 1: Initial K-Means (VQ): 67.3449 s
+Computing affinity matrix on GPU... perplexity=2.0000
+[affinity_gpu] free GPU mem: 24022 MiB  |  permanent: 2480 MiB  |  per-chunk: 67 MiB  |  CHUNK=250
+  [Profile] Step 2: Affinity (GPU): 1.0300 s
+  [Profile] Entering Step 3: Spectral Core...
+Running spectral clustering on GPU with m=250, k=10
+  [Profile]  -> Laplacian Setup (CUDA): 0.0020 s
+  [Profile]  -> Eigen Decomposition (CUDA): 0.0064 s
+  [Profile]  -> Spectral K-Means (CUDA): 0.0021 s
+  [Profile]  Total SpectralClustering Phase (CUDA): 0.0157 s
+  [Profile] Step 3: Total Spectral Core: 0.0157 s
+  [Profile] Step 4: Label Propagation: 0.0374 s
+===========================================
+
+[11:44:14 | + 5334.3s]         [cuda]   done in 68.93s, ARI=1.000, NMI=1.000
+[11:44:14 | + 5334.3s]     finished n=10,000,000 in 3190.1s  (10 ok, 0 errors)  peak RSS=11401 MB
+[11:44:14 | + 5334.3s]     n-sweep total wall time: 5334.3s
+[11:44:15 | + 5334.3s]     closed CSV: results_n_scaling.csv
+[11:44:15 | + 5334.3s]     all sweeps complete in 5334.3s
+
+==============================================================================
+  Plotting
+==============================================================================
+[11:44:15 | + 5334.3s]     loading CSV: results_n_scaling.csv
+[11:44:15 | + 5334.3s]       loaded 110 successful rows from results_n_scaling.csv
+
+[11:44:15 | + 5334.3s]     Timing summary across n:
+       point          author (s)            cuda (s)     speedup
+  ----------  ------------------  ------------------  ----------
+        1000    0.145 +/-  0.010    0.098 +/-  0.054       1.48x
+        2500    0.250 +/-  0.010    0.079 +/-  0.000       3.16x
+        5000    0.390 +/-  0.002    0.086 +/-  0.000       4.53x
+       10000    0.627 +/-  0.001    0.102 +/-  0.000       6.15x
+       25000    1.418 +/-  0.035    0.188 +/-  0.010       7.54x
+       50000    2.642 +/-  0.018    0.369 +/-  0.006       7.17x
+      100000    5.270 +/-  0.055    0.651 +/-  0.004       8.10x
+      500000   25.991 +/-  0.016    3.145 +/-  0.012       8.26x
+     1000000   53.191 +/-  0.064    6.379 +/-  0.011       8.34x
+     5000000  274.107 +/-  0.999   33.760 +/-  0.050       8.12x
+    10000000  538.018 +/-  0.396   68.927 +/-  0.124       7.81x
+
+[11:44:15 | + 5334.7s]     saved plot: figure_n_scaling.png
+[11:44:15 | + 5334.7s]     loading CSV: results_m_scaling.csv
+[11:44:15 | + 5334.7s]       loaded 100 successful rows from results_m_scaling.csv
+
+[11:44:15 | + 5334.7s]     Timing summary across m:
+       point          author (s)            cuda (s)     speedup
+  ----------  ------------------  ------------------  ----------
+          50    0.384 +/-  0.011    0.061 +/-  0.047       6.26x
+         100    0.560 +/-  0.009    0.074 +/-  0.000       7.60x
+         250    1.229 +/-  0.027    0.176 +/-  0.008       6.98x
+         500    2.326 +/-  0.035    0.354 +/-  0.004       6.58x
+        1000    4.735 +/-  0.044    0.676 +/-  0.004       7.00x
+        1500    7.691 +/-  0.022    1.039 +/-  0.003       7.40x
+        2000   10.795 +/-  0.093    1.391 +/-  0.007       7.76x
+        4000   26.286 +/-  0.235    3.027 +/-  0.007       8.68x
+        8000   76.923 +/-  0.901    6.743 +/-  0.028      11.41x
+       12000  150.291 +/-  2.054   11.886 +/-  0.024      12.64x
+
+[11:44:15 | + 5334.9s]     saved plot: figure_m_scaling.png
+[11:44:15 | + 5334.9s]     done.
+
+======================================================
+End time:      Tue Apr 28 11:44:15 IST 2026
+Exit code:     0
+======================================================

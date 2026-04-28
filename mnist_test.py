@@ -1,6 +1,6 @@
 """
 Reproduce paper Figure 4 layout: ARI and NMI vs. embedding dimension h,
-comparing the author's Python SpectralBridges against our CUDA implementation.
+comparing the author's Python SpectralBridges against our cpu implementation.
 
 Protocol (matching paper section 4.6):
   - 10 runs per (h, method) pair
@@ -37,7 +37,7 @@ N_RUNS = 10
 BASE_SEED = 22188
 PERPLEXITY = 2.0
 N_ITER = 20
-NUM_THREADS = 12
+NUM_THREADS = 36
 
 CSV_PATH = "results_h_sweep.csv"
 PLOT_PATH = "figure4_reproduction.png"
@@ -57,14 +57,14 @@ def run_one(method, X_pca, y_true, seed):
         model.fit(X_pca)
         elapsed = time.time() - t0
         labels = model.labels_
-    elif method == "cuda":
+    elif method == "cpu":
         model = specbridge.SpectralClustering(
             n_clusters=N_CLUSTERS,
             num_voronoi=M_VORONOI,
             n_iter=N_ITER,
             target_perplexity=PERPLEXITY,
             random_state=seed,
-            use_gpu=True,
+            use_gpu=False,
         )
         t0 = time.time()
         result = model.fit(X_pca)
@@ -81,7 +81,7 @@ def run_one(method, X_pca, y_true, seed):
 
 
 def make_plot(records):
-    """Grouped bar plot: ARI and NMI vs h, author vs cuda."""
+    """Grouped bar plot: ARI and NMI vs h, author vs cpu."""
     h_labels = [f"h={h}" if h != 784 else "h=784 (full)" for h in H_DIMS]
 
     def stats(metric_idx, method):
@@ -93,9 +93,9 @@ def make_plot(records):
         return np.array(means), np.array(stds)
 
     ari_auth_m, ari_auth_s = stats(0, "author")
-    ari_cuda_m, ari_cuda_s = stats(0, "cuda")
+    ari_cpu_m, ari_cpu_s = stats(0, "cpu")
     nmi_auth_m, nmi_auth_s = stats(1, "author")
-    nmi_cuda_m, nmi_cuda_s = stats(1, "cuda")
+    nmi_cpu_m, nmi_cpu_s = stats(1, "cpu")
 
     x = np.arange(len(H_DIMS))
     width = 0.35
@@ -106,12 +106,12 @@ def make_plot(records):
     ax = axes[0]
     ax.bar(x - width / 2, ari_auth_m, width, yerr=ari_auth_s,
            label="Author (Python)", color="#9b8bd0", capsize=3)
-    ax.bar(x + width / 2, ari_cuda_m, width, yerr=ari_cuda_s,
-           label="Ours (CUDA)", color="#5a3a8a", capsize=3)
+    ax.bar(x + width / 2, ari_cpu_m, width, yerr=ari_cpu_s,
+           label="Ours (cpu)", color="#5a3a8a", capsize=3)
     ax.set_xticks(x)
     ax.set_xticklabels(h_labels, rotation=20)
     ax.set_ylabel("ARI Score")
-    ax.set_ylim(0, max(ari_auth_m.max(), ari_cuda_m.max()) * 1.15)
+    ax.set_ylim(0, max(ari_auth_m.max(), ari_cpu_m.max()) * 1.15)
     ax.legend(loc="lower right")
     ax.grid(axis="y", alpha=0.3)
 
@@ -119,17 +119,17 @@ def make_plot(records):
     ax = axes[1]
     ax.bar(x - width / 2, nmi_auth_m, width, yerr=nmi_auth_s,
            label="Author (Python)", color="#9b8bd0", capsize=3)
-    ax.bar(x + width / 2, nmi_cuda_m, width, yerr=nmi_cuda_s,
-           label="Ours (CUDA)", color="#5a3a8a", capsize=3)
+    ax.bar(x + width / 2, nmi_cpu_m, width, yerr=nmi_cpu_s,
+           label="Ours (cpu)", color="#5a3a8a", capsize=3)
     ax.set_xticks(x)
     ax.set_xticklabels(h_labels, rotation=20)
     ax.set_ylabel("NMI Score")
-    ax.set_ylim(0, max(nmi_auth_m.max(), nmi_cuda_m.max()) * 1.15)
+    ax.set_ylim(0, max(nmi_auth_m.max(), nmi_cpu_m.max()) * 1.15)
     ax.legend(loc="lower right")
     ax.grid(axis="y", alpha=0.3)
 
     fig.suptitle(
-        f"Spectral Bridges on MNIST: Author Python vs. Our CUDA "
+        f"Spectral Bridges on MNIST: Author Python vs. Our cpu "
         f"({N_RUNS} runs, n={N_SAMPLES}, m={M_VORONOI})"
     )
     fig.tight_layout()
@@ -141,12 +141,12 @@ def print_summary_table(records):
     print("\n" + "=" * 84)
     print(f"Summary across h values ({N_RUNS} paired runs each)")
     print("=" * 84)
-    print(f"{'h':<6} | {'ARI auth':<16} | {'ARI cuda':<16} | "
-          f"{'NMI auth':<16} | {'NMI cuda':<16}")
+    print(f"{'h':<6} | {'ARI auth':<16} | {'ARI cpu':<16} | "
+          f"{'NMI auth':<16} | {'NMI cpu':<16}")
     print("-" * 84)
     for h in H_DIMS:
         a = np.array(records[h]["author"])
-        c = np.array(records[h]["cuda"])
+        c = np.array(records[h]["cpu"])
         print(
             f"{h:<6} | "
             f"{a[:,0].mean():.4f} +/- {a[:,0].std(ddof=1):.4f}  | "
@@ -168,7 +168,7 @@ def main():
     specbridge.set_num_threads(NUM_THREADS)
 
     # records[h][method] = list of (ari, nmi, time) tuples
-    records = {h: {"author": [], "cuda": []} for h in H_DIMS}
+    records = {h: {"author": [], "cpu": []} for h in H_DIMS}
 
     # Open CSV up front so partial results survive a crash.
     csv_file = open(CSV_PATH, "w", newline="")
@@ -191,19 +191,19 @@ def main():
                     pca.fit_transform(X_sub), dtype=np.float32
                 )
 
-                for method in ("author", "cuda"):
+                for method in ("author", "cpu"):
                     ari, nmi, t = run_one(method, X_pca, y_true, seed)
                     records[h][method].append((ari, nmi, t))
                     writer.writerow([h, run_idx, seed, method, ari, nmi, t])
                     csv_file.flush()
 
                 a_a, a_n, a_t = records[h]["author"][-1]
-                c_a, c_n, c_t = records[h]["cuda"][-1]
+                c_a, c_n, c_t = records[h]["cpu"][-1]
                 print(
                     f"  run {run_idx + 1:2d}/{N_RUNS} seed={seed} | "
-                    f"ARI auth={a_a:.3f} cuda={c_a:.3f} | "
-                    f"NMI auth={a_n:.3f} cuda={c_n:.3f} | "
-                    f"t auth={a_t:.2f}s cuda={c_t:.2f}s"
+                    f"ARI auth={a_a:.3f} cpu={c_a:.3f} | "
+                    f"NMI auth={a_n:.3f} cpu={c_n:.3f} | "
+                    f"t auth={a_t:.2f}s cpu={c_t:.2f}s"
                 )
     finally:
         csv_file.close()

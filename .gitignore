@@ -10,3 +10,6 @@ pics/
 logs/
 *.csv
 *.png
+__pycache__/
+*.npz
+*.gz

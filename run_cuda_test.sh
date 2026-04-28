@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=36
 #SBATCH --gres=gpu:1
-#SBATCH --time=00:30:00
+#SBATCH --time=02:00:00
 #SBATCH --output=logs/cuda_test.out
 #SBATCH --error=logs/cuda_test.err
 
@@ -107,7 +107,7 @@ echo "--- Running test_kmeans_cuda ---"
 # ./test_kmeans_cuda
 source /home/sirjanhansda/projectfolder/.venv/bin/activate
 cd /home/sirjanhansda/projectfolder/spectral-bridges-parallel && \
-python -u ./evaluator_spectral_bridges.py --skip-baseline --repeats 1
+python -u ./test_suit_speedups.py --mnist-arff mnist_784.arff.gz --experiment n
 TEST_EXIT=$?
 
 echo ""
