@@ -8,7 +8,6 @@ pics/
 *.png
 *.log
 logs/
-*.csv
 *.png
 __pycache__/
 *.npz
