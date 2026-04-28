@@ -6,8 +6,6 @@ bin/
 pics/
 .vs/
 *.png
-*.log
-logs/
 *.png
 __pycache__/
 *.npz

@@ -1,0 +1,3650 @@
+Node list: node5
+Current node: node5
+CPUs allocated: 36
+-- The CXX compiler identification is GNU 8.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Eigen3 include dir: /home/sirjanhansda/projectfolder/eigen-3.4.0
+-- Found OpenMP_CXX: -fopenmp (found version "4.5")
+-- Found OpenMP: TRUE (found version "4.5")
+-- OpenMP: -fopenmp
+-- BLAS/LAPACK/LAPACKE: OpenBLAS at /home/sirjanhansda/projectfolder/openblas/lib/libopenblas.so
+-- LAPACKE include: /home/sirjanhansda/projectfolder/openblas/include
+-- The CUDA compiler identification is NVIDIA 11.8.89 with host compiler GNU 8.5.0
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: /usr/local/cuda/targets/x86_64-linux/include (found version "11.8.89")
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE
+-- CUDA: enabled, arch=52
+-- Spectra: /home/sirjanhansda/projectfolder/spectra/include
+-- Eigen: using LAPACKE backend
+-- Found PythonInterp: /home/sirjanhansda/projectfolder/.venv/bin/python (found suitable version "3.10.14", minimum required is "3.8")
+-- Found PythonLibs: /home/sirjanhansda/python310/lib/libpython3.10.a
+-- Performing Test HAS_FLTO_AUTO
+-- Performing Test HAS_FLTO_AUTO - Success
+-- Found pybind11: /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/include (found version "3.0.3")
+-- Configuring done (16.5s)
+-- Generating done (3.9s)
+-- Build files have been written to: /home/sirjanhansda/projectfolder/spectral-bridges-parallel/build
+[  4%] Building CXX object CMakeFiles/sb_core.dir/src/kmeans.cpp.o
+[  9%] Building CXX object CMakeFiles/sb_core.dir/src/affinity.cpp.o
+[ 13%] Building CXX object CMakeFiles/sb_core.dir/src/spectral.cpp.o
+[ 18%] Building CUDA object CMakeFiles/sb_core.dir/src/kmeans_cuda.cu.o
+[ 22%] Building CUDA object CMakeFiles/sb_core.dir/src/affinity.cu.o
+[ 27%] Building CUDA object CMakeFiles/sb_core.dir/src/spectral.cu.o
+[ 31%] Linking CXX static library libsb_core.a
+[ 31%] Built target sb_core
+[ 36%] Building CXX object CMakeFiles/specbridge.dir/python/bindings.cpp.o
+[ 40%] Linking CUDA device code CMakeFiles/specbridge.dir/cmake_device_link.o
+[ 45%] Linking CXX shared module specbridge.cpython-310-x86_64-linux-gnu.so
+[ 45%] Built target specbridge
+[ 50%] Building CXX object CMakeFiles/spectral_bridges.dir/main.cpp.o
+[ 54%] Linking CUDA device code CMakeFiles/spectral_bridges.dir/cmake_device_link.o
+[ 59%] Linking CXX executable spectral_bridges
+[ 59%] Built target spectral_bridges
+[ 63%] Building CXX object CMakeFiles/test_kmeans.dir/tests/test_kmeans.cpp.o
+[ 68%] Linking CUDA device code CMakeFiles/test_kmeans.dir/cmake_device_link.o
+[ 72%] Linking CXX executable test_kmeans
+[ 72%] Built target test_kmeans
+[ 77%] Building CXX object CMakeFiles/test_reference.dir/tests/test_reference.cpp.o
+[ 81%] Linking CUDA device code CMakeFiles/test_reference.dir/cmake_device_link.o
+[ 86%] Linking CXX executable test_reference
+[ 86%] Built target test_reference
+[ 90%] Building CXX object CMakeFiles/test_kmeans_cuda.dir/tests/test_kmeans_cuda.cpp.o
+[ 95%] Linking CUDA device code CMakeFiles/test_kmeans_cuda.dir/cmake_device_link.o
+[100%] Linking CXX executable test_kmeans_cuda
+[100%] Built target test_kmeans_cuda
+Running module...
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[16:32:35 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[16:32:35 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[16:32:35 | +    0.0s]     Python             : 3.10.14
+[16:32:35 | +    0.0s]     NumPy              : 2.2.6
+[16:32:35 | +    0.0s]     scikit-learn       : 1.7.2
+[16:32:35 | +    0.0s]     SciPy              : 1.15.3
+[16:32:35 | +    0.0s]     OMP_NUM_THREADS    : 36
+[16:32:35 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[16:32:35 | +    0.0s]     specbridge threads : 36
+[16:32:35 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[16:32:35 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[16:32:36 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[16:32:36 | +    0.0s]     Process peak RSS   : 248.4 MB (so far)
+
+==============================================================================
+  Configuration
+==============================================================================
+[16:32:36 | +    0.0s]     N_VALUES       : [1000, 2500, 5000, 10000, 25000, 50000, 100000, 500000, 1000000, 5000000, 10000000]
+[16:32:36 | +    0.0s]     N_SCALING_M    : 250
+[16:32:36 | +    0.0s]     N_SCALING_D    : 64
+[16:32:36 | +    0.0s]     N_SCALING_K    : 10
+[16:32:36 | +    0.0s]     M_VALUES       : [50, 100, 250, 500, 1000, 1500, 2000, 4000, 8000]
+[16:32:36 | +    0.0s]     M_SCALING_N    : 20000
+[16:32:36 | +    0.0s]     M_SCALING_H    : 64
+[16:32:36 | +    0.0s]     M_SCALING_K    : 10
+[16:32:36 | +    0.0s]     N_RUNS         : 5
+[16:32:36 | +    0.0s]     BASE_SEED      : 22188
+[16:32:36 | +    0.0s]     PERPLEXITY     : 2.0
+[16:32:36 | +    0.0s]     N_ITER         : 20
+[16:32:36 | +    0.0s]     NUM_THREADS    : 36
+[16:32:36 | +    0.0s]     CPU thread counts to sweep: [4, 8, 16, 36]
+[16:32:36 | +    0.0s]     opening CSV for write: results_m_scaling_cpu.csv
+
+==============================================================================
+  CPU m-scaling  (MNIST h=64, n=20,000, threads=[4, 8, 16, 36])
+==============================================================================
+[16:32:36 | +    0.1s]     sweeping m over [50, 100, 250, 500, 1000, 1500, 2000, 4000, 8000]
+[16:32:36 | +    0.1s]     each m: 5 runs x 4 thread counts = 20 fits
+[16:32:36 | +    0.1s]     priming MNIST cache before sweep starts...
+[16:32:36 | +    0.1s]       loading from cache: mnist_cache.npz
+[16:32:36 | +    0.6s]       cache loaded in 0.58s, X shape=(70000, 784)
+
+------------------------------------------------------------------------------
+  m = 50  (1/9 | ETA ??:??:??)
+------------------------------------------------------------------------------
+[16:32:36 | +    0.6s] >>> run 1/5  (seed=22188)
+[16:32:36 | +    0.8s]         [cpu_4] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.126137 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3377 s
+  [Profile] Step 2: Affinity (CPU): 0.0036 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0002 s
+  [Profile]   Total SpectralClustering Phase: 0.0005 s
+  [Profile] Step 3: Total Spectral Core: 0.0005 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:37 | +    1.1s]         [cpu_4] done in 0.34s, ARI=0.601, NMI=0.690
+[16:32:37 | +    1.1s]         [cpu_8] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0349 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1285 s
+  [Profile] Step 2: Affinity (CPU): 0.0022 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0006 s
+  [Profile] Step 3: Total Spectral Core: 0.0006 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:37 | +    1.3s]         [cpu_8] done in 0.13s, ARI=0.601, NMI=0.690
+[16:32:37 | +    1.3s]         [cpu_16] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0209 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0705 s
+  [Profile] Step 2: Affinity (CPU): 0.0023 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0008 s
+  [Profile] Step 3: Total Spectral Core: 0.0008 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:37 | +    1.3s]         [cpu_16] done in 0.07s, ARI=0.601, NMI=0.690
+[16:32:37 | +    1.3s]         [cpu_36] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0185 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0574 s
+  [Profile] Step 2: Affinity (CPU): 0.0034 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0004 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.0016 s
+  [Profile] Step 3: Total Spectral Core: 0.0016 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:37 | +    1.4s]         [cpu_36] done in 0.06s, ARI=0.601, NMI=0.690
+[16:32:37 | +    1.4s] >>> run 2/5  (seed=22189)
+[16:32:37 | +    1.5s]         [cpu_4] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1107 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2980 s
+  [Profile] Step 2: Affinity (CPU): 0.0023 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0002 s
+  [Profile]   Total SpectralClustering Phase: 0.0005 s
+  [Profile] Step 3: Total Spectral Core: 0.0005 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:37 | +    1.8s]         [cpu_4] done in 0.30s, ARI=0.585, NMI=0.667
+[16:32:37 | +    1.8s]         [cpu_8] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0349 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1279 s
+  [Profile] Step 2: Affinity (CPU): 0.0014 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0006 s
+  [Profile] Step 3: Total Spectral Core: 0.0006 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:37 | +    2.0s]         [cpu_8] done in 0.13s, ARI=0.585, NMI=0.667
+[16:32:37 | +    2.0s]         [cpu_16] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0218 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0721 s
+  [Profile] Step 2: Affinity (CPU): 0.0020 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0008 s
+  [Profile] Step 3: Total Spectral Core: 0.0008 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:38 | +    2.1s]         [cpu_16] done in 0.08s, ARI=0.585, NMI=0.667
+[16:32:38 | +    2.1s]         [cpu_36] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0179 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0524 s
+  [Profile] Step 2: Affinity (CPU): 0.0031 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0004 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0010 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:38 | +    2.1s]         [cpu_36] done in 0.06s, ARI=0.585, NMI=0.667
+[16:32:38 | +    2.1s] >>> run 3/5  (seed=22190)
+[16:32:38 | +    2.2s]         [cpu_4] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1118 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3019 s
+  [Profile] Step 2: Affinity (CPU): 0.0020 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0002 s
+  [Profile]   Total SpectralClustering Phase: 0.0005 s
+  [Profile] Step 3: Total Spectral Core: 0.0005 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:38 | +    2.5s]         [cpu_4] done in 0.31s, ARI=0.516, NMI=0.642
+[16:32:38 | +    2.5s]         [cpu_8] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0351 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1294 s
+  [Profile] Step 2: Affinity (CPU): 0.0013 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0006 s
+  [Profile] Step 3: Total Spectral Core: 0.0006 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:38 | +    2.7s]         [cpu_8] done in 0.13s, ARI=0.516, NMI=0.642
+[16:32:38 | +    2.7s]         [cpu_16] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0220 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0706 s
+  [Profile] Step 2: Affinity (CPU): 0.0011 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0008 s
+  [Profile] Step 3: Total Spectral Core: 0.0008 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:38 | +    2.8s]         [cpu_16] done in 0.07s, ARI=0.516, NMI=0.642
+[16:32:38 | +    2.8s]         [cpu_36] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0184 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0532 s
+  [Profile] Step 2: Affinity (CPU): 0.0024 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0004 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:38 | +    2.8s]         [cpu_36] done in 0.06s, ARI=0.516, NMI=0.642
+[16:32:38 | +    2.8s] >>> run 4/5  (seed=22191)
+[16:32:38 | +    2.9s]         [cpu_4] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1097 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2975 s
+  [Profile] Step 2: Affinity (CPU): 0.0022 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0002 s
+  [Profile]   Total SpectralClustering Phase: 0.0005 s
+  [Profile] Step 3: Total Spectral Core: 0.0005 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:39 | +    3.2s]         [cpu_4] done in 0.30s, ARI=0.519, NMI=0.660
+[16:32:39 | +    3.2s]         [cpu_8] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0335 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1265 s
+  [Profile] Step 2: Affinity (CPU): 0.0013 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0006 s
+  [Profile] Step 3: Total Spectral Core: 0.0006 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:39 | +    3.4s]         [cpu_8] done in 0.13s, ARI=0.519, NMI=0.660
+[16:32:39 | +    3.4s]         [cpu_16] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0200 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0688 s
+  [Profile] Step 2: Affinity (CPU): 0.0011 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0007 s
+  [Profile] Step 3: Total Spectral Core: 0.0007 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:39 | +    3.4s]         [cpu_16] done in 0.07s, ARI=0.519, NMI=0.660
+[16:32:39 | +    3.4s]         [cpu_36] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0180 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0525 s
+  [Profile] Step 2: Affinity (CPU): 0.0012 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0004 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0010 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:39 | +    3.5s]         [cpu_36] done in 0.06s, ARI=0.519, NMI=0.660
+[16:32:39 | +    3.5s] >>> run 5/5  (seed=22192)
+[16:32:39 | +    3.6s]         [cpu_4] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1125 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3011 s
+  [Profile] Step 2: Affinity (CPU): 0.0020 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0002 s
+  [Profile]   Total SpectralClustering Phase: 0.0005 s
+  [Profile] Step 3: Total Spectral Core: 0.0005 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:39 | +    3.9s]         [cpu_4] done in 0.30s, ARI=0.554, NMI=0.667
+[16:32:39 | +    3.9s]         [cpu_8] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0354 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1304 s
+  [Profile] Step 2: Affinity (CPU): 0.0013 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0002 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0005 s
+  [Profile] Step 3: Total Spectral Core: 0.0006 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:40 | +    4.1s]         [cpu_8] done in 0.13s, ARI=0.554, NMI=0.667
+[16:32:40 | +    4.1s]         [cpu_16] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0210 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0707 s
+  [Profile] Step 2: Affinity (CPU): 0.0011 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0003 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0008 s
+  [Profile] Step 3: Total Spectral Core: 0.0008 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:40 | +    4.1s]         [cpu_16] done in 0.07s, ARI=0.554, NMI=0.667
+[16:32:40 | +    4.1s]         [cpu_36] starting fit (n=20,000, d=64, m=50)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0185 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.0534 s
+  [Profile] Step 2: Affinity (CPU): 0.0012 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=50, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0004 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:40 | +    4.2s]         [cpu_36] done in 0.06s, ARI=0.554, NMI=0.667
+[16:32:40 | +    4.2s]     finished m=50 in 3.6s  (20 ok, 0 errors)  peak RSS=680 MB
+
+------------------------------------------------------------------------------
+  m = 100  (2/9 | ETA 0:00:28)
+------------------------------------------------------------------------------
+[16:32:40 | +    4.2s] >>> run 1/5  (seed=22188)
+[16:32:40 | +    4.3s]         [cpu_4] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1959 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5555 s
+  [Profile] Step 2: Affinity (CPU): 0.0033 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0010 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0013 s
+  [Profile] Step 3: Total Spectral Core: 0.0013 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:40 | +    4.9s]         [cpu_4] done in 0.56s, ARI=0.647, NMI=0.699
+[16:32:40 | +    4.9s]         [cpu_8] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0766 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2615 s
+  [Profile] Step 2: Affinity (CPU): 0.0022 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0012 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0016 s
+  [Profile] Step 3: Total Spectral Core: 0.0016 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:41 | +    5.1s]         [cpu_8] done in 0.27s, ARI=0.647, NMI=0.699
+[16:32:41 | +    5.1s]         [cpu_16] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0458 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1418 s
+  [Profile] Step 2: Affinity (CPU): 0.0016 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0010 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:41 | +    5.3s]         [cpu_16] done in 0.15s, ARI=0.647, NMI=0.699
+[16:32:41 | +    5.3s]         [cpu_36] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0380 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1058 s
+  [Profile] Step 2: Affinity (CPU): 0.0020 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0015 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.0028 s
+  [Profile] Step 3: Total Spectral Core: 0.0028 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:41 | +    5.4s]         [cpu_36] done in 0.11s, ARI=0.647, NMI=0.699
+[16:32:41 | +    5.4s] >>> run 2/5  (seed=22189)
+[16:32:41 | +    5.5s]         [cpu_4] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1982 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5632 s
+  [Profile] Step 2: Affinity (CPU): 0.0032 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0012 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:42 | +    6.1s]         [cpu_4] done in 0.57s, ARI=0.639, NMI=0.738
+[16:32:42 | +    6.1s]         [cpu_8] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0779 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2647 s
+  [Profile] Step 2: Affinity (CPU): 0.0020 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0011 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:42 | +    6.4s]         [cpu_8] done in 0.27s, ARI=0.639, NMI=0.738
+[16:32:42 | +    6.4s]         [cpu_16] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0464 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1462 s
+  [Profile] Step 2: Affinity (CPU): 0.0016 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0014 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0020 s
+  [Profile] Step 3: Total Spectral Core: 0.0020 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:42 | +    6.5s]         [cpu_16] done in 0.15s, ARI=0.639, NMI=0.738
+[16:32:42 | +    6.5s]         [cpu_36] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0389 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1074 s
+  [Profile] Step 2: Affinity (CPU): 0.0017 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0015 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.0027 s
+  [Profile] Step 3: Total Spectral Core: 0.0027 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:42 | +    6.6s]         [cpu_36] done in 0.11s, ARI=0.613, NMI=0.720
+[16:32:42 | +    6.6s] >>> run 3/5  (seed=22190)
+[16:32:42 | +    6.7s]         [cpu_4] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1959 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5566 s
+  [Profile] Step 2: Affinity (CPU): 0.0031 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0011 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0014 s
+  [Profile] Step 3: Total Spectral Core: 0.0014 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:43 | +    7.3s]         [cpu_4] done in 0.56s, ARI=0.648, NMI=0.713
+[16:32:43 | +    7.3s]         [cpu_8] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0766 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2620 s
+  [Profile] Step 2: Affinity (CPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0011 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:43 | +    7.6s]         [cpu_8] done in 0.27s, ARI=0.648, NMI=0.713
+[16:32:43 | +    7.6s]         [cpu_16] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0470 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1425 s
+  [Profile] Step 2: Affinity (CPU): 0.0014 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0011 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0016 s
+  [Profile] Step 3: Total Spectral Core: 0.0016 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:43 | +    7.7s]         [cpu_16] done in 0.15s, ARI=0.648, NMI=0.713
+[16:32:43 | +    7.7s]         [cpu_36] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0381 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1060 s
+  [Profile] Step 2: Affinity (CPU): 0.0015 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0018 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 0.0029 s
+  [Profile] Step 3: Total Spectral Core: 0.0029 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:43 | +    7.8s]         [cpu_36] done in 0.11s, ARI=0.648, NMI=0.713
+[16:32:43 | +    7.8s] >>> run 4/5  (seed=22191)
+[16:32:43 | +    7.9s]         [cpu_4] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1977 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5622 s
+  [Profile] Step 2: Affinity (CPU): 0.0032 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0011 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0014 s
+  [Profile] Step 3: Total Spectral Core: 0.0014 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:44 | +    8.5s]         [cpu_4] done in 0.57s, ARI=0.649, NMI=0.718
+[16:32:44 | +    8.5s]         [cpu_8] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0774 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2647 s
+  [Profile] Step 2: Affinity (CPU): 0.0020 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0012 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0015 s
+  [Profile] Step 3: Total Spectral Core: 0.0015 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:44 | +    8.8s]         [cpu_8] done in 0.27s, ARI=0.649, NMI=0.718
+[16:32:44 | +    8.8s]         [cpu_16] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0467 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1452 s
+  [Profile] Step 2: Affinity (CPU): 0.0015 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0013 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0018 s
+  [Profile] Step 3: Total Spectral Core: 0.0018 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:44 | +    8.9s]         [cpu_16] done in 0.15s, ARI=0.649, NMI=0.718
+[16:32:44 | +    8.9s]         [cpu_36] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0387 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1070 s
+  [Profile] Step 2: Affinity (CPU): 0.0018 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0019 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.0031 s
+  [Profile] Step 3: Total Spectral Core: 0.0031 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:45 | +    9.1s]         [cpu_36] done in 0.11s, ARI=0.649, NMI=0.718
+[16:32:45 | +    9.1s] >>> run 5/5  (seed=22192)
+[16:32:45 | +    9.2s]         [cpu_4] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1963 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5559 s
+  [Profile] Step 2: Affinity (CPU): 0.0031 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0013 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0016 s
+  [Profile] Step 3: Total Spectral Core: 0.0016 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:45 | +    9.7s]         [cpu_4] done in 0.56s, ARI=0.647, NMI=0.714
+[16:32:45 | +    9.7s]         [cpu_8] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0768 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2616 s
+  [Profile] Step 2: Affinity (CPU): 0.0019 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0014 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0018 s
+  [Profile] Step 3: Total Spectral Core: 0.0018 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:45 | +   10.0s]         [cpu_8] done in 0.27s, ARI=0.647, NMI=0.714
+[16:32:45 | +   10.0s]         [cpu_16] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0494 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1498 s
+  [Profile] Step 2: Affinity (CPU): 0.0014 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0013 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0019 s
+  [Profile] Step 3: Total Spectral Core: 0.0019 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:46 | +   10.2s]         [cpu_16] done in 0.15s, ARI=0.647, NMI=0.714
+[16:32:46 | +   10.2s]         [cpu_36] starting fit (n=20,000, d=64, m=100)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.0383 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1059 s
+  [Profile] Step 2: Affinity (CPU): 0.0016 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=100, k=10
+  [Profile]     -> Laplacian Setup: 0.0000 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0019 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.0032 s
+  [Profile] Step 3: Total Spectral Core: 0.0032 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:46 | +   10.3s]         [cpu_36] done in 0.11s, ARI=0.647, NMI=0.714
+[16:32:46 | +   10.3s]     finished m=100 in 6.1s  (20 ok, 0 errors)  peak RSS=687 MB
+
+------------------------------------------------------------------------------
+  m = 250  (3/9 | ETA 0:00:33)
+------------------------------------------------------------------------------
+[16:32:46 | +   10.3s] >>> run 1/5  (seed=22188)
+[16:32:46 | +   10.4s]         [cpu_4] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4584 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3684 s
+  [Profile] Step 2: Affinity (CPU): 0.0086 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0053 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0058 s
+  [Profile] Step 3: Total Spectral Core: 0.0058 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:47 | +   11.8s]         [cpu_4] done in 1.38s, ARI=0.723, NMI=0.781
+[16:32:47 | +   11.8s]         [cpu_8] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2141 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.6798 s
+  [Profile] Step 2: Affinity (CPU): 0.0050 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0060 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0065 s
+  [Profile] Step 3: Total Spectral Core: 0.0065 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:48 | +   12.5s]         [cpu_8] done in 0.69s, ARI=0.723, NMI=0.781
+[16:32:48 | +   12.5s]         [cpu_16] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1263 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3672 s
+  [Profile] Step 2: Affinity (CPU): 0.0033 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0061 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0068 s
+  [Profile] Step 3: Total Spectral Core: 0.0068 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:48 | +   12.8s]         [cpu_16] done in 0.38s, ARI=0.723, NMI=0.781
+[16:32:48 | +   12.8s]         [cpu_36] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1031 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2710 s
+  [Profile] Step 2: Affinity (CPU): 0.0033 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0113 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.0127 s
+  [Profile] Step 3: Total Spectral Core: 0.0127 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:49 | +   13.1s]         [cpu_36] done in 0.29s, ARI=0.723, NMI=0.781
+[16:32:49 | +   13.1s] >>> run 2/5  (seed=22189)
+[16:32:49 | +   13.2s]         [cpu_4] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4494 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3471 s
+  [Profile] Step 2: Affinity (CPU): 0.0089 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0056 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0061 s
+  [Profile] Step 3: Total Spectral Core: 0.0061 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:50 | +   14.6s]         [cpu_4] done in 1.36s, ARI=0.717, NMI=0.771
+[16:32:50 | +   14.6s]         [cpu_8] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2105 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.6712 s
+  [Profile] Step 2: Affinity (CPU): 0.0052 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0057 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0062 s
+  [Profile] Step 3: Total Spectral Core: 0.0062 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:51 | +   15.3s]         [cpu_8] done in 0.68s, ARI=0.717, NMI=0.771
+[16:32:51 | +   15.3s]         [cpu_16] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1231 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3630 s
+  [Profile] Step 2: Affinity (CPU): 0.0034 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0067 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0074 s
+  [Profile] Step 3: Total Spectral Core: 0.0074 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:51 | +   15.7s]         [cpu_16] done in 0.37s, ARI=0.717, NMI=0.771
+[16:32:51 | +   15.7s]         [cpu_36] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1015 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2677 s
+  [Profile] Step 2: Affinity (CPU): 0.0033 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0117 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.0133 s
+  [Profile] Step 3: Total Spectral Core: 0.0133 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:51 | +   16.0s]         [cpu_36] done in 0.28s, ARI=0.717, NMI=0.771
+[16:32:51 | +   16.0s] >>> run 3/5  (seed=22190)
+[16:32:52 | +   16.1s]         [cpu_4] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4554 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3621 s
+  [Profile] Step 2: Affinity (CPU): 0.0081 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0017 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0022 s
+  [Profile] Step 3: Total Spectral Core: 0.0022 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:53 | +   17.4s]         [cpu_4] done in 1.37s, ARI=0.695, NMI=0.774
+[16:32:53 | +   17.4s]         [cpu_8] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2135 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.6791 s
+  [Profile] Step 2: Affinity (CPU): 0.0046 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0018 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0023 s
+  [Profile] Step 3: Total Spectral Core: 0.0023 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:54 | +   18.1s]         [cpu_8] done in 0.69s, ARI=0.695, NMI=0.774
+[16:32:54 | +   18.1s]         [cpu_16] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1241 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3608 s
+  [Profile] Step 2: Affinity (CPU): 0.0031 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0020 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0027 s
+  [Profile] Step 3: Total Spectral Core: 0.0027 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:54 | +   18.5s]         [cpu_16] done in 0.37s, ARI=0.695, NMI=0.774
+[16:32:54 | +   18.5s]         [cpu_36] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1026 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2705 s
+  [Profile] Step 2: Affinity (CPU): 0.0030 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0036 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.0052 s
+  [Profile] Step 3: Total Spectral Core: 0.0052 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:54 | +   18.8s]         [cpu_36] done in 0.28s, ARI=0.695, NMI=0.774
+[16:32:54 | +   18.8s] >>> run 4/5  (seed=22191)
+[16:32:54 | +   18.9s]         [cpu_4] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4477 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3466 s
+  [Profile] Step 2: Affinity (CPU): 0.0082 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0058 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0063 s
+  [Profile] Step 3: Total Spectral Core: 0.0063 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:56 | +   20.3s]         [cpu_4] done in 1.36s, ARI=0.725, NMI=0.771
+[16:32:56 | +   20.3s]         [cpu_8] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2102 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.6730 s
+  [Profile] Step 2: Affinity (CPU): 0.0050 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0063 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0069 s
+  [Profile] Step 3: Total Spectral Core: 0.0069 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:56 | +   20.9s]         [cpu_8] done in 0.69s, ARI=0.725, NMI=0.771
+[16:32:56 | +   20.9s]         [cpu_16] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1239 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3621 s
+  [Profile] Step 2: Affinity (CPU): 0.0032 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0070 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0077 s
+  [Profile] Step 3: Total Spectral Core: 0.0077 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:57 | +   21.3s]         [cpu_16] done in 0.37s, ARI=0.725, NMI=0.771
+[16:32:57 | +   21.3s]         [cpu_36] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1014 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2676 s
+  [Profile] Step 2: Affinity (CPU): 0.0031 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0124 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.0139 s
+  [Profile] Step 3: Total Spectral Core: 0.0139 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:57 | +   21.6s]         [cpu_36] done in 0.29s, ARI=0.725, NMI=0.771
+[16:32:57 | +   21.6s] >>> run 5/5  (seed=22192)
+[16:32:57 | +   21.7s]         [cpu_4] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4551 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3641 s
+  [Profile] Step 2: Affinity (CPU): 0.0087 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0062 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0003 s
+  [Profile]   Total SpectralClustering Phase: 0.0067 s
+  [Profile] Step 3: Total Spectral Core: 0.0067 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:59 | +   23.1s]         [cpu_4] done in 1.38s, ARI=0.720, NMI=0.776
+[16:32:59 | +   23.1s]         [cpu_8] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2139 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.6796 s
+  [Profile] Step 2: Affinity (CPU): 0.0052 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0051 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0057 s
+  [Profile] Step 3: Total Spectral Core: 0.0057 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:32:59 | +   23.8s]         [cpu_8] done in 0.69s, ARI=0.710, NMI=0.776
+[16:32:59 | +   23.8s]         [cpu_16] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1286 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.3786 s
+  [Profile] Step 2: Affinity (CPU): 0.0034 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0059 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0066 s
+  [Profile] Step 3: Total Spectral Core: 0.0066 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:00 | +   24.2s]         [cpu_16] done in 0.39s, ARI=0.710, NMI=0.776
+[16:33:00 | +   24.2s]         [cpu_36] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.1026 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2705 s
+  [Profile] Step 2: Affinity (CPU): 0.0032 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0141 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.0156 s
+  [Profile] Step 3: Total Spectral Core: 0.0157 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:00 | +   24.5s]         [cpu_36] done in 0.29s, ARI=0.720, NMI=0.776
+[16:33:00 | +   24.5s]     finished m=250 in 14.2s  (20 ok, 0 errors)  peak RSS=693 MB
+
+------------------------------------------------------------------------------
+  m = 500  (4/9 | ETA 0:00:47)
+------------------------------------------------------------------------------
+[16:33:00 | +   24.5s] >>> run 1/5  (seed=22188)
+[16:33:00 | +   24.6s]         [cpu_4] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9314 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7180 s
+  [Profile] Step 2: Affinity (CPU): 0.0252 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0190 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0200 s
+  [Profile] Step 3: Total Spectral Core: 0.0200 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:03 | +   27.4s]         [cpu_4] done in 2.76s, ARI=0.615, NMI=0.759
+[16:33:03 | +   27.4s]         [cpu_8] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4628 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3799 s
+  [Profile] Step 2: Affinity (CPU): 0.0133 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0147 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0157 s
+  [Profile] Step 3: Total Spectral Core: 0.0157 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:04 | +   28.8s]         [cpu_8] done in 1.41s, ARI=0.698, NMI=0.783
+[16:33:04 | +   28.8s]         [cpu_16] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2770 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.7516 s
+  [Profile] Step 2: Affinity (CPU): 0.0084 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0007 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0196 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0208 s
+  [Profile] Step 3: Total Spectral Core: 0.0208 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:05 | +   29.6s]         [cpu_16] done in 0.78s, ARI=0.615, NMI=0.759
+[16:33:05 | +   29.6s]         [cpu_36] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2182 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5470 s
+  [Profile] Step 2: Affinity (CPU): 0.0071 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0009 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0346 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.0369 s
+  [Profile] Step 3: Total Spectral Core: 0.0369 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:06 | +   30.2s]         [cpu_36] done in 0.59s, ARI=0.615, NMI=0.759
+[16:33:06 | +   30.2s] >>> run 2/5  (seed=22189)
+[16:33:06 | +   30.2s]         [cpu_4] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9450 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7564 s
+  [Profile] Step 2: Affinity (CPU): 0.0215 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0687 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0697 s
+  [Profile] Step 3: Total Spectral Core: 0.0697 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:09 | +   33.1s]         [cpu_4] done in 2.85s, ARI=0.470, NMI=0.664
+[16:33:09 | +   33.1s]         [cpu_8] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4702 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.4022 s
+  [Profile] Step 2: Affinity (CPU): 0.0137 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0172 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0182 s
+  [Profile] Step 3: Total Spectral Core: 0.0182 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:10 | +   34.5s]         [cpu_8] done in 1.43s, ARI=0.761, NMI=0.796
+[16:33:10 | +   34.5s]         [cpu_16] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2759 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.7526 s
+  [Profile] Step 2: Affinity (CPU): 0.0073 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0007 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0747 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0760 s
+  [Profile] Step 3: Total Spectral Core: 0.0760 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:11 | +   35.4s]         [cpu_16] done in 0.84s, ARI=0.470, NMI=0.664
+[16:33:11 | +   35.4s]         [cpu_36] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2211 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5544 s
+  [Profile] Step 2: Affinity (CPU): 0.0065 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0009 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1322 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.1345 s
+  [Profile] Step 3: Total Spectral Core: 0.1345 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:12 | +   36.1s]         [cpu_36] done in 0.70s, ARI=0.473, NMI=0.666
+[16:33:12 | +   36.1s] >>> run 3/5  (seed=22190)
+[16:33:12 | +   36.2s]         [cpu_4] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9287 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7149 s
+  [Profile] Step 2: Affinity (CPU): 0.0252 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0138 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0148 s
+  [Profile] Step 3: Total Spectral Core: 0.0148 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:14 | +   38.9s]         [cpu_4] done in 2.76s, ARI=0.744, NMI=0.794
+[16:33:14 | +   38.9s]         [cpu_8] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4647 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3818 s
+  [Profile] Step 2: Affinity (CPU): 0.0134 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0134 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0145 s
+  [Profile] Step 3: Total Spectral Core: 0.0145 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:16 | +   40.4s]         [cpu_8] done in 1.41s, ARI=0.744, NMI=0.794
+[16:33:16 | +   40.4s]         [cpu_16] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2685 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.7385 s
+  [Profile] Step 2: Affinity (CPU): 0.0089 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0007 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0153 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0167 s
+  [Profile] Step 3: Total Spectral Core: 0.0167 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:17 | +   41.1s]         [cpu_16] done in 0.76s, ARI=0.744, NMI=0.794
+[16:33:17 | +   41.1s]         [cpu_36] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2183 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5469 s
+  [Profile] Step 2: Affinity (CPU): 0.0071 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0009 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0270 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.0293 s
+  [Profile] Step 3: Total Spectral Core: 0.0293 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:17 | +   41.7s]         [cpu_36] done in 0.58s, ARI=0.744, NMI=0.794
+[16:33:17 | +   41.7s] >>> run 4/5  (seed=22191)
+[16:33:17 | +   41.8s]         [cpu_4] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9442 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7557 s
+  [Profile] Step 2: Affinity (CPU): 0.0217 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1134 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.1144 s
+  [Profile] Step 3: Total Spectral Core: 0.1144 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:20 | +   44.7s]         [cpu_4] done in 2.89s, ARI=0.562, NMI=0.711
+[16:33:20 | +   44.7s]         [cpu_8] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4723 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.4021 s
+  [Profile] Step 2: Affinity (CPU): 0.0116 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1151 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.1162 s
+  [Profile] Step 3: Total Spectral Core: 0.1162 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:22 | +   46.3s]         [cpu_8] done in 1.53s, ARI=0.640, NMI=0.726
+[16:33:22 | +   46.3s]         [cpu_16] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2740 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.7561 s
+  [Profile] Step 2: Affinity (CPU): 0.0072 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0007 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1300 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.1312 s
+  [Profile] Step 3: Total Spectral Core: 0.1312 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:23 | +   47.2s]         [cpu_16] done in 0.90s, ARI=0.636, NMI=0.724
+[16:33:23 | +   47.2s]         [cpu_36] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2203 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5536 s
+  [Profile] Step 2: Affinity (CPU): 0.0065 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0009 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2141 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 0.2164 s
+  [Profile] Step 3: Total Spectral Core: 0.2164 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:23 | +   47.9s]         [cpu_36] done in 0.78s, ARI=0.572, NMI=0.698
+[16:33:23 | +   47.9s] >>> run 5/5  (seed=22192)
+[16:33:24 | +   48.0s]         [cpu_4] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9306 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7190 s
+  [Profile] Step 2: Affinity (CPU): 0.0248 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0180 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0190 s
+  [Profile] Step 3: Total Spectral Core: 0.0190 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:26 | +   50.8s]         [cpu_4] done in 2.76s, ARI=0.718, NMI=0.770
+[16:33:26 | +   50.8s]         [cpu_8] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4650 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.3821 s
+  [Profile] Step 2: Affinity (CPU): 0.0133 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0006 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0176 s
+      K-Means++ initialization took 0.0001 seconds.
+  [Profile]     -> Spectral K-Means: 0.0004 s
+  [Profile]   Total SpectralClustering Phase: 0.0187 s
+  [Profile] Step 3: Total Spectral Core: 0.0187 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:28 | +   52.2s]         [cpu_8] done in 1.41s, ARI=0.718, NMI=0.770
+[16:33:28 | +   52.2s]         [cpu_16] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2681 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.7382 s
+  [Profile] Step 2: Affinity (CPU): 0.0078 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0007 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0199 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0212 s
+  [Profile] Step 3: Total Spectral Core: 0.0212 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:28 | +   53.0s]         [cpu_16] done in 0.77s, ARI=0.718, NMI=0.770
+[16:33:28 | +   53.0s]         [cpu_36] starting fit (n=20,000, d=64, m=500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.2210 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.5496 s
+  [Profile] Step 2: Affinity (CPU): 0.0070 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=500, k=10
+  [Profile]     -> Laplacian Setup: 0.0009 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0336 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.0358 s
+  [Profile] Step 3: Total Spectral Core: 0.0358 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:29 | +   53.6s]         [cpu_36] done in 0.59s, ARI=0.718, NMI=0.770
+[16:33:29 | +   53.6s]     finished m=500 in 29.1s  (20 ok, 0 errors)  peak RSS=699 MB
+
+------------------------------------------------------------------------------
+  m = 1000  (5/9 | ETA 0:01:06)
+------------------------------------------------------------------------------
+[16:33:29 | +   53.6s] >>> run 1/5  (seed=22188)
+[16:33:29 | +   53.7s]         [cpu_4] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.8263 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.4501 s
+  [Profile] Step 2: Affinity (CPU): 0.0830 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0766 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0799 s
+  [Profile] Step 3: Total Spectral Core: 0.0799 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:35 | +   59.3s]         [cpu_4] done in 5.61s, ARI=0.735, NMI=0.800
+[16:33:35 | +   59.3s]         [cpu_8] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9427 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.8048 s
+  [Profile] Step 2: Affinity (CPU): 0.0448 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0654 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0685 s
+  [Profile] Step 3: Total Spectral Core: 0.0686 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:38 | +   62.2s]         [cpu_8] done in 2.92s, ARI=0.704, NMI=0.787
+[16:33:38 | +   62.2s]         [cpu_16] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.5448 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.5176 s
+  [Profile] Step 2: Affinity (CPU): 0.0286 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0029 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0784 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0820 s
+  [Profile] Step 3: Total Spectral Core: 0.0820 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:39 | +   63.9s]         [cpu_16] done in 1.65s, ARI=0.720, NMI=0.794
+[16:33:39 | +   63.9s]         [cpu_36] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4374 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.1018 s
+  [Profile] Step 2: Affinity (CPU): 0.0227 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0037 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1271 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.1323 s
+  [Profile] Step 3: Total Spectral Core: 0.1323 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:41 | +   65.2s]         [cpu_36] done in 1.26s, ARI=0.704, NMI=0.785
+[16:33:41 | +   65.2s] >>> run 2/5  (seed=22189)
+[16:33:41 | +   65.3s]         [cpu_4] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.7944 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.3650 s
+  [Profile] Step 2: Affinity (CPU): 0.0822 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0026 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0889 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0921 s
+  [Profile] Step 3: Total Spectral Core: 0.0922 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:46 | +   70.8s]         [cpu_4] done in 5.54s, ARI=0.695, NMI=0.781
+[16:33:46 | +   70.8s]         [cpu_8] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9233 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7591 s
+  [Profile] Step 2: Affinity (CPU): 0.0436 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0846 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0878 s
+  [Profile] Step 3: Total Spectral Core: 0.0878 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:49 | +   73.7s]         [cpu_8] done in 2.89s, ARI=0.615, NMI=0.771
+[16:33:49 | +   73.7s]         [cpu_16] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.5609 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.5134 s
+  [Profile] Step 2: Affinity (CPU): 0.0258 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0028 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0778 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0813 s
+  [Profile] Step 3: Total Spectral Core: 0.0813 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:51 | +   75.3s]         [cpu_16] done in 1.62s, ARI=0.695, NMI=0.781
+[16:33:51 | +   75.3s]         [cpu_36] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4337 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.0890 s
+  [Profile] Step 2: Affinity (CPU): 0.0211 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0038 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1363 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.1415 s
+  [Profile] Step 3: Total Spectral Core: 0.1415 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:52 | +   76.6s]         [cpu_36] done in 1.25s, ARI=0.696, NMI=0.781
+[16:33:52 | +   76.6s] >>> run 3/5  (seed=22190)
+[16:33:52 | +   76.7s]         [cpu_4] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.8257 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.4497 s
+  [Profile] Step 2: Affinity (CPU): 0.0785 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0799 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0832 s
+  [Profile] Step 3: Total Spectral Core: 0.0832 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:33:58 | +   82.3s]         [cpu_4] done in 5.61s, ARI=0.760, NMI=0.813
+[16:33:58 | +   82.3s]         [cpu_8] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9433 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.8110 s
+  [Profile] Step 2: Affinity (CPU): 0.0425 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0725 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0757 s
+  [Profile] Step 3: Total Spectral Core: 0.0757 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:01 | +   85.3s]         [cpu_8] done in 2.93s, ARI=0.743, NMI=0.806
+[16:34:01 | +   85.3s]         [cpu_16] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.5415 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.5282 s
+  [Profile] Step 2: Affinity (CPU): 0.0269 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0028 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0733 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0768 s
+  [Profile] Step 3: Total Spectral Core: 0.0768 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:02 | +   86.9s]         [cpu_16] done in 1.63s, ARI=0.631, NMI=0.778
+[16:34:02 | +   86.9s]         [cpu_36] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4378 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.1046 s
+  [Profile] Step 2: Affinity (CPU): 0.0221 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0038 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1213 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.1265 s
+  [Profile] Step 3: Total Spectral Core: 0.1265 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:04 | +   88.2s]         [cpu_36] done in 1.25s, ARI=0.743, NMI=0.806
+[16:34:04 | +   88.2s] >>> run 4/5  (seed=22191)
+[16:34:04 | +   88.3s]         [cpu_4] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.7963 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.3661 s
+  [Profile] Step 2: Affinity (CPU): 0.0800 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0739 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0772 s
+  [Profile] Step 3: Total Spectral Core: 0.0772 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:09 | +   93.8s]         [cpu_4] done in 5.52s, ARI=0.660, NMI=0.773
+[16:34:09 | +   93.8s]         [cpu_8] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9247 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7592 s
+  [Profile] Step 2: Affinity (CPU): 0.0421 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0816 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.0848 s
+  [Profile] Step 3: Total Spectral Core: 0.0848 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:12 | +   96.7s]         [cpu_8] done in 2.89s, ARI=0.681, NMI=0.765
+[16:34:12 | +   96.7s]         [cpu_16] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.5340 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.4882 s
+  [Profile] Step 2: Affinity (CPU): 0.0246 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0028 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0866 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.0900 s
+  [Profile] Step 3: Total Spectral Core: 0.0900 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:14 | +   98.3s]         [cpu_16] done in 1.60s, ARI=0.701, NMI=0.760
+[16:34:14 | +   98.3s]         [cpu_36] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4337 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.0891 s
+  [Profile] Step 2: Affinity (CPU): 0.0201 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0037 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1677 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.1728 s
+  [Profile] Step 3: Total Spectral Core: 0.1728 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:15 | +   99.6s]         [cpu_36] done in 1.28s, ARI=0.677, NMI=0.780
+[16:34:15 | +   99.6s] >>> run 5/5  (seed=22192)
+[16:34:15 | +   99.7s]         [cpu_4] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.8242 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.4376 s
+  [Profile] Step 2: Affinity (CPU): 0.0832 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0026 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1161 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.1194 s
+  [Profile] Step 3: Total Spectral Core: 0.1194 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:21 | +  105.3s]         [cpu_4] done in 5.64s, ARI=0.684, NMI=0.790
+[16:34:21 | +  105.3s]         [cpu_8] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9375 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.7940 s
+  [Profile] Step 2: Affinity (CPU): 0.0450 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0976 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0005 s
+  [Profile]   Total SpectralClustering Phase: 0.1008 s
+  [Profile] Step 3: Total Spectral Core: 0.1008 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:24 | +  108.3s]         [cpu_8] done in 2.94s, ARI=0.567, NMI=0.750
+[16:34:24 | +  108.3s]         [cpu_16] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.5417 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.5048 s
+  [Profile] Step 2: Affinity (CPU): 0.0285 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0031 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1131 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.1168 s
+  [Profile] Step 3: Total Spectral Core: 0.1168 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:25 | +  109.9s]         [cpu_16] done in 1.65s, ARI=0.684, NMI=0.790
+[16:34:25 | +  109.9s]         [cpu_36] starting fit (n=20,000, d=64, m=1000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.4371 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.1010 s
+  [Profile] Step 2: Affinity (CPU): 0.0224 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1000, k=10
+  [Profile]     -> Laplacian Setup: 0.0038 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1690 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.1742 s
+  [Profile] Step 3: Total Spectral Core: 0.1742 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:27 | +  111.2s]         [cpu_36] done in 1.30s, ARI=0.640, NMI=0.761
+[16:34:27 | +  111.2s]     finished m=1000 in 57.6s  (20 ok, 0 errors)  peak RSS=709 MB
+
+------------------------------------------------------------------------------
+  m = 1500  (6/9 | ETA 0:01:28)
+------------------------------------------------------------------------------
+[16:34:27 | +  111.2s] >>> run 1/5  (seed=22188)
+[16:34:27 | +  111.3s]         [cpu_4] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.9363 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 8.3073 s
+  [Profile] Step 2: Affinity (CPU): 0.1783 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0071 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2342 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0009 s
+  [Profile]   Total SpectralClustering Phase: 0.2423 s
+  [Profile] Step 3: Total Spectral Core: 0.2423 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:36 | +  120.1s]         [cpu_4] done in 8.73s, ARI=0.666, NMI=0.774
+[16:34:36 | +  120.1s]         [cpu_8] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.5244 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.2871 s
+  [Profile] Step 2: Affinity (CPU): 0.0869 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0072 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1989 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.2068 s
+  [Profile] Step 3: Total Spectral Core: 0.2068 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:40 | +  124.7s]         [cpu_8] done in 4.58s, ARI=0.621, NMI=0.764
+[16:34:40 | +  124.7s]         [cpu_16] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.8776 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.3103 s
+  [Profile] Step 2: Affinity (CPU): 0.0550 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0073 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1414 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.1495 s
+  [Profile] Step 3: Total Spectral Core: 0.1495 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:43 | +  127.2s]         [cpu_16] done in 2.52s, ARI=0.667, NMI=0.775
+[16:34:43 | +  127.2s]         [cpu_36] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.7024 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.6721 s
+  [Profile] Step 2: Affinity (CPU): 0.0417 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0089 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3194 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.3298 s
+  [Profile] Step 3: Total Spectral Core: 0.3298 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:45 | +  129.2s]         [cpu_36] done in 2.04s, ARI=0.621, NMI=0.764
+[16:34:45 | +  129.2s] >>> run 2/5  (seed=22189)
+[16:34:45 | +  129.3s]         [cpu_4] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.9822 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 8.4182 s
+  [Profile] Step 2: Affinity (CPU): 0.1642 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0072 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5225 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.5305 s
+  [Profile] Step 3: Total Spectral Core: 0.5305 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:54 | +  138.4s]         [cpu_4] done in 9.11s, ARI=0.565, NMI=0.745
+[16:34:54 | +  138.4s]         [cpu_8] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.5519 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.3428 s
+  [Profile] Step 2: Affinity (CPU): 0.0881 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0071 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3654 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.3733 s
+  [Profile] Step 3: Total Spectral Core: 0.3733 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:34:59 | +  143.3s]         [cpu_8] done in 4.81s, ARI=0.586, NMI=0.745
+[16:34:59 | +  143.3s]         [cpu_16] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9120 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.3811 s
+  [Profile] Step 2: Affinity (CPU): 0.0525 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0081 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3563 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0010 s
+  [Profile]   Total SpectralClustering Phase: 0.3654 s
+  [Profile] Step 3: Total Spectral Core: 0.3654 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:02 | +  146.1s]         [cpu_16] done in 2.81s, ARI=0.607, NMI=0.764
+[16:35:02 | +  146.1s]         [cpu_36] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.7080 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.6878 s
+  [Profile] Step 2: Affinity (CPU): 0.0417 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0089 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2224 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0015 s
+  [Profile]   Total SpectralClustering Phase: 0.2328 s
+  [Profile] Step 3: Total Spectral Core: 0.2328 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:04 | +  148.0s]         [cpu_36] done in 1.96s, ARI=0.660, NMI=0.772
+[16:35:04 | +  148.0s] >>> run 3/5  (seed=22190)
+[16:35:04 | +  148.1s]         [cpu_4] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.9382 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 8.3098 s
+  [Profile] Step 2: Affinity (CPU): 0.1612 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0072 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2073 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.2153 s
+  [Profile] Step 3: Total Spectral Core: 0.2153 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:12 | +  156.8s]         [cpu_4] done in 8.69s, ARI=0.575, NMI=0.744
+[16:35:12 | +  156.8s]         [cpu_8] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.5226 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.2833 s
+  [Profile] Step 2: Affinity (CPU): 0.0864 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0072 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2645 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.2724 s
+  [Profile] Step 3: Total Spectral Core: 0.2724 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:17 | +  161.5s]         [cpu_8] done in 4.64s, ARI=0.647, NMI=0.764
+[16:35:17 | +  161.5s]         [cpu_16] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.8934 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.3037 s
+  [Profile] Step 2: Affinity (CPU): 0.0515 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0077 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1801 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0006 s
+  [Profile]   Total SpectralClustering Phase: 0.1885 s
+  [Profile] Step 3: Total Spectral Core: 0.1885 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:20 | +  164.0s]         [cpu_16] done in 2.54s, ARI=0.698, NMI=0.778
+[16:35:20 | +  164.0s]         [cpu_36] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.7033 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.6730 s
+  [Profile] Step 2: Affinity (CPU): 0.0413 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0088 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3107 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0015 s
+  [Profile]   Total SpectralClustering Phase: 0.3211 s
+  [Profile] Step 3: Total Spectral Core: 0.3211 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:22 | +  166.1s]         [cpu_36] done in 2.04s, ARI=0.703, NMI=0.780
+[16:35:22 | +  166.1s] >>> run 4/5  (seed=22191)
+[16:35:22 | +  166.2s]         [cpu_4] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.9844 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 8.4826 s
+  [Profile] Step 2: Affinity (CPU): 0.1723 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0071 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3723 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.3803 s
+  [Profile] Step 3: Total Spectral Core: 0.3803 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:31 | +  175.2s]         [cpu_4] done in 9.04s, ARI=0.725, NMI=0.766
+[16:35:31 | +  175.2s]         [cpu_8] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.5456 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.3381 s
+  [Profile] Step 2: Affinity (CPU): 0.0931 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0072 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2210 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.2289 s
+  [Profile] Step 3: Total Spectral Core: 0.2289 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:35 | +  179.9s]         [cpu_8] done in 4.66s, ARI=0.584, NMI=0.749
+[16:35:35 | +  179.9s]         [cpu_16] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.8915 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.3374 s
+  [Profile] Step 2: Affinity (CPU): 0.0548 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0073 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2263 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.2343 s
+  [Profile] Step 3: Total Spectral Core: 0.2343 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:38 | +  182.5s]         [cpu_16] done in 2.63s, ARI=0.634, NMI=0.780
+[16:35:38 | +  182.5s]         [cpu_36] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.7401 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.7205 s
+  [Profile] Step 2: Affinity (CPU): 0.0433 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0090 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4270 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 0.4376 s
+  [Profile] Step 3: Total Spectral Core: 0.4376 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:40 | +  184.7s]         [cpu_36] done in 2.20s, ARI=0.624, NMI=0.775
+[16:35:40 | +  184.7s] >>> run 5/5  (seed=22192)
+[16:35:40 | +  184.8s]         [cpu_4] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.9380 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 8.3088 s
+  [Profile] Step 2: Affinity (CPU): 0.1765 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0072 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5243 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.5323 s
+  [Profile] Step 3: Total Spectral Core: 0.5323 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:49 | +  193.9s]         [cpu_4] done in 9.02s, ARI=0.537, NMI=0.735
+[16:35:49 | +  193.9s]         [cpu_8] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.5256 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.2853 s
+  [Profile] Step 2: Affinity (CPU): 0.0944 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0071 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.1947 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.2026 s
+  [Profile] Step 3: Total Spectral Core: 0.2026 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:54 | +  198.5s]         [cpu_8] done in 4.58s, ARI=0.608, NMI=0.762
+[16:35:54 | +  198.5s]         [cpu_16] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.8748 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2894 s
+  [Profile] Step 2: Affinity (CPU): 0.0551 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0079 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.2283 s
+      K-Means++ initialization took 0.0002 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.2369 s
+  [Profile] Step 3: Total Spectral Core: 0.2369 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:57 | +  201.0s]         [cpu_16] done in 2.58s, ARI=0.605, NMI=0.758
+[16:35:57 | +  201.0s]         [cpu_36] starting fit (n=20,000, d=64, m=1500)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.7032 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.6734 s
+  [Profile] Step 2: Affinity (CPU): 0.0451 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=1500, k=10
+  [Profile]     -> Laplacian Setup: 0.0089 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3929 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0015 s
+  [Profile]   Total SpectralClustering Phase: 0.4033 s
+  [Profile] Step 3: Total Spectral Core: 0.4033 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:35:59 | +  203.2s]         [cpu_36] done in 2.12s, ARI=0.457, NMI=0.665
+[16:35:59 | +  203.2s]     finished m=1500 in 91.9s  (20 ok, 0 errors)  peak RSS=720 MB
+
+------------------------------------------------------------------------------
+  m = 2000  (7/9 | ETA 0:01:59)
+------------------------------------------------------------------------------
+[16:35:59 | +  203.2s] >>> run 1/5  (seed=22188)
+[16:35:59 | +  203.3s]         [cpu_4] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9611 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.2053 s
+  [Profile] Step 2: Affinity (CPU): 0.2796 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0134 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.6751 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.6898 s
+  [Profile] Step 3: Total Spectral Core: 0.6900 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:11 | +  215.5s]         [cpu_4] done in 12.18s, ARI=0.635, NMI=0.753
+[16:36:11 | +  215.5s]         [cpu_8] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0584 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.7800 s
+  [Profile] Step 2: Affinity (CPU): 0.1417 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0123 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3000 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.3131 s
+  [Profile] Step 3: Total Spectral Core: 0.3133 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:17 | +  221.7s]         [cpu_8] done in 6.24s, ARI=0.580, NMI=0.694
+[16:36:17 | +  221.7s]         [cpu_16] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.2089 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 3.1516 s
+  [Profile] Step 2: Affinity (CPU): 0.0838 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0129 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5404 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.5542 s
+  [Profile] Step 3: Total Spectral Core: 0.5544 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:21 | +  225.5s]         [cpu_16] done in 3.79s, ARI=0.746, NMI=0.793
+[16:36:21 | +  225.5s]         [cpu_36] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9429 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2391 s
+  [Profile] Step 2: Affinity (CPU): 0.0652 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0143 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4733 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 0.4893 s
+  [Profile] Step 3: Total Spectral Core: 0.4896 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:24 | +  228.3s]         [cpu_36] done in 2.80s, ARI=0.599, NMI=0.754
+[16:36:24 | +  228.3s] >>> run 2/5  (seed=22189)
+[16:36:24 | +  228.4s]         [cpu_4] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.8922 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.0527 s
+  [Profile] Step 2: Affinity (CPU): 0.2614 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0124 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 1.6189 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 1.6326 s
+  [Profile] Step 3: Total Spectral Core: 1.6328 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:37 | +  241.4s]         [cpu_4] done in 12.95s, ARI=0.589, NMI=0.699
+[16:36:37 | +  241.4s]         [cpu_8] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0315 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.7112 s
+  [Profile] Step 2: Affinity (CPU): 0.1420 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0124 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.6369 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.6501 s
+  [Profile] Step 3: Total Spectral Core: 0.6503 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:43 | +  247.9s]         [cpu_8] done in 6.50s, ARI=0.625, NMI=0.716
+[16:36:43 | +  247.9s]         [cpu_16] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.1700 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 3.0754 s
+  [Profile] Step 2: Affinity (CPU): 0.0842 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0131 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.7007 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.7146 s
+  [Profile] Step 3: Total Spectral Core: 0.7148 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:47 | +  251.8s]         [cpu_16] done in 3.88s, ARI=0.663, NMI=0.736
+[16:36:47 | +  251.8s]         [cpu_36] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9354 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2183 s
+  [Profile] Step 2: Affinity (CPU): 0.0682 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0140 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5415 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 0.5571 s
+  [Profile] Step 3: Total Spectral Core: 0.5573 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:36:50 | +  254.6s]         [cpu_36] done in 2.85s, ARI=0.600, NMI=0.748
+[16:36:50 | +  254.6s] >>> run 3/5  (seed=22190)
+[16:36:50 | +  254.7s]         [cpu_4] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9737 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.2211 s
+  [Profile] Step 2: Affinity (CPU): 0.2794 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0125 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 1.0330 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 1.0468 s
+  [Profile] Step 3: Total Spectral Core: 1.0470 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:03 | +  267.3s]         [cpu_4] done in 12.55s, ARI=0.733, NMI=0.780
+[16:37:03 | +  267.3s]         [cpu_8] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0593 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.7795 s
+  [Profile] Step 2: Affinity (CPU): 0.1504 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0124 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4577 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.4709 s
+  [Profile] Step 3: Total Spectral Core: 0.4711 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:09 | +  273.7s]         [cpu_8] done in 6.40s, ARI=0.552, NMI=0.722
+[16:37:09 | +  273.7s]         [cpu_16] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.2156 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 3.1542 s
+  [Profile] Step 2: Affinity (CPU): 0.0873 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0129 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3810 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0008 s
+  [Profile]   Total SpectralClustering Phase: 0.3948 s
+  [Profile] Step 3: Total Spectral Core: 0.3950 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:13 | +  277.3s]         [cpu_16] done in 3.64s, ARI=0.737, NMI=0.783
+[16:37:13 | +  277.3s]         [cpu_36] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9428 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2387 s
+  [Profile] Step 2: Affinity (CPU): 0.0693 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0139 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5531 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 0.5686 s
+  [Profile] Step 3: Total Spectral Core: 0.5689 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:16 | +  280.2s]         [cpu_36] done in 2.88s, ARI=0.646, NMI=0.754
+[16:37:16 | +  280.2s] >>> run 4/5  (seed=22191)
+[16:37:16 | +  280.3s]         [cpu_4] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.8942 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.0562 s
+  [Profile] Step 2: Affinity (CPU): 0.2868 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0124 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.7529 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 0.7665 s
+  [Profile] Step 3: Total Spectral Core: 0.7668 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:28 | +  292.4s]         [cpu_4] done in 12.11s, ARI=0.621, NMI=0.763
+[16:37:28 | +  292.4s]         [cpu_8] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0286 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.7067 s
+  [Profile] Step 2: Affinity (CPU): 0.1542 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0125 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4694 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0009 s
+  [Profile]   Total SpectralClustering Phase: 0.4828 s
+  [Profile] Step 3: Total Spectral Core: 0.4830 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:34 | +  298.8s]         [cpu_8] done in 6.35s, ARI=0.691, NMI=0.785
+[16:37:34 | +  298.8s]         [cpu_16] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.1903 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 3.1093 s
+  [Profile] Step 2: Affinity (CPU): 0.0917 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0129 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.3288 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0010 s
+  [Profile]   Total SpectralClustering Phase: 0.3427 s
+  [Profile] Step 3: Total Spectral Core: 0.3430 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:38 | +  302.3s]         [cpu_16] done in 3.55s, ARI=0.665, NMI=0.771
+[16:37:38 | +  302.3s]         [cpu_36] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9497 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2312 s
+  [Profile] Step 2: Affinity (CPU): 0.0695 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0144 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4534 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 0.4694 s
+  [Profile] Step 3: Total Spectral Core: 0.4699 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:41 | +  305.1s]         [cpu_36] done in 2.77s, ARI=0.543, NMI=0.711
+[16:37:41 | +  305.1s] >>> run 5/5  (seed=22192)
+[16:37:41 | +  305.2s]         [cpu_4] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9609 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.2055 s
+  [Profile] Step 2: Affinity (CPU): 0.2818 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0126 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.6774 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0010 s
+  [Profile]   Total SpectralClustering Phase: 0.6911 s
+  [Profile] Step 3: Total Spectral Core: 0.6913 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:53 | +  317.4s]         [cpu_4] done in 12.18s, ARI=0.580, NMI=0.744
+[16:37:53 | +  317.4s]         [cpu_8] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0594 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 5.7828 s
+  [Profile] Step 2: Affinity (CPU): 0.1581 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0125 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4144 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.4276 s
+  [Profile] Step 3: Total Spectral Core: 0.4278 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:37:59 | +  323.8s]         [cpu_8] done in 6.37s, ARI=0.574, NMI=0.742
+[16:37:59 | +  323.8s]         [cpu_16] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.2075 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 3.1502 s
+  [Profile] Step 2: Affinity (CPU): 0.0911 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0128 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.4062 s
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0007 s
+  [Profile]   Total SpectralClustering Phase: 0.4198 s
+  [Profile] Step 3: Total Spectral Core: 0.4200 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:38:03 | +  327.4s]         [cpu_16] done in 3.66s, ARI=0.727, NMI=0.792
+[16:38:03 | +  327.4s]         [cpu_36] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 0.9419 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2374 s
+  [Profile] Step 2: Affinity (CPU): 0.0676 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0143 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5451 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0015 s
+  [Profile]   Total SpectralClustering Phase: 0.5609 s
+  [Profile] Step 3: Total Spectral Core: 0.5613 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:38:06 | +  330.3s]         [cpu_36] done in 2.87s, ARI=0.723, NMI=0.785
+[16:38:06 | +  330.3s]     finished m=2000 in 127.1s  (20 ok, 0 errors)  peak RSS=733 MB
+
+------------------------------------------------------------------------------
+  m = 4000  (8/9 | ETA 0:02:08)
+------------------------------------------------------------------------------
+[16:38:06 | +  330.3s] >>> run 1/5  (seed=22188)
+[16:38:06 | +  330.4s]         [cpu_4] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.4634 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 22.7878 s
+  [Profile] Step 2: Affinity (CPU): 1.0606 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0759 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 5.3079 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0019 s
+  [Profile]   Total SpectralClustering Phase: 5.3858 s
+  [Profile] Step 3: Total Spectral Core: 5.3880 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:38:35 | +  359.7s]         [cpu_4] done in 29.24s, ARI=0.677, NMI=0.742
+[16:38:35 | +  359.7s]         [cpu_8] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 4.4193 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.8643 s
+  [Profile] Step 2: Affinity (CPU): 0.5855 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.1746 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 3.0905 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 3.2664 s
+  [Profile] Step 3: Total Spectral Core: 3.2708 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:38:51 | +  375.4s]         [cpu_8] done in 15.72s, ARI=0.606, NMI=0.727
+[16:38:51 | +  375.4s]         [cpu_16] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.9300 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 6.8647 s
+  [Profile] Step 2: Affinity (CPU): 0.3392 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0753 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 3.1915 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 3.2682 s
+  [Profile] Step 3: Total Spectral Core: 3.2704 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:39:01 | +  385.9s]         [cpu_16] done in 10.48s, ARI=0.568, NMI=0.705
+[16:39:01 | +  385.9s]         [cpu_36] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.9995 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.5347 s
+  [Profile] Step 2: Affinity (CPU): 0.2686 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0770 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 1.9788 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 2.0576 s
+  [Profile] Step 3: Total Spectral Core: 2.0601 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:39:08 | +  392.7s]         [cpu_36] done in 6.87s, ARI=0.667, NMI=0.733
+[16:39:08 | +  392.7s] >>> run 2/5  (seed=22189)
+[16:39:08 | +  392.8s]         [cpu_4] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.6114 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.2197 s
+  [Profile] Step 2: Affinity (CPU): 1.0636 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0754 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 4.3704 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0019 s
+  [Profile]   Total SpectralClustering Phase: 4.4477 s
+  [Profile] Step 3: Total Spectral Core: 4.4497 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:39:37 | +  421.6s]         [cpu_4] done in 28.74s, ARI=0.671, NMI=0.718
+[16:39:37 | +  421.6s]         [cpu_8] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 4.4973 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.9373 s
+  [Profile] Step 2: Affinity (CPU): 0.5865 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0755 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 4.0808 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0012 s
+  [Profile]   Total SpectralClustering Phase: 4.1576 s
+  [Profile] Step 3: Total Spectral Core: 4.1596 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:39:54 | +  438.3s]         [cpu_8] done in 16.69s, ARI=0.556, NMI=0.694
+[16:39:54 | +  438.3s]         [cpu_16] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.5318 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 6.3492 s
+  [Profile] Step 2: Affinity (CPU): 0.3210 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0762 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 2.2507 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 2.3281 s
+  [Profile] Step 3: Total Spectral Core: 2.3300 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:40:03 | +  447.3s]         [cpu_16] done in 9.00s, ARI=0.603, NMI=0.749
+[16:40:03 | +  447.3s]         [cpu_36] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0183 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.5808 s
+  [Profile] Step 2: Affinity (CPU): 0.2592 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0778 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 2.2582 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 2.3378 s
+  [Profile] Step 3: Total Spectral Core: 2.3403 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:40:10 | +  454.5s]         [cpu_36] done in 7.18s, ARI=0.521, NMI=0.654
+[16:40:10 | +  454.5s] >>> run 3/5  (seed=22190)
+[16:40:10 | +  454.6s]         [cpu_4] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.5114 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.0666 s
+  [Profile] Step 2: Affinity (CPU): 0.9488 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0753 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 3.7220 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0019 s
+  [Profile]   Total SpectralClustering Phase: 3.7993 s
+  [Profile] Step 3: Total Spectral Core: 3.8012 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:40:38 | +  482.4s]         [cpu_4] done in 27.82s, ARI=0.637, NMI=0.737
+[16:40:38 | +  482.4s]         [cpu_8] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 4.4377 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.8691 s
+  [Profile] Step 2: Affinity (CPU): 0.5647 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0752 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 3.7013 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 3.7780 s
+  [Profile] Step 3: Total Spectral Core: 3.7798 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:40:54 | +  498.6s]         [cpu_8] done in 16.22s, ARI=0.679, NMI=0.739
+[16:40:54 | +  498.6s]         [cpu_16] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.5059 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 6.3081 s
+  [Profile] Step 2: Affinity (CPU): 0.3549 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0759 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 3.2294 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 3.3065 s
+  [Profile] Step 3: Total Spectral Core: 3.3085 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:41:04 | +  508.6s]         [cpu_16] done in 9.97s, ARI=0.624, NMI=0.715
+[16:41:04 | +  508.6s]         [cpu_36] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.0035 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.5644 s
+  [Profile] Step 2: Affinity (CPU): 0.2716 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0769 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 1.4666 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0017 s
+  [Profile]   Total SpectralClustering Phase: 1.5452 s
+  [Profile] Step 3: Total Spectral Core: 1.5478 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:41:10 | +  515.0s]         [cpu_36] done in 6.39s, ARI=0.533, NMI=0.696
+[16:41:10 | +  515.0s] >>> run 4/5  (seed=22191)
+[16:41:11 | +  515.1s]         [cpu_4] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.4659 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 22.8770 s
+  [Profile] Step 2: Affinity (CPU): 1.0225 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0751 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 4.0762 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0019 s
+  [Profile]   Total SpectralClustering Phase: 4.1532 s
+  [Profile] Step 3: Total Spectral Core: 4.1551 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:41:39 | +  543.1s]         [cpu_4] done in 28.06s, ARI=0.714, NMI=0.775
+[16:41:39 | +  543.1s]         [cpu_8] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 4.4230 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.7815 s
+  [Profile] Step 2: Affinity (CPU): 0.5665 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0751 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 2.4863 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0013 s
+  [Profile]   Total SpectralClustering Phase: 2.5629 s
+  [Profile] Step 3: Total Spectral Core: 2.5648 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:41:54 | +  558.1s]         [cpu_8] done in 14.92s, ARI=0.633, NMI=0.761
+[16:41:54 | +  558.1s]         [cpu_16] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.5307 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 6.3148 s
+  [Profile] Step 2: Affinity (CPU): 0.3421 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0742 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 1.9491 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0011 s
+  [Profile]   Total SpectralClustering Phase: 2.0245 s
+  [Profile] Step 3: Total Spectral Core: 2.0264 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:42:02 | +  566.8s]         [cpu_16] done in 8.69s, ARI=0.569, NMI=0.725
+[16:42:02 | +  566.8s]         [cpu_36] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.9967 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.5344 s
+  [Profile] Step 2: Affinity (CPU): 0.2654 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0767 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 2.5186 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0017 s
+  [Profile]   Total SpectralClustering Phase: 2.5972 s
+  [Profile] Step 3: Total Spectral Core: 2.5996 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:42:10 | +  574.2s]         [cpu_36] done in 7.40s, ARI=0.648, NMI=0.722
+[16:42:10 | +  574.2s] >>> run 5/5  (seed=22192)
+[16:42:10 | +  574.3s]         [cpu_4] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.4695 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 22.9363 s
+  [Profile] Step 2: Affinity (CPU): 1.0547 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0739 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 6.2174 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0019 s
+  [Profile]   Total SpectralClustering Phase: 6.2933 s
+  [Profile] Step 3: Total Spectral Core: 6.2952 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:42:40 | +  604.6s]         [cpu_4] done in 30.29s, ARI=0.688, NMI=0.756
+[16:42:40 | +  604.6s]         [cpu_8] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 4.4252 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 11.8573 s
+  [Profile] Step 2: Affinity (CPU): 0.5799 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0739 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 2.1411 s
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 2.2164 s
+  [Profile] Step 3: Total Spectral Core: 2.2183 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:42:55 | +  619.2s]         [cpu_8] done in 14.66s, ARI=0.664, NMI=0.731
+[16:42:55 | +  619.2s]         [cpu_16] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 2.5388 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 6.4081 s
+  [Profile] Step 2: Affinity (CPU): 0.3429 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0746 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 2.1610 s
+      K-Means++ initialization took 0.0004 seconds.
+  [Profile]     -> Spectral K-Means: 0.0010 s
+  [Profile]   Total SpectralClustering Phase: 2.2367 s
+  [Profile] Step 3: Total Spectral Core: 2.2387 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:43:04 | +  628.2s]         [cpu_16] done in 8.99s, ARI=0.653, NMI=0.753
+[16:43:04 | +  628.2s]         [cpu_36] starting fit (n=20,000, d=64, m=4000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 1.9990 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 4.5581 s
+  [Profile] Step 2: Affinity (CPU): 0.3186 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=4000, k=10
+  [Profile]     -> Laplacian Setup: 0.0749 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 1.9853 s
+      K-Means++ initialization took 0.0006 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 2.0620 s
+  [Profile] Step 3: Total Spectral Core: 2.0644 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:43:11 | +  635.2s]         [cpu_36] done in 6.94s, ARI=0.602, NMI=0.715
+[16:43:11 | +  635.2s]     finished m=4000 in 304.9s  (20 ok, 0 errors)  peak RSS=956 MB
+
+------------------------------------------------------------------------------
+  m = 8000  (9/9 | ETA 0:02:02)
+------------------------------------------------------------------------------
+[16:43:11 | +  635.2s] >>> run 1/5  (seed=22188)
+[16:43:11 | +  635.3s]         [cpu_4] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 16.8333 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 45.7131 s
+  [Profile] Step 2: Affinity (CPU): 4.0449 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8445 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 31.6849 s
+      K-Means++ initialization took 0.0014 seconds.
+  [Profile]     -> Spectral K-Means: 0.0038 s
+  [Profile]   Total SpectralClustering Phase: 32.5334 s
+  [Profile] Step 3: Total Spectral Core: 32.5481 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:44:33 | +  717.6s]         [cpu_4] done in 82.31s, ARI=0.576, NMI=0.623
+[16:44:33 | +  717.6s]         [cpu_8] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.8306 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.6110 s
+  [Profile] Step 2: Affinity (CPU): 2.2874 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7925 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 19.6264 s
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0023 s
+  [Profile]   Total SpectralClustering Phase: 20.4214 s
+  [Profile] Step 3: Total Spectral Core: 20.4355 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:45:19 | +  764.0s]         [cpu_8] done in 46.34s, ARI=0.547, NMI=0.618
+[16:45:19 | +  764.0s]         [cpu_16] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 5.2388 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 13.0368 s
+  [Profile] Step 2: Affinity (CPU): 1.3493 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7911 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 15.6303 s
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0019 s
+  [Profile]   Total SpectralClustering Phase: 16.4236 s
+  [Profile] Step 3: Total Spectral Core: 16.4379 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:45:50 | +  794.8s]         [cpu_16] done in 30.83s, ARI=0.478, NMI=0.571
+[16:45:50 | +  794.8s]         [cpu_36] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9928 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 9.0720 s
+  [Profile] Step 2: Affinity (CPU): 1.0387 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8015 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 11.3663 s
+      K-Means++ initialization took 0.0011 seconds.
+  [Profile]     -> Spectral K-Means: 0.0022 s
+  [Profile]   Total SpectralClustering Phase: 12.1702 s
+  [Profile] Step 3: Total Spectral Core: 12.1860 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:46:13 | +  817.1s]         [cpu_36] done in 22.31s, ARI=0.434, NMI=0.542
+[16:46:13 | +  817.1s] >>> run 2/5  (seed=22189)
+[16:46:13 | +  817.2s]         [cpu_4] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 16.8672 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 45.7047 s
+  [Profile] Step 2: Affinity (CPU): 3.6938 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7904 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 34.5069 s
+      K-Means++ initialization took 0.0013 seconds.
+  [Profile]     -> Spectral K-Means: 0.0037 s
+  [Profile]   Total SpectralClustering Phase: 35.3012 s
+  [Profile] Step 3: Total Spectral Core: 35.3152 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:47:37 | +  901.9s]         [cpu_4] done in 84.72s, ARI=0.580, NMI=0.639
+[16:47:37 | +  901.9s]         [cpu_8] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.8558 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.6134 s
+  [Profile] Step 2: Affinity (CPU): 2.1300 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7897 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 19.2038 s
+      K-Means++ initialization took 0.0012 seconds.
+  [Profile]     -> Spectral K-Means: 0.0026 s
+  [Profile]   Total SpectralClustering Phase: 19.9962 s
+  [Profile] Step 3: Total Spectral Core: 20.0103 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:48:23 | +  947.7s]         [cpu_8] done in 45.76s, ARI=0.437, NMI=0.515
+[16:48:23 | +  947.7s]         [cpu_16] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 5.1697 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 12.9323 s
+  [Profile] Step 2: Affinity (CPU): 1.3561 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7979 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 13.1247 s
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0018 s
+  [Profile]   Total SpectralClustering Phase: 13.9245 s
+  [Profile] Step 3: Total Spectral Core: 13.9384 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:48:51 | +  976.0s]         [cpu_16] done in 28.24s, ARI=0.408, NMI=0.516
+[16:48:51 | +  976.0s]         [cpu_36] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 4.0228 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 9.0925 s
+  [Profile] Step 2: Affinity (CPU): 1.0329 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8123 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 12.5072 s
+      K-Means++ initialization took 0.0011 seconds.
+  [Profile]     -> Spectral K-Means: 0.0022 s
+  [Profile]   Total SpectralClustering Phase: 13.3218 s
+  [Profile] Step 3: Total Spectral Core: 13.3373 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:49:15 | +  999.4s]         [cpu_36] done in 23.47s, ARI=0.420, NMI=0.537
+[16:49:15 | +  999.4s] >>> run 3/5  (seed=22190)
+[16:49:15 | +  999.5s]         [cpu_4] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 16.8299 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 45.7384 s
+  [Profile] Step 2: Affinity (CPU): 3.9988 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7941 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 23.6009 s
+      K-Means++ initialization took 0.0013 seconds.
+  [Profile]     -> Spectral K-Means: 0.0038 s
+  [Profile]   Total SpectralClustering Phase: 24.3989 s
+  [Profile] Step 3: Total Spectral Core: 24.4126 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:50:29 | + 1073.7s]         [cpu_4] done in 74.16s, ARI=0.492, NMI=0.588
+[16:50:29 | + 1073.7s]         [cpu_8] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.8234 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.6057 s
+  [Profile] Step 2: Affinity (CPU): 2.1285 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.7914 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 17.5842 s
+      K-Means++ initialization took 0.0012 seconds.
+  [Profile]     -> Spectral K-Means: 0.0025 s
+  [Profile]   Total SpectralClustering Phase: 18.3783 s
+  [Profile] Step 3: Total Spectral Core: 18.3918 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:51:13 | + 1117.8s]         [cpu_8] done in 44.13s, ARI=0.599, NMI=0.651
+[16:51:13 | + 1117.8s]         [cpu_16] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 5.1271 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 12.8489 s
+  [Profile] Step 2: Affinity (CPU): 1.3484 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8027 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 13.0257 s
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0020 s
+  [Profile]   Total SpectralClustering Phase: 13.8306 s
+  [Profile] Step 3: Total Spectral Core: 13.8448 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:51:41 | + 1145.9s]         [cpu_16] done in 28.05s, ARI=0.466, NMI=0.537
+[16:51:41 | + 1145.9s]         [cpu_36] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9857 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 9.0579 s
+  [Profile] Step 2: Affinity (CPU): 1.0294 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8308 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 15.9177 s
+      K-Means++ initialization took 0.0011 seconds.
+  [Profile]     -> Spectral K-Means: 0.0022 s
+  [Profile]   Total SpectralClustering Phase: 16.7509 s
+  [Profile] Step 3: Total Spectral Core: 16.7662 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:52:08 | + 1172.8s]         [cpu_36] done in 26.86s, ARI=0.480, NMI=0.572
+[16:52:08 | + 1172.8s] >>> run 4/5  (seed=22191)
+[16:52:08 | + 1172.9s]         [cpu_4] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 16.8698 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 45.5936 s
+  [Profile] Step 2: Affinity (CPU): 4.0244 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8188 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 30.7774 s
+      K-Means++ initialization took 0.0012 seconds.
+  [Profile]     -> Spectral K-Means: 0.0037 s
+  [Profile]   Total SpectralClustering Phase: 31.6000 s
+  [Profile] Step 3: Total Spectral Core: 31.6135 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:53:30 | + 1254.1s]         [cpu_4] done in 81.24s, ARI=0.421, NMI=0.570
+[16:53:30 | + 1254.1s]         [cpu_8] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.8444 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.6005 s
+  [Profile] Step 2: Affinity (CPU): 2.2890 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8172 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 15.5814 s
+      K-Means++ initialization took 0.0010 seconds.
+  [Profile]     -> Spectral K-Means: 0.0024 s
+  [Profile]   Total SpectralClustering Phase: 16.4012 s
+  [Profile] Step 3: Total Spectral Core: 16.4146 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:54:12 | + 1296.4s]         [cpu_8] done in 42.31s, ARI=0.489, NMI=0.591
+[16:54:12 | + 1296.4s]         [cpu_16] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 5.0652 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 12.7794 s
+  [Profile] Step 2: Affinity (CPU): 1.3593 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8248 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 18.0549 s
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0018 s
+  [Profile]   Total SpectralClustering Phase: 18.8818 s
+  [Profile] Step 3: Total Spectral Core: 18.8955 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:54:45 | + 1329.5s]         [cpu_16] done in 33.04s, ARI=0.475, NMI=0.535
+[16:54:45 | + 1329.5s]         [cpu_36] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9993 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 9.0672 s
+  [Profile] Step 2: Affinity (CPU): 0.9934 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8325 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 14.6836 s
+      K-Means++ initialization took 0.0011 seconds.
+  [Profile]     -> Spectral K-Means: 0.0023 s
+  [Profile]   Total SpectralClustering Phase: 15.5186 s
+  [Profile] Step 3: Total Spectral Core: 15.5334 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:55:11 | + 1355.1s]         [cpu_36] done in 25.60s, ARI=0.459, NMI=0.539
+[16:55:11 | + 1355.1s] >>> run 5/5  (seed=22192)
+[16:55:11 | + 1355.2s]         [cpu_4] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 16.8317 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 45.6820 s
+  [Profile] Step 2: Affinity (CPU): 4.0329 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 4 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8196 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 27.0765 s
+      K-Means++ initialization took 0.0012 seconds.
+  [Profile]     -> Spectral K-Means: 0.0037 s
+  [Profile]   Total SpectralClustering Phase: 27.8999 s
+  [Profile] Step 3: Total Spectral Core: 27.9132 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:56:28 | + 1432.8s]         [cpu_4] done in 77.64s, ARI=0.518, NMI=0.624
+[16:56:28 | + 1432.8s]         [cpu_8] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 8.8427 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 23.6246 s
+  [Profile] Step 2: Affinity (CPU): 2.1309 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 8 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8223 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 19.7371 s
+      K-Means++ initialization took 0.0010 seconds.
+  [Profile]     -> Spectral K-Means: 0.0024 s
+  [Profile]   Total SpectralClustering Phase: 20.5620 s
+  [Profile] Step 3: Total Spectral Core: 20.5753 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:57:15 | + 1479.2s]         [cpu_8] done in 46.34s, ARI=0.456, NMI=0.586
+[16:57:15 | + 1479.2s]         [cpu_16] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 5.0626 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 12.7333 s
+  [Profile] Step 2: Affinity (CPU): 1.3872 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 16 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8268 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 15.9382 s
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0018 s
+  [Profile]   Total SpectralClustering Phase: 16.7670 s
+  [Profile] Step 3: Total Spectral Core: 16.7811 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:57:46 | + 1510.1s]         [cpu_16] done in 30.91s, ARI=0.518, NMI=0.613
+[16:57:46 | + 1510.1s]         [cpu_36] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+      K-Means++ initialization took 3.9946 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 9.0699 s
+  [Profile] Step 2: Affinity (CPU): 0.9787 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.8317 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 12.8764 s
+      K-Means++ initialization took 0.0011 seconds.
+  [Profile]     -> Spectral K-Means: 0.0022 s
+  [Profile]   Total SpectralClustering Phase: 13.7105 s
+  [Profile] Step 3: Total Spectral Core: 13.7252 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+[16:58:09 | + 1533.9s]         [cpu_36] done in 23.78s, ARI=0.522, NMI=0.637
+[16:58:09 | + 1533.9s]     finished m=8000 in 898.7s  (20 ok, 0 errors)  peak RSS=1760 MB
+[16:58:09 | + 1533.9s]     CPU m-sweep total wall time: 1533.2s
+[16:58:09 | + 1533.9s]     closed CSV: results_m_scaling_cpu.csv
+[16:58:09 | + 1533.9s]     all CPU sweeps complete in 1533.9s
+
+==============================================================================
+  Plotting (CPU thread sweeps)
+==============================================================================
+[16:58:09 | + 1533.9s] !!! no CSV at results_n_scaling_cpu.csv, skipping load
+[16:58:09 | + 1533.9s]     loading CSV: results_m_scaling_cpu.csv
+[16:58:09 | + 1533.9s]       loaded 180 successful rows from results_m_scaling_cpu.csv
+
+[16:58:09 | + 1533.9s]     CPU timing summary across m:
+       point             cpu_4             cpu_8            cpu_16            cpu_36
+  ----------  ----------------  ----------------  ----------------  ----------------
+          50    0.311 +/- 0.018    0.131 +/- 0.001    0.073 +/- 0.002    0.058 +/- 0.003
+         100    0.564 +/- 0.004    0.267 +/- 0.002    0.149 +/- 0.003    0.112 +/- 0.001
+         250    1.372 +/- 0.010    0.688 +/- 0.004    0.376 +/- 0.008    0.285 +/- 0.004
+         500    2.805 +/- 0.062    1.440 +/- 0.052    0.809 +/- 0.056    0.648 +/- 0.086
+        1000    5.586 +/- 0.051    2.914 +/- 0.024    1.632 +/- 0.020    1.269 +/- 0.021
+        1500    8.917 +/- 0.195    4.655 +/- 0.091    2.617 +/- 0.117    2.074 +/- 0.091
+        2000   12.393 +/- 0.355    6.372 +/- 0.097    3.702 +/- 0.131    2.831 +/- 0.046
+        4000   28.828 +/- 0.990   15.640 +/- 0.855    9.427 +/- 0.762    6.957 +/- 0.382
+        8000   80.014 +/- 4.150   44.978 +/- 1.743   30.214 +/- 2.090   24.404 +/- 1.812
+
+[16:58:10 | + 1534.6s]     saved plot: figure_m_scaling_cpu.png
+[16:58:10 | + 1534.6s]     done.

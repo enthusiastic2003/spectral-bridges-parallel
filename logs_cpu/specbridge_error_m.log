@@ -1,0 +1,28 @@
+CMake Warning (dev) at /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/FindPythonLibsNew.cmake:101 (message):
+  Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+  are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning, or
+  preferably upgrade to using FindPython, either by calling it explicitly
+  before pybind11, or by setting PYBIND11_FINDPYTHON ON before pybind11.
+Call Stack (most recent call first):
+  /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Tools.cmake:44 (find_package)
+  /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Common.cmake:237 (include)
+  /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake:257 (include)
+  CMakeLists.txt:225 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Deprecation Warning at /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/FindPythonLibsNew.cmake:110 (cmake_policy):
+  The OLD behavior for policy CMP0148 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Tools.cmake:44 (find_package)
+  /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Common.cmake:237 (include)
+  /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake:257 (include)
+  CMakeLists.txt:225 (find_package)
+
+
