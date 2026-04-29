@@ -70,5 +70,5 @@ echo "Running module..."
 # python -u ./mnist_test.py
 for p in n=10000 n=100000 n=10000000 m=250 m=2000 m=8000; do
       label=${p/=/_}
-      nsys profile -o profile_$label --trace=cuda python mem_analysis.py --device cuda --point $p 2> time_$label.txt
+      nsys profile -o profile_$label --trace=cuda --cuda-memory-usage=true python mem_analysis.py --device cuda --point $p
   done
