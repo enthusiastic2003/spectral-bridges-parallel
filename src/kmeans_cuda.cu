@@ -19,7 +19,7 @@
 //   d_counts  k   ints
 //
 #include "kmeans_cuda.hpp"
-
+#include <iostream>
 #include <cuda_runtime.h>
 #include <cfloat>
 #include <cstdio>
@@ -256,6 +256,9 @@ static void initCentroidsCuda(
     int n, int d, int k,
     int n_local_trials, std::mt19937_64& rng)
 {
+    std::cout << "  Initializing centroids with k-means++(CUDA) seeding ("
+              << ((n_local_trials < 0) ? "auto" : std::to_string(n_local_trials))
+              << " local trials)" << std::endl;
     const int trials = (n_local_trials < 0)
                      ? (2 + static_cast<int>(std::log((double)k)))
                      : n_local_trials;
@@ -344,6 +347,12 @@ KMeansResult fitKMeansCuda(
     const Matrix& X, int n, int d,
     int n_clusters, int n_iter, uint64_t random_state)
 {
+    std::cout << "  Running CUDA k-means with n=" << n
+              << "  , d=" << d
+              << "  , k=" << n_clusters
+              << "  , n_iter=" << n_iter
+              << std::endl;
+
     const int k = n_clusters;
 
     // Query device shared-memory limit (used to size assign tile).

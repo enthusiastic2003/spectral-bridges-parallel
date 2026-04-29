@@ -1,22 +1,23 @@
 """
 Reproduce paper Figure 4 layout: ARI and NMI vs. embedding dimension h,
-comparing the author's Python SpectralBridges against our cpu implementation.
+comparing the author's Python SpectralBridges against our C++ implementation.
 
 Protocol (matching paper section 4.6):
   - 10 runs per (h, method) pair
-  - Each run: fresh 20,000-sample subset of MNIST, fresh PCA
+  - Each run: fresh 20,000-sample subset of dataset, fresh PCA
   - Paired seeds: both methods see identical (subset, seed) per run
   - Mean +/- std reported; error bars in plot are 1 std
 
 Outputs:
-  - results_h_sweep.csv : raw per-run records (written incrementally)
-  - figure4_reproduction.png : grouped bar plot
+  - results_h_sweep_<dataset>_<mode>.csv : raw per-run records (written incrementally)
+  - figure4_reproduction_<dataset>_<mode>.png : grouped bar plot
 """
 
 import os
 import sys
 import time
 import csv
+import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import fetch_openml
@@ -27,20 +28,16 @@ from sbcluster import SpectralBridges
 sys.path.append(os.path.abspath("build/"))
 import specbridge
 
-
 # ---- Configuration ------------------------------------------------------
 H_DIMS = [8, 16, 32, 64, 784]
 N_SAMPLES = 20000
 N_CLUSTERS = 10
 M_VORONOI = 250
-N_RUNS = 10
+N_RUNS = 5
 BASE_SEED = 22188
 PERPLEXITY = 2.0
 N_ITER = 20
 NUM_THREADS = 36
-
-CSV_PATH = "results_h_sweep.csv"
-PLOT_PATH = "figure4_reproduction.png"
 
 
 def run_one(method, X_pca, y_true, seed):
@@ -57,19 +54,22 @@ def run_one(method, X_pca, y_true, seed):
         model.fit(X_pca)
         elapsed = time.time() - t0
         labels = model.labels_
-    elif method == "cpu":
+
+    elif method in ("cpu", "gpu"):
+        use_gpu = (method == "gpu")
         model = specbridge.SpectralClustering(
             n_clusters=N_CLUSTERS,
             num_voronoi=M_VORONOI,
             n_iter=N_ITER,
             target_perplexity=PERPLEXITY,
             random_state=seed,
-            use_gpu=False,
+            use_gpu=use_gpu,
         )
         t0 = time.time()
         result = model.fit(X_pca)
         elapsed = time.time() - t0
         labels = np.array(result.labels)
+
     else:
         raise ValueError(method)
 
@@ -80,8 +80,8 @@ def run_one(method, X_pca, y_true, seed):
     )
 
 
-def make_plot(records):
-    """Grouped bar plot: ARI and NMI vs h, author vs cpu."""
+def make_plot(records, dataset_name, mode_name, methods_to_run, plot_path):
+    """Grouped bar plot: ARI and NMI vs h."""
     h_labels = [f"h={h}" if h != 784 else "h=784 (full)" for h in H_DIMS]
 
     def stats(metric_idx, method):
@@ -92,86 +92,140 @@ def make_plot(records):
             stds.append(arr.std(ddof=1))
         return np.array(means), np.array(stds)
 
-    ari_auth_m, ari_auth_s = stats(0, "author")
-    ari_cpu_m, ari_cpu_s = stats(0, "cpu")
-    nmi_auth_m, nmi_auth_s = stats(1, "author")
-    nmi_cpu_m, nmi_cpu_s = stats(1, "cpu")
-
     x = np.arange(len(H_DIMS))
-    width = 0.35
+    n_bars = len(methods_to_run)
+    width = 0.8 / n_bars
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.5))
+    
+    method_info = {
+        "author": {"label": "Author (Python)", "color": "#9b8bd0"},
+        "cpu": {"label": "Ours (cpu)", "color": "#5a3a8a"},
+        "gpu": {"label": "Ours (cuda)", "color": "#2c1e4a"},
+    }
 
     # ARI
     ax = axes[0]
-    ax.bar(x - width / 2, ari_auth_m, width, yerr=ari_auth_s,
-           label="Author (Python)", color="#9b8bd0", capsize=3)
-    ax.bar(x + width / 2, ari_cpu_m, width, yerr=ari_cpu_s,
-           label="Ours (cpu)", color="#5a3a8a", capsize=3)
+    max_ari = 0
+    for i, method in enumerate(methods_to_run):
+        m_mean, m_std = stats(0, method)
+        if len(m_mean) > 0:
+            max_ari = max(max_ari, m_mean.max())
+        offset = (i - (n_bars - 1) / 2) * width
+        ax.bar(x + offset, m_mean, width, yerr=m_std,
+               label=method_info[method]["label"], color=method_info[method]["color"], capsize=3)
     ax.set_xticks(x)
     ax.set_xticklabels(h_labels, rotation=20)
     ax.set_ylabel("ARI Score")
-    ax.set_ylim(0, max(ari_auth_m.max(), ari_cpu_m.max()) * 1.15)
+    if max_ari > 0:
+        ax.set_ylim(0, max_ari * 1.15)
     ax.legend(loc="lower right")
     ax.grid(axis="y", alpha=0.3)
 
     # NMI
     ax = axes[1]
-    ax.bar(x - width / 2, nmi_auth_m, width, yerr=nmi_auth_s,
-           label="Author (Python)", color="#9b8bd0", capsize=3)
-    ax.bar(x + width / 2, nmi_cpu_m, width, yerr=nmi_cpu_s,
-           label="Ours (cpu)", color="#5a3a8a", capsize=3)
+    max_nmi = 0
+    for i, method in enumerate(methods_to_run):
+        m_mean, m_std = stats(1, method)
+        if len(m_mean) > 0:
+            max_nmi = max(max_nmi, m_mean.max())
+        offset = (i - (n_bars - 1) / 2) * width
+        ax.bar(x + offset, m_mean, width, yerr=m_std,
+               label=method_info[method]["label"], color=method_info[method]["color"], capsize=3)
     ax.set_xticks(x)
     ax.set_xticklabels(h_labels, rotation=20)
     ax.set_ylabel("NMI Score")
-    ax.set_ylim(0, max(nmi_auth_m.max(), nmi_cpu_m.max()) * 1.15)
+    if max_nmi > 0:
+        ax.set_ylim(0, max_nmi * 1.15)
     ax.legend(loc="lower right")
     ax.grid(axis="y", alpha=0.3)
 
+    dataset_title = "MNIST" if dataset_name == "mnist" else "Fashion MNIST"
+    if mode_name == "both":
+        mode_title = "cpu & cuda"
+    elif mode_name == "gpu":
+        mode_title = "cuda"
+    else:
+        mode_title = "cpu"
+
     fig.suptitle(
-        f"Spectral Bridges on MNIST: Author Python vs. Our cpu "
+        f"Spectral Bridges on {dataset_title}: Author Python vs. Ours ({mode_title}) "
         f"({N_RUNS} runs, n={N_SAMPLES}, m={M_VORONOI})"
     )
     fig.tight_layout()
-    fig.savefig(PLOT_PATH, dpi=150)
-    print(f"\nSaved plot to {PLOT_PATH}")
+    fig.savefig(plot_path, dpi=150)
+    print(f"\nSaved plot to {plot_path}")
 
 
-def print_summary_table(records):
-    print("\n" + "=" * 84)
+def print_summary_table(records, methods_to_run):
+    print("\n" + "=" * 110)
     print(f"Summary across h values ({N_RUNS} paired runs each)")
-    print("=" * 84)
-    print(f"{'h':<6} | {'ARI auth':<16} | {'ARI cpu':<16} | "
-          f"{'NMI auth':<16} | {'NMI cpu':<16}")
-    print("-" * 84)
+    print("=" * 110)
+    
+    headers = [f"{'h':<6}"]
+    for m in methods_to_run:
+        headers.append(f"ARI {m:<10}")
+    for m in methods_to_run:
+        headers.append(f"NMI {m:<10}")
+        
+    print(" | ".join(headers))
+    print("-" * 110)
+    
     for h in H_DIMS:
-        a = np.array(records[h]["author"])
-        c = np.array(records[h]["cpu"])
-        print(
-            f"{h:<6} | "
-            f"{a[:,0].mean():.4f} +/- {a[:,0].std(ddof=1):.4f}  | "
-            f"{c[:,0].mean():.4f} +/- {c[:,0].std(ddof=1):.4f}  | "
-            f"{a[:,1].mean():.4f} +/- {a[:,1].std(ddof=1):.4f}  | "
-            f"{c[:,1].mean():.4f} +/- {c[:,1].std(ddof=1):.4f}"
-        )
-    print("=" * 84)
+        row = [f"{h:<6}"]
+        # ARI
+        for m in methods_to_run:
+            a = np.array(records[h][m])
+            row.append(f"{a[:,0].mean():.4f} +/- {a[:,0].std(ddof=1):.4f}")
+        # NMI
+        for m in methods_to_run:
+            a = np.array(records[h][m])
+            row.append(f"{a[:,1].mean():.4f} +/- {a[:,1].std(ddof=1):.4f}")
+            
+        print(" | ".join(row))
+    print("=" * 110)
 
 
 def main():
-    print("Loading MNIST...")
-    X_full, y_full = fetch_openml(
-        "mnist_784", version=1, return_X_y=True, as_frame=False, parser="auto"
-    )
+    parser = argparse.ArgumentParser(description="Spectral Bridges MNIST/Fashion-MNIST tester")
+    parser.add_argument("--mode", type=str, choices=["cpu", "gpu", "both"], default="cpu",
+                        help="Execution mode (cpu, gpu, or both)")
+    parser.add_argument("--dataset", type=str, choices=["mnist", "fashion"], default="mnist",
+                        help="Dataset to use (mnist or fashion)")
+    args = parser.parse_args()
+
+    dataset_name = args.dataset
+    mode_name = args.mode
+
+    if mode_name == "both":
+        methods_to_run = ["author", "cpu", "gpu"]
+    elif mode_name == "gpu":
+        methods_to_run = ["author", "gpu"]
+    else:
+        methods_to_run = ["author", "cpu"]
+
+    csv_path = f"results_h_sweep_{dataset_name}_{mode_name}.csv"
+    plot_path = f"figure4_reproduction_{dataset_name}_{mode_name}.png"
+
+    if dataset_name == "mnist":
+        print("Loading MNIST...")
+        X_full, y_full = fetch_openml(
+            "mnist_784", version=1, return_X_y=True, as_frame=False, parser="auto"
+        )
+    else:
+        print("Loading Fashion MNIST...")
+        X_full, y_full = fetch_openml(
+            "Fashion-MNIST", version=1, return_X_y=True, as_frame=False, parser="auto"
+        )
+        
     X_full = X_full.astype(np.float32) / 255.0
     y_full = y_full.astype(int)
 
     specbridge.set_num_threads(NUM_THREADS)
 
-    # records[h][method] = list of (ari, nmi, time) tuples
-    records = {h: {"author": [], "cpu": []} for h in H_DIMS}
+    records = {h: {m: [] for m in methods_to_run} for h in H_DIMS}
 
-    # Open CSV up front so partial results survive a crash.
-    csv_file = open(CSV_PATH, "w", newline="")
+    csv_file = open(csv_path, "w", newline="")
     writer = csv.writer(csv_file)
     writer.writerow(["h_dim", "run", "seed", "method", "ari", "nmi", "time_s"])
     csv_file.flush()
@@ -191,25 +245,22 @@ def main():
                     pca.fit_transform(X_sub), dtype=np.float32
                 )
 
-                for method in ("author", "cpu"):
+                for method in methods_to_run:
                     ari, nmi, t = run_one(method, X_pca, y_true, seed)
                     records[h][method].append((ari, nmi, t))
                     writer.writerow([h, run_idx, seed, method, ari, nmi, t])
                     csv_file.flush()
 
-                a_a, a_n, a_t = records[h]["author"][-1]
-                c_a, c_n, c_t = records[h]["cpu"][-1]
-                print(
-                    f"  run {run_idx + 1:2d}/{N_RUNS} seed={seed} | "
-                    f"ARI auth={a_a:.3f} cpu={c_a:.3f} | "
-                    f"NMI auth={a_n:.3f} cpu={c_n:.3f} | "
-                    f"t auth={a_t:.2f}s cpu={c_t:.2f}s"
-                )
+                print_str = f"  run {run_idx + 1:2d}/{N_RUNS} seed={seed} | "
+                for m in methods_to_run:
+                    a_a, a_n, a_t = records[h][m][-1]
+                    print_str += f"{m}: ARI={a_a:.3f} NMI={a_n:.3f} t={a_t:.2f}s | "
+                print(print_str.strip(" | "))
     finally:
         csv_file.close()
 
-    print_summary_table(records)
-    make_plot(records)
+    print_summary_table(records, methods_to_run)
+    make_plot(records, dataset_name, mode_name, methods_to_run, plot_path)
 
 
 if __name__ == "__main__":

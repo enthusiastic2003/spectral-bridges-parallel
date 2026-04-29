@@ -35,6 +35,10 @@ KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_6
     int trials = (n_local_trials < 0)
         ? (2 + static_cast<int>(std::log(n_clusters)))
         : n_local_trials;
+    
+    std::cout << "  Initializing centroids with k-means++(CPU) seeding ("
+              << ((n_local_trials < 0) ? "auto" : std::to_string(n_local_trials))
+              << " local trials)" << std::endl;
 
     Matrix centroids(n_clusters * d);
 
@@ -107,6 +111,11 @@ KMeansResult KMeans::initCentroids(const Matrix& X, int n, int d, std::mt19937_6
 KMeansResult KMeans::fit(const Matrix& X, int n, int d) {
     // std::cout << "Total processors: " << omp_get_num_procs() << ", threads: " << omp_get_max_threads() << std::endl;
     std::mt19937_64 rng(random_state);
+    std::cout << "  Running CPU k-means with n=" << n
+              << "  , d=" << d
+              << "  , k=" << n_clusters
+              << "  , n_iter=" << n_iter
+              << std::endl;
     KMeansResult result = initCentroids(X, n, d, rng);
     Matrix centroids = result.centroids;
     // std::cout << "Centroids initialized using k-means++." << std::endl;

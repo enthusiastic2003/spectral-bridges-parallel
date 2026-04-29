@@ -10,3 +10,5 @@ pics/
 __pycache__/
 *.npz
 *.gz
+/*.csv
+!finalized_datas/*.csv
