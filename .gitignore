@@ -5,10 +5,10 @@ vcpkg_installed/
 bin/
 pics/
 .vs/
-*.png
-*.png
+/*.png
 __pycache__/
 *.npz
 *.gz
 /*.csv
 !finalized_datas/*.csv
+!finalized_datas/*.png
