@@ -12,6 +12,7 @@ from sklearn.datasets import fetch_openml
 from sklearn.decomposition import PCA
 from sklearn.cluster import SpectralClustering
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
+from sbcluster import SpectralBridges
 
 # Assuming sbcluster handles spectral bridges internally, but we use specbridge ourself
 sys.path.append(os.path.abspath("build/"))
@@ -21,7 +22,7 @@ import specbridge
 PCA_DIMS = 49
 N_SAMPLES = 20000
 N_CLUSTERS = 10
-M_VORONOI_RANGE = list(range(1, 101))
+M_VORONOI_RANGE = list(range(11, 120))
 N_RUNS = 5
 BASE_SEED = 22188
 PERPLEXITY = 2.0
@@ -159,8 +160,8 @@ def main():
         ari_stds = [np.std([r[0] for r in records_ours[m][v]], ddof=1) if N_RUNS > 1 else 0 for v in M_VORONOI_RANGE]
         
         ax.plot(M_VORONOI_RANGE, ari_means, marker="o", markersize=4, label=m_label, color=colors.get(m, "blue"))
-        if np.any(np.array(ari_stds) > 0):
-            ax.fill_between(M_VORONOI_RANGE, np.array(ari_means) - np.array(ari_stds), np.array(ari_means) + np.array(ari_stds), alpha=0.2, color=colors.get(m, "blue"))
+        # if np.any(np.array(ari_stds) > 0):
+        #     ax.fill_between(M_VORONOI_RANGE, np.array(ari_means) - np.array(ari_stds), np.array(ari_means) + np.array(ari_stds), alpha=0.2, color=colors.get(m, "blue"))
 
     ax.set_xlabel("num_voronoi")
     ax.set_ylabel("ARI Score")
@@ -180,8 +181,8 @@ def main():
         nmi_stds = [np.std([r[1] for r in records_ours[m][v]], ddof=1) if N_RUNS > 1 else 0 for v in M_VORONOI_RANGE]
         
         ax.plot(M_VORONOI_RANGE, nmi_means, marker="o", markersize=4, label=m_label, color=colors.get(m, "blue"))
-        if np.any(np.array(nmi_stds) > 0):
-            ax.fill_between(M_VORONOI_RANGE, np.array(nmi_means) - np.array(nmi_stds), np.array(nmi_means) + np.array(nmi_stds), alpha=0.2, color=colors.get(m, "blue"))
+        # if np.any(np.array(nmi_stds) > 0):
+        #     ax.fill_between(M_VORONOI_RANGE, np.array(nmi_means) - np.array(nmi_stds), np.array(nmi_means) + np.array(nmi_stds), alpha=0.2, color=colors.get(m, "blue"))
 
     ax.set_xlabel("num_voronoi")
     ax.set_ylabel("NMI Score")

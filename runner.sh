@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=36
-#SBATCH --output=logs_cpu/specbridge_output.log
-#SBATCH --error=logs_cpu/specbridge_error.log
+#SBATCH --output=logs_gpu/specbridge_output.log
+#SBATCH --error=logs_gpu/specbridge_error.log
 
 # Environment setup
 
@@ -66,5 +66,9 @@ cd ..
 
 echo "Running module..."
 
-python -u ./test_suit_speedups_cpu.py --experiment n
+# python -u ./test_suit_speedups_cpu.py --experiment n
 # python -u ./mnist_test.py
+for p in n=10000 n=100000 n=10000000 m=250 m=2000 m=8000; do
+      label=${p/=/_}
+      nsys profile -o profile_$label --trace=cuda python mem_analysis.py --device cuda --point $p 2> time_$label.txt
+  done

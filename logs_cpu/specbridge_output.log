@@ -1,0 +1,379 @@
+Node list: node5
+Current node: node5
+CPUs allocated: 36
+-- The CXX compiler identification is GNU 8.5.0
+-- The CUDA compiler identification is NVIDIA 11.8.89 with host compiler GNU 8.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Eigen3 include dir: /home/sirjanhansda/projectfolder/eigen-3.4.0
+-- Found OpenMP_CXX: -fopenmp (found version "4.5")
+-- Found OpenMP_CUDA: -fopenmp (found version "4.5")
+-- Found OpenMP: TRUE (found version "4.5")
+-- OpenMP: -fopenmp
+-- BLAS/LAPACK/LAPACKE: OpenBLAS at /home/sirjanhansda/projectfolder/openblas/lib/libopenblas.so
+-- LAPACKE include: /home/sirjanhansda/projectfolder/openblas/include
+-- Found CUDAToolkit: /usr/local/cuda/targets/x86_64-linux/include (found version "11.8.89")
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE
+-- CUDA: enabled, arch=52
+-- Spectra: /home/sirjanhansda/projectfolder/spectra/include
+-- Eigen: using LAPACKE backend
+-- Found PythonInterp: /home/sirjanhansda/projectfolder/.venv/bin/python (found suitable version "3.10.14", minimum required is "3.8")
+-- Found PythonLibs: /home/sirjanhansda/python310/lib/libpython3.10.a
+-- Performing Test HAS_FLTO_AUTO
+-- Performing Test HAS_FLTO_AUTO - Success
+-- Found pybind11: /home/sirjanhansda/projectfolder/.venv/lib/python3.10/site-packages/pybind11/include (found version "3.0.3")
+-- Configuring done (20.0s)
+-- Generating done (3.9s)
+-- Build files have been written to: /home/sirjanhansda/projectfolder/spectral-bridges-parallel/build
+[  4%] Building CXX object CMakeFiles/sb_core.dir/src/kmeans.cpp.o
+[  9%] Building CXX object CMakeFiles/sb_core.dir/src/affinity.cpp.o
+[ 13%] Building CXX object CMakeFiles/sb_core.dir/src/spectral.cpp.o
+[ 18%] Building CUDA object CMakeFiles/sb_core.dir/src/kmeans_cuda.cu.o
+[ 22%] Building CUDA object CMakeFiles/sb_core.dir/src/affinity.cu.o
+[ 27%] Building CUDA object CMakeFiles/sb_core.dir/src/spectral.cu.o
+[ 31%] Linking CXX static library libsb_core.a
+[ 31%] Built target sb_core
+[ 36%] Building CXX object CMakeFiles/specbridge.dir/python/bindings.cpp.o
+[ 40%] Linking CUDA device code CMakeFiles/specbridge.dir/cmake_device_link.o
+[ 45%] Linking CXX shared module specbridge.cpython-310-x86_64-linux-gnu.so
+[ 45%] Built target specbridge
+[ 50%] Building CXX object CMakeFiles/spectral_bridges.dir/main.cpp.o
+[ 54%] Linking CUDA device code CMakeFiles/spectral_bridges.dir/cmake_device_link.o
+[ 59%] Linking CXX executable spectral_bridges
+[ 59%] Built target spectral_bridges
+[ 63%] Building CXX object CMakeFiles/test_kmeans.dir/tests/test_kmeans.cpp.o
+[ 68%] Linking CUDA device code CMakeFiles/test_kmeans.dir/cmake_device_link.o
+[ 72%] Linking CXX executable test_kmeans
+[ 72%] Built target test_kmeans
+[ 77%] Building CXX object CMakeFiles/test_reference.dir/tests/test_reference.cpp.o
+[ 81%] Linking CUDA device code CMakeFiles/test_reference.dir/cmake_device_link.o
+[ 86%] Linking CXX executable test_reference
+[ 86%] Built target test_reference
+[ 90%] Building CXX object CMakeFiles/test_kmeans_cuda.dir/tests/test_kmeans_cuda.cpp.o
+[ 95%] Linking CUDA device code CMakeFiles/test_kmeans_cuda.dir/cmake_device_link.o
+[100%] Linking CXX executable test_kmeans_cuda
+[100%] Built target test_kmeans_cuda
+Running module...
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[08:50:48 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[08:50:48 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[08:50:48 | +    0.0s]     Python             : 3.10.14
+[08:50:48 | +    0.0s]     NumPy              : 2.2.6
+[08:50:48 | +    0.0s]     scikit-learn       : 1.7.2
+[08:50:48 | +    0.0s]     SciPy              : 1.15.3
+[08:50:48 | +    0.0s]     OMP_NUM_THREADS    : 36
+[08:50:48 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[08:50:48 | +    0.0s]     specbridge threads : 36
+[08:50:48 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[08:50:48 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[08:50:48 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[08:50:48 | +    0.0s]     Process peak RSS   : 249.3 MB (so far)
+[08:50:48 | +    0.0s]     setting specbridge num_threads to 36
+
+==============================================================================
+  Profiling point: n=10000
+==============================================================================
+[08:50:48 | +    0.0s]     generating synthetic data: n=10,000, d=64, k=10
+[08:50:48 | +    0.0s]       generating synthetic data: n=10,000, d=64, k=10, seed=22188
+[08:50:48 | +    0.1s]       data generated in 0.03s, X shape=(10000, 64), dtype=float32, size=2.6 MB
+[08:50:48 | +    0.1s]     starting CPU fit (n=10,000, m=250)
+[08:50:48 | +    0.1s]         [cpu_36] starting fit (n=10,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  Running CPU k-means with n=10000  , d=64  , k=250  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+      K-Means++ initialization took 0.0566304 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.1641 s
+  [Profile] Step 2: Affinity (CPU): 0.0077 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0063 s
+  Running CPU k-means with n=250  , d=10  , k=10  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+[08:50:49 | +    0.3s]         [cpu_36] done in 0.19s, ARI=0.721, NMI=0.864
+[08:50:49 | +    0.3s]     done: total_s=0.19, ARI=0.721, NMI=0.864
+[08:50:49 | +    0.3s]     done.
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.0079 s
+  [Profile] Step 3: Total Spectral Core: 0.0079 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[08:50:50 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[08:50:50 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[08:50:50 | +    0.0s]     Python             : 3.10.14
+[08:50:50 | +    0.0s]     NumPy              : 2.2.6
+[08:50:50 | +    0.0s]     scikit-learn       : 1.7.2
+[08:50:50 | +    0.0s]     SciPy              : 1.15.3
+[08:50:50 | +    0.0s]     OMP_NUM_THREADS    : 36
+[08:50:50 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[08:50:50 | +    0.0s]     specbridge threads : 36
+[08:50:50 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[08:50:50 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[08:50:50 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[08:50:50 | +    0.0s]     Process peak RSS   : 248.8 MB (so far)
+[08:50:50 | +    0.0s]     setting specbridge num_threads to 36
+
+==============================================================================
+  Profiling point: n=100000
+==============================================================================
+[08:50:50 | +    0.0s]     generating synthetic data: n=100,000, d=64, k=10
+[08:50:50 | +    0.0s]       generating synthetic data: n=100,000, d=64, k=10, seed=22188
+[08:50:50 | +    0.3s]       data generated in 0.26s, X shape=(100000, 64), dtype=float32, size=25.6 MB
+[08:50:50 | +    0.3s]     starting CPU fit (n=100,000, m=250)
+[08:50:50 | +    0.3s]         [cpu_36] starting fit (n=100,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  Running CPU k-means with n=100000  , d=64  , k=250  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+      K-Means++ initialization took 0.511383 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 1.2320 s
+  [Profile] Step 2: Affinity (CPU): 0.0246 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0057 s
+  Running CPU k-means with n=250  , d=10  , k=10  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+[08:50:51 | +    1.6s]         [cpu_36] done in 1.29s, ARI=0.749, NMI=0.882
+[08:50:51 | +    1.6s]     done: total_s=1.29, ARI=0.749, NMI=0.882
+[08:50:51 | +    1.6s]     done.
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0014 s
+  [Profile]   Total SpectralClustering Phase: 0.0073 s
+  [Profile] Step 3: Total Spectral Core: 0.0073 s
+  [Profile] Step 4: Label Propagation: 0.0004 s
+===========================================
+
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[08:50:53 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[08:50:53 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[08:50:53 | +    0.0s]     Python             : 3.10.14
+[08:50:53 | +    0.0s]     NumPy              : 2.2.6
+[08:50:53 | +    0.0s]     scikit-learn       : 1.7.2
+[08:50:53 | +    0.0s]     SciPy              : 1.15.3
+[08:50:53 | +    0.0s]     OMP_NUM_THREADS    : 36
+[08:50:53 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[08:50:53 | +    0.0s]     specbridge threads : 36
+[08:50:53 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[08:50:53 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[08:50:53 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[08:50:53 | +    0.0s]     Process peak RSS   : 248.6 MB (so far)
+[08:50:53 | +    0.0s]     setting specbridge num_threads to 36
+
+==============================================================================
+  Profiling point: n=10000000
+==============================================================================
+[08:50:53 | +    0.0s]     generating synthetic data: n=10,000,000, d=64, k=10
+[08:50:53 | +    0.0s]       generating synthetic data: n=10,000,000, d=64, k=10, seed=22188
+[08:51:19 | +   26.6s]       data generated in 26.60s, X shape=(10000000, 64), dtype=float32, size=2560.0 MB
+[08:51:19 | +   26.6s]     starting CPU fit (n=10,000,000, m=250)
+[08:51:19 | +   26.6s]         [cpu_36] starting fit (n=10,000,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  Running CPU k-means with n=10000000  , d=64  , k=250  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+      K-Means++ initialization took 59.2584 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 129.5789 s
+  [Profile] Step 2: Affinity (CPU): 2.5372 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0001 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0024 s
+  Running CPU k-means with n=250  , d=10  , k=10  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+[08:53:34 | +  161.4s]         [cpu_36] done in 132.70s, ARI=1.000, NMI=1.000
+[08:53:34 | +  161.4s]     done: total_s=132.70, ARI=1.000, NMI=1.000
+[08:53:34 | +  161.4s]     done.
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0017 s
+  [Profile]   Total SpectralClustering Phase: 0.0043 s
+  [Profile] Step 3: Total Spectral Core: 0.0043 s
+  [Profile] Step 4: Label Propagation: 0.0443 s
+===========================================
+
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[08:53:36 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[08:53:36 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[08:53:36 | +    0.0s]     Python             : 3.10.14
+[08:53:36 | +    0.0s]     NumPy              : 2.2.6
+[08:53:36 | +    0.0s]     scikit-learn       : 1.7.2
+[08:53:36 | +    0.0s]     SciPy              : 1.15.3
+[08:53:36 | +    0.0s]     OMP_NUM_THREADS    : 36
+[08:53:36 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[08:53:36 | +    0.0s]     specbridge threads : 36
+[08:53:36 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[08:53:36 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[08:53:36 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[08:53:36 | +    0.0s]     Process peak RSS   : 247.0 MB (so far)
+[08:53:36 | +    0.0s]     setting specbridge num_threads to 36
+[08:53:36 | +    0.0s]     priming MNIST cache...
+[08:53:36 | +    0.0s]       loading from cache: mnist_cache.npz
+[08:53:36 | +    0.6s]       cache loaded in 0.53s, X shape=(70000, 784)
+
+==============================================================================
+  Profiling point: m=250
+==============================================================================
+[08:53:36 | +    0.6s]     loading MNIST PCA data: n=20,000, h=64, k=10
+[08:53:36 | +    0.7s]     starting CPU fit (n=20,000, m=250)
+[08:53:36 | +    0.7s]         [cpu_36] starting fit (n=20,000, d=64, m=250)
+
+=== Starting SpectralBridges Pipeline ===
+  Running CPU k-means with n=20000  , d=64  , k=250  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+      K-Means++ initialization took 0.128435 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 0.2990 s
+  [Profile] Step 2: Affinity (CPU): 0.0098 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=250, k=10
+  [Profile]     -> Laplacian Setup: 0.0002 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.0127 s
+  Running CPU k-means with n=250  , d=10  , k=10  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+[08:53:37 | +    1.0s]         [cpu_36] done in 0.34s, ARI=0.723, NMI=0.781
+[08:53:37 | +    1.0s]     done: total_s=0.34, ARI=0.723, NMI=0.781
+[08:53:37 | +    1.0s]     done.
+      K-Means++ initialization took 0.0003 seconds.
+  [Profile]     -> Spectral K-Means: 0.0015 s
+  [Profile]   Total SpectralClustering Phase: 0.0144 s
+  [Profile] Step 3: Total Spectral Core: 0.0144 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[08:53:38 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[08:53:38 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[08:53:38 | +    0.0s]     Python             : 3.10.14
+[08:53:38 | +    0.0s]     NumPy              : 2.2.6
+[08:53:38 | +    0.0s]     scikit-learn       : 1.7.2
+[08:53:38 | +    0.0s]     SciPy              : 1.15.3
+[08:53:38 | +    0.0s]     OMP_NUM_THREADS    : 36
+[08:53:38 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[08:53:38 | +    0.0s]     specbridge threads : 36
+[08:53:38 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[08:53:38 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[08:53:38 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[08:53:38 | +    0.0s]     Process peak RSS   : 258.1 MB (so far)
+[08:53:38 | +    0.0s]     setting specbridge num_threads to 36
+[08:53:38 | +    0.0s]     priming MNIST cache...
+[08:53:38 | +    0.0s]       loading from cache: mnist_cache.npz
+[08:53:38 | +    0.6s]       cache loaded in 0.53s, X shape=(70000, 784)
+
+==============================================================================
+  Profiling point: m=2000
+==============================================================================
+[08:53:38 | +    0.6s]     loading MNIST PCA data: n=20,000, h=64, k=10
+[08:53:38 | +    0.7s]     starting CPU fit (n=20,000, m=2000)
+[08:53:38 | +    0.7s]         [cpu_36] starting fit (n=20,000, d=64, m=2000)
+
+=== Starting SpectralBridges Pipeline ===
+  Running CPU k-means with n=20000  , d=64  , k=2000  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+      K-Means++ initialization took 0.999038 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 2.2967 s
+  [Profile] Step 2: Affinity (CPU): 0.0726 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=2000, k=10
+  [Profile]     -> Laplacian Setup: 0.0140 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 0.5273 s
+  Running CPU k-means with n=2000  , d=10  , k=10  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+[08:53:41 | +    3.6s]         [cpu_36] done in 2.92s, ARI=0.704, NMI=0.785
+[08:53:41 | +    3.6s]     done: total_s=2.92, ARI=0.704, NMI=0.785
+[08:53:41 | +    3.6s]     done.
+      K-Means++ initialization took 0.0005 seconds.
+  [Profile]     -> Spectral K-Means: 0.0016 s
+  [Profile]   Total SpectralClustering Phase: 0.5429 s
+  [Profile] Step 3: Total Spectral Core: 0.5431 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
+
+==============================================================================
+  Environment fingerprint
+==============================================================================
+[08:53:43 | +    0.0s]     Hostname           : node5.iisc.ac.in
+[08:53:43 | +    0.0s]     Platform           : Linux-4.18.0-553.el8_10.x86_64-x86_64-with-glibc2.28
+[08:53:43 | +    0.0s]     Python             : 3.10.14
+[08:53:43 | +    0.0s]     NumPy              : 2.2.6
+[08:53:43 | +    0.0s]     scikit-learn       : 1.7.2
+[08:53:43 | +    0.0s]     SciPy              : 1.15.3
+[08:53:43 | +    0.0s]     OMP_NUM_THREADS    : 36
+[08:53:43 | +    0.0s]     MKL_NUM_THREADS    : <unset>
+[08:53:43 | +    0.0s]     specbridge threads : 36
+[08:53:43 | +    0.0s]     MNIST arff path    : mnist_784.arff.gz  (exists: True)
+[08:53:43 | +    0.0s]     MNIST npz cache    : mnist_cache.npz  (exists: True)
+[08:53:43 | +    0.0s]     GPU                : NVIDIA RTX A5000, 550.142, 24564 MiB
+[08:53:43 | +    0.0s]     Process peak RSS   : 248.6 MB (so far)
+[08:53:43 | +    0.0s]     setting specbridge num_threads to 36
+[08:53:43 | +    0.0s]     priming MNIST cache...
+[08:53:43 | +    0.0s]       loading from cache: mnist_cache.npz
+[08:53:43 | +    0.6s]       cache loaded in 0.53s, X shape=(70000, 784)
+
+==============================================================================
+  Profiling point: m=8000
+==============================================================================
+[08:53:43 | +    0.6s]     loading MNIST PCA data: n=20,000, h=64, k=10
+[08:53:43 | +    0.7s]     starting CPU fit (n=20,000, m=8000)
+[08:53:43 | +    0.7s]         [cpu_36] starting fit (n=20,000, d=64, m=8000)
+
+=== Starting SpectralBridges Pipeline ===
+  Running CPU k-means with n=20000  , d=64  , k=8000  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+      K-Means++ initialization took 4.78839 seconds.
+  [Profile] Step 1: Initial K-Means (VQ): 9.9166 s
+  [Profile] Step 2: Affinity (CPU): 0.8836 s
+  [Profile] Entering Step 3: Spectral Core...
+    -> Using Eigen with 36 threads for eigendecomposition
+Running spectral clustering on CPU with m=8000, k=10
+  [Profile]     -> Laplacian Setup: 0.5946 s
+  [Profile]     -> Eigen Decomposition (Spectra-matvec): 12.5823 s
+  Running CPU k-means with n=8000  , d=10  , k=10  , n_iter=20
+  Initializing centroids with k-means++(CPU) seeding (auto local trials)
+[08:54:07 | +   24.7s]         [cpu_36] done in 24.00s, ARI=0.447, NMI=0.545
+[08:54:07 | +   24.7s]     done: total_s=24.00, ARI=0.447, NMI=0.545
+[08:54:07 | +   24.7s]     done.
+      K-Means++ initialization took 0.0009 seconds.
+  [Profile]     -> Spectral K-Means: 0.0023 s
+  [Profile]   Total SpectralClustering Phase: 13.1794 s
+  [Profile] Step 3: Total Spectral Core: 13.1804 s
+  [Profile] Step 4: Label Propagation: 0.0001 s
+===========================================
+
