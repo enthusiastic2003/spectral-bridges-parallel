@@ -1,13 +1,17 @@
 # Spectral Bridges
 
-A parallel (CPU + CUDA) implementation of **Spectral Bridges**, a spectral clustering
-method that scales to large datasets by clustering *Voronoi regions* instead of
-individual points. K-Means first partitions the data into a small number of
-regions ("bridges"); an affinity graph is built between region centroids; and
-spectral clustering runs on that much smaller graph. This avoids constructing
-and eigendecomposing an O(n²) affinity matrix, so it scales to datasets far
-larger than plain spectral clustering can handle, while staying close to it in
-cluster quality.
+A parallel (CPU + CUDA) implementation of [**Spectral Bridges**](https://arxiv.org/abs/2407.07430)
+(Laplante & Ambroise, 2024), a spectral clustering method that scales to large
+datasets by clustering *Voronoi regions* instead of individual points. K-Means
+first partitions the data into a small number of regions ("bridges"); an
+affinity graph is built between region centroids; and spectral clustering runs
+on that much smaller graph. This avoids constructing and eigendecomposing an
+O(n²) affinity matrix, so it scales to datasets far larger than plain spectral
+clustering can handle, while staying close to it in cluster quality.
+
+This repo is not the reference implementation — it's an independent C++/CUDA
+parallelization built as a course project (Parallel Programming, SERC, IISc),
+benchmarked against the original Python code and against scikit-learn.
 
 The core algorithm is implemented in C++/CUDA for performance, with a
 `pybind11` extension module (`specbridge`) exposing it to Python. Directional
@@ -156,3 +160,8 @@ benchmarks themselves live in `scripts/benchmarks/` and
 against each other and against scikit-learn, across dataset size (`n`),
 number of regions (`m`), and on MNIST/Fashion-MNIST; raw outputs and plots
 are in `results/`.
+
+## Reference
+
+Laplante, F. and Ambroise, C. (2024). *Spectral Bridges: Scalable Spectral
+Clustering via Vector Quantization*. [arXiv:2407.07430](https://arxiv.org/abs/2407.07430).
