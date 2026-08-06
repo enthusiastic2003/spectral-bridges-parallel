@@ -10,5 +10,15 @@ __pycache__/
 *.npz
 *.gz
 /*.csv
-!finalized_datas/*.csv
-!finalized_datas/*.png
+!results/*.csv
+!results/*.png
+
+# Generated at runtime, not for version control
+logs_cpu/
+logs_cpu_hsweep/
+logs_gpu/
+logs/
+*.log
+*.db
+*.nsys-rep
+.DS_Store

@@ -20,33 +20,6 @@ int main() {
         10.0f, 0.0f,
     };
 
-    // KMeans km(2, 20, -1, 42);
-    // auto result = km.fit(X, 6, 2);
-
-    // std::cout << "Labels: ";
-    // for (int l : result.labels)
-    //     std::cout << l << " ";
-    // std::cout << "\n";
-
-    // std::cout << "Centroids:\n";
-    // for (int c = 0; c < 2; c++) {
-    //     std::cout << "  [" << result.centroids[c*2] << ", "
-    //                        << result.centroids[c*2+1] << "]\n";
-    // }
-
-    // int n = 6, d = 2, m = 2;
-    // KMeans km(m, 20, -1, 42);
-    // auto result = km.fit(X, n, d);
-
-    // Matrix aff = computeAffinity(X, result, n, m, d, 2.0f, 1e4f);
-
-    // std::cout << "Affinity matrix [" << m << "x" << m << "]:\n";
-    // for (int i = 0; i < m; i++) {
-    //     for (int j = 0; j < m; j++)
-    //         std::cout << aff[i * m + j] << " ";
-    //     std::cout << "\n";
-    // }
-
     int n = 9, d = 2;
     int k = 2; // clusters
     int m = 3; // voronoi regions

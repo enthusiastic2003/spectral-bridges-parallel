@@ -72,18 +72,18 @@ message(STATUS "CUDA: enabled, arch=${CMAKE_CUDA_ARCHITECTURES}")
 
 # --- 3. Core Static Library ---
 set(SB_CORE_SOURCES
-    src/kmeans.cpp
-    src/affinity.cpp
-    src/spectral.cpp
-    src/kmeans_cuda.cu
-    src/affinity.cu
-    src/spectral.cu
+    spectral-bridges/src/kmeans.cpp
+    spectral-bridges/src/affinity.cpp
+    spectral-bridges/src/spectral.cpp
+    spectral-bridges/src/kmeans_cuda.cu
+    spectral-bridges/src/affinity.cu
+    spectral-bridges/src/spectral.cu
 )
 
 add_library(sb_core STATIC ${SB_CORE_SOURCES})
 set_property(TARGET sb_core PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-target_include_directories(sb_core PUBLIC include)
+target_include_directories(sb_core PUBLIC spectral-bridges/include)
 
 if(DEFINED EIGEN3_INCLUDE_DIR)
   target_include_directories(sb_core PUBLIC ${EIGEN3_INCLUDE_DIR})
@@ -124,7 +124,7 @@ set_target_properties(sb_core PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
 # --- 4. Python Extension Module ---
 find_package(pybind11 REQUIRED)
-pybind11_add_module(specbridge MODULE NO_EXTRAS python/bindings.cpp)
+pybind11_add_module(specbridge MODULE NO_EXTRAS spectral-bridges/python/bindings.cpp)
 target_link_libraries(specbridge PRIVATE sb_core)
 
 # Avoid GCC/NVCC LTO plugin version mismatches at CUDA device-link time.
